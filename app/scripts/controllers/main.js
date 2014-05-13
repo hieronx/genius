@@ -3,8 +3,10 @@
 angular.module('geniusApp')
   .controller('MainCtrl', function ($scope, hoodieAccount, hoodieArray) {
 
-    hoodieAccount.signIn("jofferijns", "wachtwoord")
-
+    // hoodieAccount.signUp("jeroen2", "wachtwoord")
+    // hoodieAccount.signIn("jeroen", "wachtwoord")
+    // 
+    
     $scope.delete = function(item) {
       var idx = $scope.todos.indexOf(item);
       $scope.todos.splice(idx, 1);

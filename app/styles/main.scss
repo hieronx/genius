@@ -71,6 +71,26 @@ body {
     margin-top: 28px;
 }
 
+/* Account bar */
+body .hoodie-account-signedin,
+body .hoodie-account-signedout,
+body .hoodie-account-error {
+  display: none;
+}
+
+html[data-hoodie-account-status=signedin]  .hoodie-account-signedin,
+html[data-hoodie-account-status=error]     .hoodie-account-error,
+html[data-hoodie-account-status=signedout] .hoodie-account-signedout {
+  display: block;
+}
+
+.hoodie-accountbar {
+  position: absolute;
+  top: 20px;
+  right: 10px;
+}
+
+
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
     .container {
