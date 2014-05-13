@@ -61,14 +61,32 @@ module.exports = function (grunt) {
       }
     },
 
+    hoodie: {
+      start: {
+        options: {
+          callback: function(config) {
+            grunt.config.set('connect.proxies.0.port', config.stack.www.port);
+          }
+        }
+      }
+    },
+
     // The actual grunt server settings
     connect: {
       options: {
         port: 9000,
-        // Change this to '0.0.0.0' to access the server from outside.
         hostname: 'localhost',
         livereload: 35729
       },
+      proxies: [
+        {
+          context: '/_api',
+          host: 'localhost',
+          port: false,
+          https: false,
+          changeOrigin: false
+        }
+      ],
       livereload: {
         options: {
           open: true,
@@ -425,4 +443,6 @@ module.exports = function (grunt) {
     'test',
     'build'
   ]);
+
+  grunt.loadNpmTasks('grunt-hoodie');
 };

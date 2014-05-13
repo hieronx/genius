@@ -5,7 +5,8 @@ angular
     'ngCookies',
     'ngResource',
     'ngSanitize',
-    'ngRoute'
+    'ngRoute',
+    'hoodie'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -16,4 +17,7 @@ angular
       .otherwise({
         redirectTo: '/'
       });
+  })
+  .config(function(hoodieProvider) {
+    hoodieProvider.url('http://127.0.0.1:9000/');
   });

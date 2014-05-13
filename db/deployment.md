@@ -29,9 +29,11 @@ Create a CouchDB admin user called “admin” with a strong password of your ch
 
 Next we want to change CouchDB’s default configuration on a few points. The easiest thing is to go to http://127.0.0.1:5984/_utils/config.html and edit the following fields (double click the value to get into the editing mode):
 
+```
 couchdb -> delayed_commits: false
 couchdb -> max_dbs_open: 1024
 couch_httpd_auth -> timeout: 1209600 ; that’s two weeks
+```
 
 ### System
 
@@ -111,7 +113,7 @@ We add a new file `/etc/nginx/vhosts.d/appname.conf` with the contents of https:
 
 You will need to adjust the domain name and paths to log files and SSL certificates and keys.
 
-**NOTE**: Due to an issue with SSL session termination, we recommend using HAProxy to do the SSL termination in fornt of nginx. Example configuration will be added later.
+**NOTE**: Due to an issue with SSL session termination, we recommend using HAProxy to do the SSL termination in front of nginx. Example configuration will be added later.
 
 Once this is all set up, you can reload the nginx configuration:
 
