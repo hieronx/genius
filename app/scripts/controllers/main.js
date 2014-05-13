@@ -1,7 +1,9 @@
 'use strict';
 
 angular.module('geniusApp')
-  .controller('MainCtrl', function ($scope, hoodieArray) {
+  .controller('MainCtrl', function ($scope, hoodieAccount, hoodieArray) {
+
+    hoodieAccount.signIn("jofferijns", "wachtwoord")
 
     $scope.delete = function(item) {
       var idx = $scope.todos.indexOf(item);
@@ -16,4 +18,6 @@ angular.module('geniusApp')
     }
 
     hoodieArray.bind($scope, 'todos', 'todo');
+
+    $scope.add("hoi");
   });
