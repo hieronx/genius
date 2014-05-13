@@ -15,6 +15,9 @@ module.exports = function (grunt) {
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
 
+  var modRewrite = require('connect-modrewrite');
+  var proxySnippet = require('grunt-connect-proxy/lib/utils').proxyRequest;
+
   // Define the configuration for all the tasks
   grunt.initConfig({
 
@@ -81,10 +84,15 @@ module.exports = function (grunt) {
       proxies: [
         {
           context: '/_api',
-          host: 'localhost',
-          port: false,
+          host: '127.0.0.1',
+          port: 6007,
           https: false,
-          changeOrigin: false
+          changeOrigin: true,
+          xforward: true,  
+          headers: {
+              "Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Methods": "*",
+          }
         }
       ],
       livereload: {
@@ -93,7 +101,16 @@ module.exports = function (grunt) {
           base: [
             '.tmp',
             '<%= yeoman.app %>'
-          ]
+          ],
+          middleware: function (connect, options) {
+            var middlewares = [];
+            options.base.forEach(function(base) {
+              // Serve static files.
+              middlewares.push(connect.static(base));
+            });
+            middlewares.push(proxySnippet);
+            return middlewares;                        
+          }
         }
       },
       test: {
@@ -403,6 +420,7 @@ module.exports = function (grunt) {
       'bowerInstall',
       'concurrent:server',
       'autoprefixer',
+      'configureProxies',
       'connect:livereload',
       'watch'
     ]);
@@ -444,5 +462,6 @@ module.exports = function (grunt) {
     'build'
   ]);
 
+  grunt.loadNpmTasks('grunt-connect-proxy');
   grunt.loadNpmTasks('grunt-hoodie');
 };
