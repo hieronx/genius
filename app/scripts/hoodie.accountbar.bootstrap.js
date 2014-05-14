@@ -62,7 +62,8 @@
         case 'signup':
           $form = $.modalForm({
             fields: [ 'username', 'password', 'password_confirmation' ],
-            submit: 'Sign Up'
+            submit: 'Sign Up',
+            show: true
           });
           break;
         case 'signin':

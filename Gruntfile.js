@@ -87,10 +87,13 @@ module.exports = function (grunt) {
           port: 6009,
           https: false,
           changeOrigin: true,
-          xforward: true,  
+          xforward: false,  
           headers: {
               "Access-Control-Allow-Origin": "*",
               "Access-Control-Allow-Methods": "*",
+          },
+          rewrite: {
+              '^/_api': ''
           }
         }
       ],

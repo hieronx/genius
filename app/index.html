@@ -42,12 +42,12 @@
     <![endif]-->
 
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-    <script src="scripts/hoodie.js"></script>
 
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/hoodie/dist/hoodie.js"></script>
     <script src="bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/affix.js"></script>
     <script src="bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/alert.js"></script>
     <script src="bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/button.js"></script>
@@ -67,13 +67,15 @@
     <!-- endbower -->
     <!-- endbuild -->
 
-    <script src="scripts/hoodie.angularjs.js"></script>
+    <script src="scripts/hoodie.js"></script>
     <script src="scripts/hoodie.accountbar.bootstrap.js"></script>
     <script src="scripts/bootstrap.modalform.js"></script>
+        <script src="scripts/main.js"></script>
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/main.js"></script>
+        <script src="scripts/services/todoStorage.js"></script>
         <!-- endbuild -->
 </body>
 </html>

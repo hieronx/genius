@@ -1,9 +1,267 @@
-// Hoodie.js - 0.8.1
-// https://github.com/hoodiehq/hoodie.js
-// Copyright 2012 - 2014 https://github.com/hoodiehq/
-// Licensed Apache License 2.0
+!function(e){if("object"==typeof exports)module.exports=e();else if("function"==typeof define&&define.amd)define(e);else{var o;"undefined"!=typeof window?o=window:"undefined"!=typeof global?o=global:"undefined"!=typeof self&&(o=self),o.Hoodie=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
+//
+// hoodie_bundle.js
+//
+// This file is used to build the hoodie.js bundle using browserify.
+// Plugins are dynamically appended to this file.
 
-!function(e){"object"==typeof exports?module.exports=e():"function"==typeof define&&define.amd?define(e):"undefined"!=typeof window?window.Hoodie=e():"undefined"!=typeof global?global.Hoodie=e():"undefined"!=typeof self&&(self.Hoodie=e())}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+/*exported Hoodie*/
+
+var Hoodie = module.exports = _dereq_('hoodie');
+
+////////////////////////////////////////////////////////////////////////////////
+// /Users/jeroen/genius/db/node_modules/hoodie-plugin-email/hoodie.email.js
+////////////////////////////////////////////////////////////////////////////////
+
+Hoodie.extend(function(hoodie) {
+  hoodie.email = {
+    send: hoodie.task('email').start
+  }
+});
+////////////////////////////////////////////////////////////////////////////////
+// /Users/jeroen/genius/db/node_modules/hoodie-plugin-social/hoodie.social.js
+////////////////////////////////////////////////////////////////////////////////
+
+/*
+ * Copyright 2013-2014 Xiatron LLC
+ */
+
+Hoodie.extend(function(hoodie) {
+    /*
+    *   Social Login method
+    */
+    hoodie.account.socialLogin = function(providerName, /*optional*/options) {
+        var defer = hoodie.defer();
+
+        // open popup immediately to prevent it from being blocked
+        var popup;
+        var popupOptions = (options && options.popupOptions != undefined) ? options.popupOptions : {};
+        popup = new Popup(popupOptions);
+        popup.setText('connecting to ' + providerName );
+
+        return new awaitNewAuth($.extend({defer: defer, popup: popup, provider: providerName, method: 'login'}, options));
+    };
+    
+    /*
+    *   Social Connect method
+    */
+    hoodie.account.socialConnect = function(providerName, /*optional*/options) {
+        var defer = hoodie.defer();
+        
+        if (!hoodie.account.hasAccount()) {
+            return defer.reject(new Error('Must be logged in!'));
+        } else {
+            // open popup immediately to prevent it from being blocked
+            var popup;
+            var popupOptions = (options && options.popupOptions != undefined) ? options.popupOptions : {};
+            popup = new Popup(popupOptions);
+            popup.setText('connecting to ' + providerName );
+
+            return new awaitNewAuth($.extend({defer: defer, popup: popup, provider: providerName, method: 'connect', userid: hoodie.account.username}, options));
+        }
+    };
+    
+    /*
+    *   Social Set Status method
+    */
+    hoodie.account.socialSetStatus = function(options) {
+        var defer = hoodie.defer();
+        
+        if (!hoodie.account.hasAccount()) {
+            return defer.reject(new Error('Must be logged in!'));
+        } else {
+            var attrs = {
+                userid: hoodie.account.username,
+                provider: options.provider,
+                status: options.status
+            };
+            var promise = hoodie.task.start('setstatus', attrs);
+            promise.then(function(data){ defer.resolve(data.doneData); });
+            promise.fail(function(data){ defer.reject(); });
+            return defer.promise();
+        }
+    }
+    
+    /*
+    *   Social Get Profile method
+    */
+    hoodie.account.socialGetProfile = function(provider, /*optional*/options) {
+        var defer = hoodie.defer();
+        
+        if (!hoodie.account.hasAccount()) {
+            return defer.reject(new Error('Must be logged in!'));
+        } else {
+            var attrs = {
+                userid: hoodie.account.username,
+                provider: provider
+            };
+            if (options) attrs['options'] = options;
+            var promise = hoodie.task.start('getprofile', attrs);
+            promise.then(function(data){ defer.resolve(data.doneData); });
+            promise.fail(function(data){ defer.reject(); });
+            return defer.promise();
+        }
+    }
+    
+    /*
+    *   Social Get Contacts method
+    */
+    hoodie.account.socialGetContacts = function(provider, /*optional*/options) {
+        var defer = hoodie.defer();
+        
+        if (!hoodie.account.hasAccount()) {
+            return defer.reject(new Error('Must be logged in!'));
+        } else {
+            var attrs = {
+                userid: hoodie.account.username,
+                provider: provider
+            };
+            if (options) attrs['options'] = options;
+            var promise = hoodie.task.start('getcontacts', attrs);
+            promise.then(function(data){ defer.resolve(data.doneData); });
+            promise.fail(function(data){ defer.reject(); });
+            return defer.promise();
+        }
+    }
+    
+    /*
+    *   Social Get Followers method
+    */
+    hoodie.account.socialGetFollowers = function(provider, /*optional*/options) {
+        var defer = hoodie.defer();
+        
+        if (!hoodie.account.hasAccount()) {
+            return defer.reject(new Error('Must be logged in!'));
+        } else {
+            var attrs = {
+                userid: hoodie.account.username,
+                provider: provider
+            };
+            if (options) attrs['options'] = options;
+            var promise = hoodie.task.start('getfollowers', attrs);
+            promise.then(function(data){ defer.resolve(data.doneData); });
+            promise.fail(function(data){ defer.reject(); });
+            return defer.promise();
+        }
+    }
+    
+    /*
+    *   Internal methods
+    */
+    function awaitNewAuth(options) {
+        var settings = $.extend({
+                attemptLimit:     20,
+                interval:         3000,
+                authServerUri:    hoodie.baseUrl+'/_api/_auth',
+                destroy:          true
+            }, options);
+            
+        var authUrlOpened = false;
+        var pollForAuth = function () {
+                //build the parameters
+                var appendUri = '/?destroy='+settings.destroy+'&uri='+settings.authServerUri+'&method='+settings.method;
+                if (settings.userid) appendUri += '&userid='+settings.userid;
+              
+                //reset the destroy setting
+                settings.destroy = false;
+
+                //decrement attemptLimit
+                settings.attemptLimit--;
+              
+                //loop every x seconds until we either reach the limit or get auth data
+                var authTimer = setTimeout(function(){
+                    $.ajax({
+                        url: settings.authServerUri+appendUri,
+                        dataType: 'json',
+                        xhrFields: { withCredentials: true }, /* for cross domain support*/
+                        success: function(data){
+                            //Check if authenticated or connected and return data or keep polling
+                            if (data.method == 'login' && data.authenticated && data.temp_pass) {
+                                //clear the timer
+                                clearTimeout(authTimer);
+                           
+                                //try to sign in now
+                                hoodie.account.signIn(data.id, data.temp_pass)
+                                .done(function(doneData){
+                                    delete data.temp_pass; //lets not do anything stupid!
+                                    settings.popup.close();
+                                    settings.defer.resolve(data);
+                                })
+                                .fail( function(failData){
+                                    settings.defer.reject(new Error('signin'));
+                                    console.log(failData);
+                                });
+                            } else if (data.method == 'connect' && data.complete && data.connections[settings.provider]) {
+                                settings.popup.close();
+                                settings.defer.resolve(data);
+                            } else {
+                                console.log(data);
+                                //open the auth Url if it has not been opened
+                                if (!authUrlOpened) {
+                                    settings.popup.open(data.auth_urls[settings.provider]);
+                                    authUrlOpened = true;
+                                }
+                           
+                                //Setup the next poll recursively
+                                if (settings.attemptLimit > 0) pollForAuth();
+                            }
+                        },
+                        error: function(data) {
+                            settings.defer.reject(new Error('ajax'));
+                        }
+                    });
+                }, settings.interval);
+            };
+            
+        //start polling
+        pollForAuth();
+            
+        //return the promise of defer
+        return settings.defer.promise();
+    };
+    
+    function isPhoneGap() {
+        return (window.cordova || window.PhoneGap || window.phonegap)
+        && /^file:\/{3}[^\/]/i.test(window.location.href) 
+        && /ios|iphone|ipod|ipad|android/i.test(navigator.userAgent);
+    }
+    
+    // little popup helper class
+    var Popup = function(popupOptions) {
+        this.settings = $.extend({
+                showPGLocation:     false,
+            }, popupOptions);
+    
+        this.win = (isPhoneGap()) ? null : window.open('', 'Title', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=600, height=600, top='+Number((screen.height/2)-300)+',left='+Number((screen.width/2)-300));
+    
+        this.setText = function() {
+          if (!isPhoneGap()) this.win.document.body.innerHTML = 'loading...';
+        };
+        
+        this.open = function(url) {
+            if (isPhoneGap()) {
+                var location = (this.settings.showPGLocation) ? 'yes' : 'no';
+                this.win = window.open(encodeURI(url), '_blank', 'location='+location);
+            } else {
+                this.win.location.href = url;
+            }
+        };
+        
+        this.resizeTo = function(width, height) {
+          this.win.window.resizeTo(width, height);
+        };
+        
+        this.moveTo = function(x, y) {
+          this.win.window.moveTo(x, y);
+        };
+        
+        this.close = function() {
+          this.win.close();
+        };    
+    }
+
+});
+},{"hoodie":3}],2:[function(_dereq_,module,exports){
 var hasOwn = Object.prototype.hasOwnProperty;
 var toString = Object.prototype.toString;
 
@@ -83,26 +341,28 @@ module.exports = function extend() {
   return target;
 };
 
-},{}],2:[function(require,module,exports){
-var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {};// Hoodie Core
+},{}],3:[function(_dereq_,module,exports){
+(function (global){
+// Hoodie Core
 // -------------
 //
 // the door to world domination (apps)
 //
 
-var hoodieAccount = require('./hoodie/account');
-var hoodieAccountRemote = require('./hoodie/remote');
-var hoodieConnection = require('./hoodie/connection');
-var hoodieId = require('./hoodie/id');
-var hoodieLocalStore = require('./hoodie/store');
-var hoodieTask = require('./hoodie/task');
-var hoodieOpen = require('./hoodie/open');
-var hoodieRequest = require('./hoodie/request');
-var hoodieEvents = require('./lib/events');
+var hoodieAccount = _dereq_('./hoodie/account');
+var hoodieAccountRemote = _dereq_('./hoodie/remote');
+var hoodieConfig = _dereq_('./hoodie/config');
+var hoodieConnection = _dereq_('./hoodie/connection');
+var hoodieId = _dereq_('./hoodie/id');
+var hoodieLocalStore = _dereq_('./hoodie/store');
+var hoodieDispose = _dereq_('./hoodie/dispose');
+var hoodieTask = _dereq_('./hoodie/task');
+var hoodieOpen = _dereq_('./hoodie/open');
 
-// for plugins
-var lib = require('./lib');
-var utils = require('./utils');
+var hoodieEvents = _dereq_('./lib/events');
+
+var hoodieRequest = _dereq_('./utils/request');
+var hoodiePromises = _dereq_('./utils/promises');
 
 // Constructor
 // -------------
@@ -122,8 +382,10 @@ function Hoodie(baseUrl) {
     throw new Error('usage: new Hoodie(url);');
   }
 
-  // remove trailing slashes
-  hoodie.baseUrl = baseUrl ? baseUrl.replace(/\/+$/, '') : '';
+  if (baseUrl) {
+    // remove trailing slashes
+    hoodie.baseUrl = baseUrl.replace(/\/+$/, '');
+  }
 
 
   // hoodie.extend
@@ -150,9 +412,24 @@ function Hoodie(baseUrl) {
   // * hoodie.off
   hoodie.extend(hoodieEvents);
 
+
+  // * hoodie.defer
+  // * hoodie.isPromise
+  // * hoodie.resolve
+  // * hoodie.reject
+  // * hoodie.resolveWith
+  // * hoodie.rejectWith
+  hoodie.extend(hoodiePromises);
+
+  // * hoodie.request
+  hoodie.extend(hoodieRequest);
+
   // * hoodie.isOnline
   // * hoodie.checkConnection
   hoodie.extend(hoodieConnection);
+
+  // * hoodie.dispose
+  hoodie.extend(hoodieDispose);
 
   // * hoodie.open
   hoodie.extend(hoodieOpen);
@@ -160,8 +437,14 @@ function Hoodie(baseUrl) {
   // * hoodie.store
   hoodie.extend(hoodieLocalStore);
 
+  // workaround, until we ship https://github.com/hoodiehq/hoodie.js/issues/199
+  hoodie.store.patchIfNotPersistant();
+
   // * hoodie.task
   hoodie.extend(hoodieTask);
+
+  // * hoodie.config
+  hoodie.extend(hoodieConfig);
 
   // * hoodie.account
   hoodie.extend(hoodieAccount);
@@ -172,22 +455,19 @@ function Hoodie(baseUrl) {
   // * hoodie.id
   hoodie.extend(hoodieId);
 
-  // * hoodie.request
-  hoodie.extend(hoodieRequest);
-
 
   //
   // Initializations
   //
 
-  // cleanup config on signout
-  hoodie.on('account:cleanup', utils.config.clear);
+  // init config
+  hoodie.config.init();
 
   // init hoodieId
   hoodie.id.init();
 
   // set username from config (local store)
-  hoodie.account.username = utils.config.get('_account.username');
+  hoodie.account.username = hoodie.config.get('_account.username');
 
   // init hoodie.remote API
   hoodie.remote.init();
@@ -197,6 +477,9 @@ function Hoodie(baseUrl) {
 
   // hoodie.id
   hoodie.id.subscribeToOutsideEvents();
+
+  // hoodie.config
+  hoodie.config.subscribeToOutsideEvents();
 
   // hoodie.store
   hoodie.store.subscribeToOutsideEvents();
@@ -246,26 +529,21 @@ Hoodie.extend = function(extension) {
 //
 function applyExtensions(hoodie) {
   for (var i = 0; i < extensions.length; i++) {
-    extensions[i](hoodie, lib, utils);
+    extensions[i](hoodie);
   }
 }
 
 module.exports = Hoodie;
 
-},{"./hoodie/account":3,"./hoodie/connection":4,"./hoodie/id":5,"./hoodie/open":6,"./hoodie/remote":7,"./hoodie/request":8,"./hoodie/store":9,"./hoodie/task":10,"./lib":16,"./lib/events":15,"./utils":26}],3:[function(require,module,exports){
-var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {};// Hoodie.Account
+}).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"./hoodie/account":4,"./hoodie/config":5,"./hoodie/connection":6,"./hoodie/dispose":7,"./hoodie/id":8,"./hoodie/open":9,"./hoodie/remote":10,"./hoodie/store":11,"./hoodie/task":12,"./lib/events":16,"./utils/promises":23,"./utils/request":24}],4:[function(_dereq_,module,exports){
+(function (global){
+// Hoodie.Account
 // ================
 
-var hoodieEvents = require('../lib/events');
-var extend = require('extend');
-var generateId = require('../utils/generate_id');
-var config = require('../utils/config');
-
-var getDefer = require('../utils/promise/defer');
-var reject = require('../utils/promise/reject');
-var resolve = require('../utils/promise/resolve');
-var rejectWith = require('../utils/promise/reject_with');
-var resolveWith = require('../utils/promise/resolve_with');
+var hoodieEvents = _dereq_('../lib/events');
+var extend = _dereq_('extend');
+var generateId = _dereq_('../utils/generate_id');
 
 //
 function hoodieAccount(hoodie) {
@@ -302,19 +580,19 @@ function hoodieAccount(hoodie) {
 
     // already tried to authenticate, and failed
     if (authenticated === false) {
-      return reject();
+      return hoodie.reject();
     }
 
     // already tried to authenticate, and succeeded
     if (authenticated === true) {
-      return resolveWith(account.username);
+      return hoodie.resolveWith(account.username);
     }
 
     // if there is a pending signOut request, return its promise,
     // but pipe it so that it always ends up rejected
     //
     if (requests.signOut && requests.signOut.state() === 'pending') {
-      return requests.signOut.then(reject);
+      return requests.signOut.then(hoodie.reject);
     }
 
     // if there is a pending signIn request, return its promise
@@ -327,7 +605,7 @@ function hoodieAccount(hoodie) {
     if (!account.hasAccount()) {
       return sendSignOutRequest().then(function() {
         authenticated = false;
-        return reject();
+        return hoodie.reject();
       });
     }
 
@@ -335,7 +613,8 @@ function hoodieAccount(hoodie) {
     // pending request already, return its promise.
     //
     sendAndHandleAuthRequest = function() {
-      return account.request('GET', '/_session').then(handleAuthenticateRequestSuccess);
+      return account.request('GET', '/_session').then(
+      handleAuthenticateRequestSuccess);
     };
 
     return withSingleRequest('authenticate', sendAndHandleAuthRequest);
@@ -345,7 +624,8 @@ function hoodieAccount(hoodie) {
   // hasValidSession
   // -----------------
 
-  // returns true if the user is signed in, and has a valid cookie.
+  // returns true if the user is currently signed but has no valid session,
+  // meaning that the data cannot be synchronized.
   //
   account.hasValidSession = function() {
     if (!account.hasAccount()) {
@@ -359,7 +639,8 @@ function hoodieAccount(hoodie) {
   // hasInvalidSession
   // -----------------
 
-  // returns true if the user is signed in, but does not have a valid cookie
+  // returns true if the user is currently signed but has no valid session,
+  // meaning that the data cannot be synchronized.
   //
   account.hasInvalidSession = function() {
     if (!account.hasAccount()) {
@@ -380,15 +661,13 @@ function hoodieAccount(hoodie) {
   // to sign in with a 300ms timeout.
   //
   account.signUp = function signUp(username, password) {
-    var options;
-
 
     if (password === undefined) {
       password = '';
     }
 
     if (!username) {
-      return rejectWith('Username must be set.');
+      return hoodie.rejectWith('Username must be set.');
     }
 
     if (account.hasAnonymousAccount()) {
@@ -396,13 +675,13 @@ function hoodieAccount(hoodie) {
     }
 
     if (account.hasAccount()) {
-      return rejectWith('Must sign out first.');
+      return hoodie.rejectWith('Must sign out first.');
     }
 
     // downcase username
     username = username.toLowerCase();
 
-    options = {
+    var options = {
       data: JSON.stringify({
         _id: userDocKey(username),
         name: userTypeAndId(username),
@@ -418,21 +697,21 @@ function hoodieAccount(hoodie) {
       contentType: 'application/json'
     };
 
-    return account.request('PUT', userDocUrl(username), options)
-    .then(handleSignUpSuccess(username, password), handleSignUpError(username));
+    return account.request('PUT', userDocUrl(username), options).then(
+    handleSignUpSuccess(username, password), handleSignUpError(username));
   };
 
 
   // anonymous sign up
   // -------------------
 
-  // If the user did not sign up yet, but data needs to be transferred
+  // If the user did not sign up himself yet, but data needs to be transfered
   // to the couch, e.g. to send an email or to share data, the anonymousSignUp
   // method can be used. It generates a random password and stores it locally
   // in the browser.
   //
-  // If the user signs up for real later, we 'upgrade' the account, meaning we
-  // change the username and password internally instead of creating another user.
+  // If the user signes up for real later, we 'upgrade' his account, meaning we
+  // change his username and password internally instead of creating another user.
   //
   account.anonymousSignUp = function anonymousSignUp() {
     var password, username;
@@ -480,15 +759,15 @@ function hoodieAccount(hoodie) {
   var anonymousPasswordKey = '_account.anonymousPassword';
 
   function setAnonymousPassword(password) {
-    return config.set(anonymousPasswordKey, password);
+    return hoodie.config.set(anonymousPasswordKey, password);
   }
 
   function getAnonymousPassword() {
-    return config.get(anonymousPasswordKey);
+    return hoodie.config.get(anonymousPasswordKey);
   }
 
   function removeAnonymousPassword() {
-    return config.unset(anonymousPasswordKey);
+    return hoodie.config.unset(anonymousPasswordKey);
   }
 
 
@@ -499,30 +778,64 @@ function hoodieAccount(hoodie) {
   // Besides the standard sign in we also check if the account has been confirmed
   // (roles include 'confirmed' role).
   //
-  // When signing in, by default all local data gets cleared beforehand.
+  // When signing in, by default all local data gets cleared beforehand (with a signOut).
   // Otherwise data that has been created beforehand (authenticated with another user
   // account or anonymously) would be merged into the user account that signs in.
-  // That only applies if username isn't the same as current username.
+  // That applies only if username isn't the same as current username.
   //
   // To prevent data loss, signIn can be called with options.moveData = true, that wll
   // move all data from the anonymous account to the account the user signed into.
   //
   account.signIn = function signIn(username, password, options) {
-    var isNotReauthenticating = username !== account.username;
-
-    if (! username) { username = ''; }
-    if (! password) { password = ''; }
-    username = username.toLowerCase();
+    var signOutAndSignIn = function() {
+        return account.signOut({
+          silent: true
+        }).then(function() {
+          return sendSignInRequest(username, password);
+        });
+      };
+    var currentData;
 
     options = options || {};
 
-    if (account.hasAccount() && isNotReauthenticating && !options.moveData) {
-      return pushLocalChanges().then(function() {
-        return sendSignInRequest(username, password, options);
-      });
+    if (username === null) {
+      username = '';
     }
 
-    return sendSignInRequest(username, password, options);
+    if (password === undefined) {
+      password = '';
+    }
+
+    // downcase
+    username = username.toLowerCase();
+
+    if (username !== account.username) {
+      if (!options.moveData) {
+        return signOutAndSignIn();
+      }
+
+      return hoodie.store.findAll().then(function(data) {
+        currentData = data;
+      }).then(signOutAndSignIn).done(function() {
+        currentData.forEach(function(object) {
+          var type = object.type;
+
+          // ignore the account settings
+          if (type === '$config' && object.id === 'hoodie') {
+            return;
+          }
+
+          delete object.type;
+          object.createdBy = hoodie.id();
+          hoodie.store.add(type, object);
+        });
+      });
+
+    } else {
+      return sendSignInRequest(username, password, {
+        reauthenticated: true
+      });
+    }
   };
 
 
@@ -532,24 +845,27 @@ function hoodieAccount(hoodie) {
   // uses standard CouchDB API to invalidate a user session (DELETE /_session)
   //
   account.signOut = function signOut(options) {
-    var cleanupMethod;
+
     options = options || {};
-    cleanupMethod = options.silent ? cleanup : cleanupAndTriggerSignOut;
 
     if (!account.hasAccount()) {
-      return cleanupMethod();
+      return cleanup().then(function() {
+        if (!options.silent) {
+          return account.trigger('signout');
+        }
+      });
     }
 
-    return pushLocalChanges(options).then(hoodie.remote.disconnect).then(sendSignOutRequest).then(cleanupMethod);
+    return pushLocalChanges(options).then(hoodie.remote.disconnect).then(sendSignOutRequest).then(cleanupAndTriggerSignOut);
   };
 
 
   // Request
   // ---
 
-  // shortcut
+  // shortcut for `hoodie.request`
   //
-  account.request = function accountRequest(type, path, options) {
+  account.request = function request(type, path, options) {
     options = options || {};
     return hoodie.request.apply(hoodie, arguments);
   };
@@ -577,7 +893,7 @@ function hoodieAccount(hoodie) {
     }
 
     if (!username) {
-      return rejectWith({
+      return hoodie.rejectWith({
         name: 'HoodieUnauthorizedError',
         message: 'Not signed in'
       });
@@ -602,7 +918,7 @@ function hoodieAccount(hoodie) {
   account.changePassword = function changePassword(currentPassword, newPassword) {
 
     if (!account.username) {
-      return rejectWith({
+      return hoodie.rejectWith({
         name: 'HoodieUnauthorizedError',
         message: 'Not signed in'
       });
@@ -629,7 +945,7 @@ function hoodieAccount(hoodie) {
   account.resetPassword = function resetPassword(username) {
     var data, key, options, resetPasswordId;
 
-    resetPasswordId = config.get('_account.resetPasswordId');
+    resetPasswordId = hoodie.config.get('_account.resetPasswordId');
 
     if (resetPasswordId) {
       return account.checkPasswordReset();
@@ -637,7 +953,7 @@ function hoodieAccount(hoodie) {
 
     resetPasswordId = '' + username + '/' + (generateId());
 
-    config.set('_account.resetPasswordId', resetPasswordId);
+    hoodie.config.set('_account.resetPasswordId', resetPasswordId);
 
     key = '' + userDocPrefix + ':$passwordReset/' + resetPasswordId;
 
@@ -680,10 +996,10 @@ function hoodieAccount(hoodie) {
     var hash, options, resetPasswordId, url, username;
 
     // reject if there is no pending password reset request
-    resetPasswordId = config.get('_account.resetPasswordId');
+    resetPasswordId = hoodie.config.get('_account.resetPasswordId');
 
     if (!resetPasswordId) {
-      return rejectWith('No pending password reset.');
+      return hoodie.rejectWith('No pending password reset.');
     }
 
     // send request to check status of password reset
@@ -721,14 +1037,8 @@ function hoodieAccount(hoodie) {
   // But the current password is needed to login with the new username.
   //
   account.changeUsername = function changeUsername(currentPassword, newUsername) {
-    if (newUsername !== account.username) {
-      newUsername = newUsername || '';
-      return changeUsernameAndPassword(currentPassword, newUsername.toLowerCase());
-    }
-    return rejectWith({
-      name: 'HoodieConflictError',
-      message: 'Usernames identical'
-    });
+    newUsername = newUsername || '';
+    return changeUsernameAndPassword(currentPassword, newUsername.toLowerCase());
   };
 
 
@@ -777,7 +1087,8 @@ function hoodieAccount(hoodie) {
     }
 
     account.username = newUsername;
-    return config.set('_account.username', newUsername);
+
+    return hoodie.config.set('_account.username', newUsername);
   }
 
 
@@ -798,7 +1109,7 @@ function hoodieAccount(hoodie) {
   function handleAuthenticateRequestSuccess(response) {
     if (response.userCtx.name) {
       authenticated = true;
-      return resolveWith(account.username);
+      return hoodie.resolveWith(account.username);
     }
 
     if (account.hasAnonymousAccount()) {
@@ -807,7 +1118,7 @@ function hoodieAccount(hoodie) {
 
     authenticated = false;
     account.trigger('error:unauthenticated');
-    return reject();
+    return hoodie.reject();
   }
 
 
@@ -826,7 +1137,7 @@ function hoodieAccount(hoodie) {
     return function(response) {
       account.trigger('signup', username);
       userDoc._rev = response.rev;
-      return delayedSignIn(username, password, {moveData: true});
+      return delayedSignIn(username, password);
     };
   }
 
@@ -835,7 +1146,7 @@ function hoodieAccount(hoodie) {
   //
   // In case of a conflict, reject with "username already exists" error
   // https://github.com/hoodiehq/hoodie.js/issues/174
-  // Error passed for request looks like this
+  // Error passed for hoodie.request looks like this
   //
   //     {
   //         "name": "HoodieConflictError",
@@ -847,7 +1158,7 @@ function hoodieAccount(hoodie) {
       if (error.name === 'HoodieConflictError') {
         error.message = 'Username ' + username + ' already exists';
       }
-      return rejectWith(error);
+      return hoodie.rejectWith(error);
     };
   }
 
@@ -863,11 +1174,11 @@ function hoodieAccount(hoodie) {
     // to keep a reference and finally resolve / reject it
     // at some point
     if (!defer) {
-      defer = getDefer();
+      defer = hoodie.defer();
     }
 
     global.setTimeout(function() {
-      var promise = sendSignInRequest(username, password, options);
+      var promise = sendSignInRequest(username, password);
       promise.done(defer.resolve);
       promise.fail(function(error) {
         if (error.name === 'HoodieAccountUnconfirmedError') {
@@ -905,43 +1216,11 @@ function hoodieAccount(hoodie) {
     options = options || {};
 
     return function(response) {
-      var newUsername;
-      var newHoodieId;
-      var oldUsername;
-      var isReauthenticating;
-      var currentData;
+      var defer, username, hoodieId;
 
-      function setNewUsernameAndTriggerEvents() {
-        setUsername(newUsername);
-        authenticated = true;
-
-        //
-        // options.silent is true when we need to sign in the
-        // the user without signIn method being called. That's
-        // currently the case for changeUsername.
-        // Also don't trigger 'signin' when reauthenticating
-        //
-        if (!options.silent && !isReauthenticating) {
-          if (account.hasAnonymousAccount()) {
-            account.trigger('signin:anonymous', newUsername);
-          } else {
-            account.trigger('signin', newUsername, newHoodieId);
-          }
-        }
-
-        // user reauthenticated, meaning
-        if (isReauthenticating) {
-          account.trigger('reauthenticated', newUsername);
-        }
-
-        account.fetch();
-        return resolveWith(newUsername);
-      }
-
-      newUsername = response.name.replace(/^user(_anonymous)?\//, '');
-      oldUsername = account.username;
-      isReauthenticating = (newUsername === oldUsername);
-      newHoodieId = response.roles[0];
+      defer = hoodie.defer();
+      username = response.name.replace(/^user(_anonymous)?\//, '');
+      hoodieId = response.roles[0];
 
       //
       // if an error occured, the userDB worker stores it to the $error attribute
@@ -949,18 +1228,11 @@ function hoodieAccount(hoodie) {
       // 'error' role, we need to fetch his _users doc to find out what the error
       // is, before we can reject the promise.
       //
-      // TODO:
-      // In that case we reject the sign in, but towards the backend we still get
-      // a new session, and the old one gets removed. That leads to a state like
-      // a session timeout: I'm still signed in with the old username, but not
-      // authorized anymore. A better approach might be to send an extra
-      // GET /_users/<user-doc-id> with HTTP basic auth to see if the user account
-      // is valid and only if it is, we'd send the POST /_session request.
-      //
       if (response.roles.indexOf('error') !== -1) {
-        return account.fetch(newUsername).then(function() {
-          return rejectWith(userDoc.$error);
+        account.fetch(username).fail(defer.reject).done(function() {
+          return defer.reject(userDoc.$error);
         });
+        return defer.promise();
       }
 
       //
@@ -971,48 +1243,36 @@ function hoodieAccount(hoodie) {
       // with an 'uncofirmed error'
       //
       if (response.roles.indexOf('confirmed') === -1) {
-        return rejectWith({
+        return defer.reject({
           name: 'HoodieAccountUnconfirmedError',
           message: 'Account has not been confirmed yet'
         });
       }
-      if (! isReauthenticating) {
-        if (!options.moveData) {
-          return cleanupAndDisconnect().then(setNewUsernameAndTriggerEvents);
+
+      setUsername(username);
+      authenticated = true;
+
+      //
+      // options.silent is true when we need to sign in the
+      // the user without signIn method being called. That's
+      // currently the case for changeUsername.
+      // Also don't trigger 'signin' when reauthenticating
+      //
+      if (!(options.silent || options.reauthenticated)) {
+        if (account.hasAnonymousAccount()) {
+          account.trigger('signin:anonymous', username);
+        } else {
+          account.trigger('signin', username, hoodieId);
         }
-
-        //
-        // TODO
-        // move the code below into `hoodie.store`. We should trigger something like
-        // an `account:movedata` like so
-        //
-        // ```
-        // account.trigger('movedata');
-        // ```
-        //
-        // That would set a flag in hoodie.store so that the next time store.clear
-        // gets called, it would not remove all data, but only update the hoodie.id()
-        // in `createdBy` of all the objects.
-        //
-        return hoodie.store.findAll().then(function(data) {
-          currentData = data;
-        }).then(cleanupAndDisconnect).then(setNewUsernameAndTriggerEvents).done(function() {
-          currentData.forEach(function(object) {
-            var type = object.type;
-
-            // ignore the account settings
-            if (type === '$config' && object.id === 'hoodie') {
-              return;
-            }
-
-            delete object.type;
-            object.createdBy = hoodie.id();
-            hoodie.store.add(type, object);
-          });
-        });
       }
 
-      return setNewUsernameAndTriggerEvents();
+      // user reauthenticated, meaning
+      if (options.reauthenticated) {
+        account.trigger('reauthenticated', username);
+      }
+
+      account.fetch();
+      return defer.resolve(username, response.roles[0]);
     };
   }
 
@@ -1039,7 +1299,7 @@ function hoodieAccount(hoodie) {
         message: 'Password reset is still pending'
       };
     }
-    return rejectWith(error);
+    return hoodie.rejectWith(error);
   }
 
 
@@ -1049,12 +1309,12 @@ function hoodieAccount(hoodie) {
   //
   function handlePasswordResetStatusRequestError(error) {
     if (error.name === 'HoodieUnauthorizedError') {
-      config.unset('_account.resetPasswordId');
+      hoodie.config.unset('_account.resetPasswordId');
       account.trigger('passwordreset');
 
-      return resolve();
+      return hoodie.resolve();
     } else {
-      return rejectWith(error);
+      return hoodie.rejectWith(error);
     }
   }
 
@@ -1064,7 +1324,7 @@ function hoodieAccount(hoodie) {
   // and resolve / reject respectively
   //
   function awaitPasswordResetResult() {
-    var defer = getDefer();
+    var defer = hoodie.defer();
 
     account.one('passwordreset', defer.resolve );
     account.on('error:passwordreset', removePasswordResetObject );
@@ -1105,7 +1365,7 @@ function hoodieAccount(hoodie) {
 
     // cleanup
     account.request('PUT', url, options);
-    config.unset('_account.resetPasswordId');
+    hoodie.config.unset('_account.resetPasswordId');
   }
 
   //
@@ -1113,7 +1373,6 @@ function hoodieAccount(hoodie) {
   //
   // 1. assure we have a valid session
   // 2. update _users doc with new username and new password (if provided)
-  // 3. if username changed, wait until current _users doc got removed
   // 3. sign in with new credentials to create new sesion.
   //
   function changeUsernameAndPassword(currentPassword, newUsername, newPassword) {
@@ -1121,17 +1380,14 @@ function hoodieAccount(hoodie) {
     return sendSignInRequest(account.username, currentPassword, {
       silent: true
     }).then(function() {
-      return account.fetch().then(sendChangeUsernameAndPasswordRequest(currentPassword, newUsername, newPassword));
+      return account.fetch().then(
+      sendChangeUsernameAndPasswordRequest(currentPassword, newUsername, newPassword));
     });
   }
 
 
   //
-  // turn an anonymous account into a real account. Internally, this is what happens:
-  //
-  // 1. rename the username from `<hoodieId>` to `username`
-  // 2. Set password to `password`
-  // 3.
+  // turn an anonymous account into a real account
   //
   function upgradeAnonymousAccount(username, password) {
     var currentPassword = getAnonymousPassword();
@@ -1160,6 +1416,7 @@ function hoodieAccount(hoodie) {
     });
   }
 
+
   //
   // dependend on what kind of error we get, we want to ignore
   // it or not.
@@ -1170,15 +1427,14 @@ function hoodieAccount(hoodie) {
   //
   function handleFetchBeforeDestroyError(error) {
     if (error.name === 'HoodieNotFoundError') {
-      return resolve();
+      return hoodie.resolve();
     } else {
-      return rejectWith(error);
+      return hoodie.rejectWith(error);
     }
   }
 
   //
   // remove everything form the current account, so a new account can be initiated.
-  // make sure to remove a promise.
   //
   function cleanup() {
 
@@ -1187,15 +1443,7 @@ function hoodieAccount(hoodie) {
     authenticated = undefined;
     setUsername(undefined);
 
-    return resolve();
-  }
-
-  //
-  // make sure to remove a promise
-  //
-  function cleanupAndDisconnect() {
-    hoodie.remote.disconnect();
-    return cleanup();
+    return hoodie.resolve();
   }
 
 
@@ -1304,13 +1552,7 @@ function hoodieAccount(hoodie) {
         // note that if username has been changed, newPassword is the current password.
         // We always change either the one, or the other.
         return awaitCurrentAccountRemoved(account.username, newPassword).then( function() {
-
-          // we do signOut explicitely although signOut is build into hoodie.signIn to
-          // work around trouble in case of local changes. See
-          // https://github.com/hoodiehq/hoodie.js/issues/256
-          return account.signOut({silent:true, ignoreLocalChanges: true}).then(function() {
-            return account.signIn(newUsername, newPassword, {moveData: true});
-          });
+          return account.signIn(newUsername, newPassword);
         });
       } else {
         return account.signIn(account.username, newPassword);
@@ -1323,7 +1565,7 @@ function hoodieAccount(hoodie) {
   //
   function awaitCurrentAccountRemoved(username, password, defer) {
     if (!defer) {
-      defer = getDefer();
+      defer = hoodie.defer();
     }
 
     var requestOptions = {
@@ -1391,7 +1633,7 @@ function hoodieAccount(hoodie) {
     if (hoodie.store.hasLocalChanges() && !options.ignoreLocalChanges) {
       return hoodie.remote.push();
     }
-    return resolve();
+    return hoodie.resolve();
   }
 
   //
@@ -1423,7 +1665,8 @@ function hoodieAccount(hoodie) {
     return withPreviousRequestsAborted('signIn', function() {
       var promise = account.request('POST', '/_session', requestOptions);
 
-      return promise.then(handleSignInSuccess(options));
+      return promise.then(
+      handleSignInSuccess(options));
     });
   }
 
@@ -1440,17 +1683,134 @@ function hoodieAccount(hoodie) {
 
 module.exports = hoodieAccount;
 
-},{"../lib/events":15,"../utils/config":23,"../utils/generate_id":24,"../utils/promise/defer":28,"../utils/promise/reject":31,"../utils/promise/reject_with":32,"../utils/promise/resolve":33,"../utils/promise/resolve_with":34,"extend":1}],4:[function(require,module,exports){
-var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {};// hoodie.checkConnection() & hoodie.isConnected()
+}).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"../lib/events":16,"../utils/generate_id":21,"extend":2}],5:[function(_dereq_,module,exports){
+// Hoodie Config API
+// ===================
+
+//
+function hoodieConfig(hoodie) {
+
+  var type = '$config';
+  var id = 'hoodie';
+  var cache = {};
+
+  // public API
+  var config = {};
+
+
+  // set
+  // ----------
+
+  // adds a configuration
+  //
+  config.set = function set(key, value) {
+    var isSilent, update;
+
+    if (cache[key] === value) {
+      return;
+    }
+
+    cache[key] = value;
+
+    update = {};
+    update[key] = value;
+    isSilent = key.charAt(0) === '_';
+
+    // we have to assure that _hoodieId has always the
+    // same value as createdBy for $config/hoodie
+    // Also see config.js:77ff
+    if (key === '_hoodieId') {
+      hoodie.store.remove(type, id, {silent: true});
+      update = cache;
+    }
+
+    return hoodie.store.updateOrAdd(type, id, update, {
+      silent: isSilent
+    });
+  };
+
+  // get
+  // ----------
+
+  // receives a configuration
+  //
+  config.get = function get(key) {
+    return cache[key];
+  };
+
+  // clear
+  // ----------
+
+  // clears cache and removes object from store
+  //
+  config.clear = function clear() {
+    cache = {};
+    return hoodie.store.remove(type, id);
+  };
+
+  // unset
+  // ----------
+
+  // unsets a configuration. If configuration is present, calls
+  // config.set(key, undefined). Otherwise resolves without store
+  // interaction.
+  //
+  config.unset = function unset(key) {
+    if (typeof config.get(key) === 'undefined') {
+      return hoodie.resolve();
+    }
+
+    return config.set(key, undefined);
+  };
+
+  //
+  // load current configuration from localStore.
+  // The init method to be called on hoodie startup
+  //
+  function init() {
+    // TODO: I really don't like this being here. And I don't like that if the
+    //       store API will be truly async one day, this will fall on our feet.
+    //       We should discuss if we make config a simple object in localStorage,
+    //       outside of hoodie.store, and use localStorage sync API directly to
+    //       interact with it, also in future versions.
+    hoodie.store.find(type, id).done(function(obj) {
+      cache = obj;
+    });
+  }
+
+  // allow to run init only once
+  config.init = function() {
+    init();
+    delete config.init;
+  };
+
+  //
+  // subscribe to events coming from other modules
+  //
+  function subscribeToOutsideEvents() {
+    hoodie.on('account:cleanup', config.clear);
+  }
+
+  // allow to run this once from outside
+  config.subscribeToOutsideEvents = function() {
+    subscribeToOutsideEvents();
+    delete config.subscribeToOutsideEvents;
+  };
+
+  // exspose public API
+  hoodie.config = config;
+}
+
+module.exports = hoodieConfig;
+
+},{}],6:[function(_dereq_,module,exports){
+(function (global){
+// hoodie.checkConnection() & hoodie.isConnected()
 // =================================================
-
-
-var reject = require('../utils/promise/reject');
-var resolve = require('../utils/promise/resolve');
 
 //
 function hoodieConnection(hoodie) {
-
   // state
   var online = true;
   var checkConnectionInterval = 30000;
@@ -1477,7 +1837,6 @@ function hoodieConnection(hoodie) {
   //
   hoodie.checkConnection = function checkConnection() {
     var req = checkConnectionRequest;
-    var path = '/?hoodieId=' + hoodie.id();
 
     if (req && req.state() === 'pending') {
       return req;
@@ -1485,7 +1844,7 @@ function hoodieConnection(hoodie) {
 
     global.clearTimeout(checkConnectionTimeout);
 
-    checkConnectionRequest = hoodie.request('GET', path).then(
+    checkConnectionRequest = hoodie.request('GET', '/').then(
       handleCheckConnectionSuccess,
       handleCheckConnectionError
     );
@@ -1516,7 +1875,7 @@ function hoodieConnection(hoodie) {
       online = true;
     }
 
-    return resolve();
+    return hoodie.resolve();
   }
 
 
@@ -1533,20 +1892,42 @@ function hoodieConnection(hoodie) {
       online = false;
     }
 
-    return reject();
+    return hoodie.reject();
   }
 }
 
 module.exports = hoodieConnection;
 
-},{"../utils/promise/reject":31,"../utils/promise/resolve":33}],5:[function(require,module,exports){
+}).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],7:[function(_dereq_,module,exports){
+// hoodie.dispose
+// ================
+
+function hoodieDispose (hoodie) {
+
+  // if a hoodie instance is not needed anymore, it can
+  // be disposed using this method. A `dispose` event
+  // gets triggered that the modules react on.
+  function dispose() {
+    hoodie.trigger('dispose');
+    hoodie.unbind();
+  }
+
+  //
+  // Public API
+  //
+  hoodie.dispose = dispose;
+}
+
+module.exports = hoodieDispose;
+
+},{}],8:[function(_dereq_,module,exports){
 // hoodie.id
 // =========
 
-var generateId = require('../utils/generate_id');
-var config = require('../utils/config');
+var generateId = _dereq_('../utils/generate_id');
 
-// generates a random id and persists using config
+// generates a random id and persists using hoodie.config
 // until the user signs out or deletes local data
 function hoodieId (hoodie) {
   var id;
@@ -1560,24 +1941,24 @@ function hoodieId (hoodie) {
 
   function setId(newId) {
     id = newId;
-
-    config.set('_hoodieId', newId);
+    
+    hoodie.config.set('_hoodieId', newId);
   }
 
   function unsetId () {
     id = undefined;
-    config.unset('_hoodieId');
+    hoodie.config.unset('_hoodieId');
   }
 
   //
   // initialize
   //
   function init() {
-    id = config.get('_hoodieId');
+    id = hoodie.config.get('_hoodieId');
 
     // DEPRECATED, remove before 1.0
     if (! id) {
-      id = config.get('_account.ownerHash');
+      hoodie.config.get('_account.ownerHash');
     }
   }
 
@@ -1611,12 +1992,12 @@ function hoodieId (hoodie) {
 
 module.exports = hoodieId;
 
-},{"../utils/config":23,"../utils/generate_id":24}],6:[function(require,module,exports){
+},{"../utils/generate_id":21}],9:[function(_dereq_,module,exports){
 // Open stores
 // -------------
 
-var hoodieRemoteStore = require('../lib/store/remote');
-var extend = require('extend');
+var hoodieRemoteStore = _dereq_('../lib/store/remote');
+var extend = _dereq_('extend');
 
 function hoodieOpen(hoodie) {
 
@@ -1642,7 +2023,7 @@ function hoodieOpen(hoodie) {
 
 module.exports = hoodieOpen;
 
-},{"../lib/store/remote":19,"extend":1}],7:[function(require,module,exports){
+},{"../lib/store/remote":18,"extend":2}],10:[function(_dereq_,module,exports){
 // AccountRemote
 // ===============
 
@@ -1654,16 +2035,13 @@ module.exports = hoodieOpen;
 // When hoodie.remote is continuously syncing (default),
 // it will continuously  synchronize with local store,
 // otherwise sync, pull or push can be called manually
-//
+// 
 // Note that hoodieRemote must be initialized before the
 // API is available:
-//
+// 
 //     hoodieRemote(hoodie);
 //     hoodie.remote.init();
 //
-
-var config = require('../utils/config');
-var rejectWith = require('../utils/promise/reject_with');
 
 function hoodieRemote (hoodie) {
   // inherit from Hoodies Store API
@@ -1699,7 +2077,7 @@ function hoodieRemote (hoodie) {
   var originalConnectMethod = remote.connect;
   remote.connect = function connect() {
     if (! hoodie.account.hasAccount() ) {
-      return rejectWith('User has no database to connect to');
+      return hoodie.rejectWith('User has no database to connect to');
     }
     return originalConnectMethod( hoodie.account.db() );
   };
@@ -1746,10 +2124,10 @@ function hoodieRemote (hoodie) {
   //
   function sinceNrCallback(sinceNr) {
     if (sinceNr) {
-      return config.set('_remote.since', sinceNr);
+      return hoodie.config.set('_remote.since', sinceNr);
     }
 
-    return config.get('_remote.since') || 0;
+    return hoodie.config.get('_remote.since') || 0;
   }
 
   //
@@ -1759,6 +2137,7 @@ function hoodieRemote (hoodie) {
 
     hoodie.on('remote:connect', function() {
       hoodie.on('store:idle', remote.push);
+      remote.push();
     });
 
     hoodie.on('remote:disconnect', function() {
@@ -1801,179 +2180,18 @@ function hoodieRemoteFactory(hoodie) {
 
 module.exports = hoodieRemoteFactory;
 
-},{"../utils/config":23,"../utils/promise/reject_with":32}],8:[function(require,module,exports){
-//
-// hoodie.request
-// ================
-
-// Hoodie's central place to send request to its backend.
-// At the moment, it's a wrapper around jQuery's ajax method,
-// but we might get rid of this dependency in the future.
-//
-// It has build in support for CORS and a standard error
-// handling that normalizes errors returned by CouchDB
-// to JavaScript's native conventions of errors having
-// a name & a message property.
-//
-// Common errors to expect:
-//
-// * HoodieRequestError
-// * HoodieUnauthorizedError
-// * HoodieConflictError
-// * HoodieServerError
-
-var hoodiefyRequestErrorName = require('../utils/hoodiefy_request_error_name');
-var extend = require('extend');
-var rejectWith = require('../utils/promise/reject_with');
-
-function hoodieRequest(hoodie) {
-  var $ajax = $.ajax;
-
-  // Hoodie backend listents to requests prefixed by /_api,
-  // so we prefix all requests with relative URLs
-  var API_PATH = '/_api';
-
-  // Requests
-  // ----------
-
-  // sends requests to the hoodie backend.
-  //
-  //     promise = hoodie.request('GET', '/user_database/doc_id')
-  //
-  function request(type, url, options) {
-    var defaults, requestPromise, pipedPromise;
-
-    options = options || {};
-
-    defaults = {
-      type: type,
-      dataType: 'json'
-    };
-
-    // if absolute path passed, set CORS headers
-
-    // if relative path passed, prefix with baseUrl
-    if (!/^http/.test(url)) {
-      url = (hoodie.baseUrl || '') + API_PATH + url;
-    }
-
-    // if url is cross domain, set CORS headers
-    if (/^http/.test(url)) {
-      defaults.xhrFields = {
-        withCredentials: true
-      };
-      defaults.crossDomain = true;
-    }
-
-    defaults.url = url;
-
-
-    // we are piping the result of the request to return a nicer
-    // error if the request cannot reach the server at all.
-    // We can't return the promise of ajax directly because of
-    // the piping, as for whatever reason the returned promise
-    // does not have the `abort` method any more, maybe others
-    // as well. See also http://bugs.jquery.com/ticket/14104
-    requestPromise = $ajax(extend(defaults, options));
-    pipedPromise = requestPromise.then( null, handleRequestError);
-    pipedPromise.abort = requestPromise.abort;
-
-    return pipedPromise;
-  }
-
-  //
-  //
-  //
-  function handleRequestError(xhr) {
-    var error;
-
-    try {
-      error = parseErrorFromResponse(xhr);
-    } catch (_error) {
-
-      if (xhr.responseText) {
-        error = xhr.responseText;
-      } else {
-        error = {
-          name: 'HoodieConnectionError',
-          message: 'Could not connect to Hoodie server at {{url}}.',
-          url: hoodie.baseUrl || '/'
-        };
-      }
-    }
-
-    return rejectWith(error).promise();
-  }
-
-  //
-  // CouchDB returns errors in JSON format, with the properties
-  // `error` and `reason`. Hoodie uses JavaScript's native Error
-  // properties `name` and `message` instead, so we are normalizing
-  // that.
-  //
-  // Besides the renaming we also do a matching with a map of known
-  // errors to make them more clear. For reference, see
-  // https://wiki.apache.org/couchdb/Default_http_errors &
-  // https://github.com/apache/couchdb/blob/master/src/couchdb/couch_httpd.erl#L807
-  //
-
-  function parseErrorFromResponse(xhr) {
-    var error = JSON.parse(xhr.responseText);
-
-    // get error name
-    error.name = HTTP_STATUS_ERROR_MAP[xhr.status];
-    if (! error.name) {
-      error.name = hoodiefyRequestErrorName(error.error);
-    }
-
-    // store status & message
-    error.status = xhr.status;
-    error.message = error.reason || '';
-    error.message = error.message.charAt(0).toUpperCase() + error.message.slice(1);
-
-    // cleanup
-    delete error.error;
-    delete error.reason;
-
-    return error;
-  }
-
-  // map CouchDB HTTP status codes to Hoodie Errors
-  var HTTP_STATUS_ERROR_MAP = {
-    400: 'HoodieRequestError', // bad request
-    401: 'HoodieUnauthorizedError',
-    403: 'HoodieRequestError', // forbidden
-    404: 'HoodieNotFoundError', // forbidden
-    409: 'HoodieConflictError',
-    412: 'HoodieConflictError', // file exist
-    500: 'HoodieServerError'
-  };
-
-  //
-  // public API
-  //
-  hoodie.request = request;
-}
-
-module.exports = hoodieRequest;
-
-},{"../utils/hoodiefy_request_error_name":25,"../utils/promise/reject_with":32,"extend":1}],9:[function(require,module,exports){
-var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {};// LocalStore
+},{}],11:[function(_dereq_,module,exports){
+(function (global){
+// LocalStore
 // ============
 
 //
-var hoodieStoreApi = require('../lib/store/api');
-var HoodieObjectTypeError = require('../lib/error/object_type');
-var HoodieObjectIdError = require('../lib/error/object_id');
-var generateId = require('../utils/generate_id');
+var hoodieStoreApi = _dereq_('../lib/store/api');
+var HoodieObjectTypeError = _dereq_('../lib/error/object_type');
+var HoodieObjectIdError = _dereq_('../lib/error/object_id');
+var generateId = _dereq_('../utils/generate_id');
 
-var extend = require('extend');
-
-var getDefer = require('../utils/promise/defer');
-var rejectWith = require('../utils/promise/reject_with');
-var resolveWith = require('../utils/promise/resolve_with');
-
-var localStorageWrapper = require('../utils/local_storage_wrapper');
+var extend = _dereq_('extend');
 
 //
 function hoodieStore (hoodie) {
@@ -2085,24 +2303,22 @@ function hoodieStore (hoodie) {
     //
     // A local change is meant to be replicated to the
     // users database, but not beyond. For example when
-    // a user subscribes to a share but then decides to unsubscribe,
+    // I subscribed to a share but then decide to unsubscribe,
     // all objects get removed with local: true flag, so that
-    // they get removed from the users database, but will remain elsewhere.
+    // they get removed from my database, but won't anywhere else.
     if (options.local) {
       object._$local = true;
     } else {
       delete object._$local;
     }
 
-    defer = getDefer();
+    defer = hoodie.defer();
 
     try {
       object = cache(object.type, object.id, object, options);
       defer.resolve(object, isNew).promise();
       event = isNew ? 'add' : 'update';
-      if (!options.silent) {
-        triggerEvents(event, object, options);
-      }
+      triggerEvents(event, object, options);
     } catch (_error) {
       error = _error;
       defer.reject(error.toString());
@@ -2132,15 +2348,15 @@ function hoodieStore (hoodie) {
     try {
       object = cache(type, id);
       if (!object) {
-        return rejectWith({
+        return hoodie.rejectWith({
           name: 'HoodieNotFoundError',
           message: '"{{type}}" with id "{{id}}" could not be found'
         });
       }
-      return resolveWith(object);
+      return hoodie.resolveWith(object);
     } catch (_error) {
       error = _error;
-      return rejectWith(error);
+      return hoodie.rejectWith(error);
     }
   };
 
@@ -2184,7 +2400,7 @@ function hoodieStore (hoodie) {
       };
     }
 
-    defer = getDefer();
+    defer = hoodie.defer();
 
     try {
 
@@ -2254,17 +2470,17 @@ function hoodieStore (hoodie) {
 
     // if change comes from remote, just clean up locally
     if (options.remote) {
-      localStorageWrapper.removeItem(key);
+      db.removeItem(key);
       objectWasMarkedAsDeleted = cachedObject[key] && isMarkedAsDeleted(cachedObject[key]);
       cachedObject[key] = false;
       clearChanged(type, id);
       if (objectWasMarkedAsDeleted && object) {
-        return resolveWith(object);
+        return hoodie.resolveWith(object);
       }
     }
 
     if (!object) {
-      return rejectWith({
+      return hoodie.rejectWith({
         name: 'HoodieNotFoundError',
         message: '"{{type}}" with id "{{id}}"" could not be found'
       });
@@ -2275,7 +2491,7 @@ function hoodieStore (hoodie) {
       cache(type, id, object);
     } else {
       key = type + '/' + id;
-      localStorageWrapper.removeItem(key);
+      db.removeItem(key);
       cachedObject[key] = false;
       clearChanged(type, id);
     }
@@ -2286,7 +2502,7 @@ function hoodieStore (hoodie) {
       delete options.update;
     }
     triggerEvents('remove', object, options);
-    return resolveWith(object);
+    return hoodie.resolveWith(object);
   };
 
 
@@ -2363,8 +2579,8 @@ function hoodieStore (hoodie) {
   store.index = function index() {
     var i, key, keys, _i, _ref;
     keys = [];
-    for (i = _i = 0, _ref = localStorageWrapper.length(); 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
-      key = localStorageWrapper.key(i);
+    for (i = _i = 0, _ref = db.length(); 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
+      key = db.key(i);
       if (isSemanticKey(key)) {
         keys.push(key);
       }
@@ -2426,7 +2642,7 @@ function hoodieStore (hoodie) {
   //       using `hoodie.store` before.
   store.clear = function clear() {
     var defer, key, keys, results;
-    defer = getDefer();
+    defer = hoodie.defer();
     try {
       keys = store.index();
       results = (function() {
@@ -2435,7 +2651,7 @@ function hoodieStore (hoodie) {
         for (_i = 0, _len = keys.length; _i < _len; _i++) {
           key = keys[_i];
           if (isSemanticKey(key)) {
-            _results.push(localStorageWrapper.removeItem(key));
+            _results.push(db.removeItem(key));
           }
         }
         return _results;
@@ -2462,15 +2678,73 @@ function hoodieStore (hoodie) {
   };
 
 
-  // isPersistent
+  // Is persistant?
+  // ----------------
+
+  // returns `true` or `false` depending on whether localStorage is supported or not.
+  // Beware that some browsers like Safari do not support localStorage in private mode.
+  //
+  // inspired by this cappuccino commit
+  // https://github.com/cappuccino/cappuccino/commit/063b05d9643c35b303568a28809e4eb3224f71ec
+  //
   store.isPersistent = function isPersistent() {
-    return localStorageWrapper.isPersistent;
+    try {
+
+      // we've to put this in here. I've seen Firefox throwing `Security error: 1000`
+      // when cookies have been disabled
+      if (!global.localStorage) {
+        return false;
+      }
+
+      // Just because localStorage exists does not mean it works. In particular it might be disabled
+      // as it is when Safari's private browsing mode is active.
+      localStorage.setItem('Storage-Test', '1');
+
+      // that should not happen ...
+      if (localStorage.getItem('Storage-Test') !== '1') {
+        return false;
+      }
+
+      // okay, let's clean up if we got here.
+      localStorage.removeItem('Storage-Test');
+    } catch (_error) {
+
+      // in case of an error, like Safari's Private Mode, return false
+      return false;
+    }
+
+    // we're good.
+    return true;
   };
+
+
+
 
   //
   // Private methods
   // -----------------
   //
+
+
+  // localStorage proxy
+  //
+  var db = {
+    getItem: function(key) {
+      return global.localStorage.getItem(key);
+    },
+    setItem: function(key, value) {
+      return global.localStorage.setItem(key, value);
+    },
+    removeItem: function(key) {
+      return global.localStorage.removeItem(key);
+    },
+    key: function(nr) {
+      return global.localStorage.key(nr);
+    },
+    length: function() {
+      return global.localStorage.length;
+    }
+  };
 
 
   // Cache
@@ -2484,7 +2758,7 @@ function hoodieStore (hoodie) {
   // Pass `options.remote = true` when object comes from remote
   // Pass 'options.silent = true' to avoid events from being triggered.
   function cache(type, id, object, options) {
-    var key, storedObject;
+    var key;
 
     if (object === undefined) {
       object = false;
@@ -2499,11 +2773,7 @@ function hoodieStore (hoodie) {
         id: id
       });
 
-      // we do not store type & id in localStorage values
-      storedObject = extend({}, object);
-      delete storedObject.type;
-      delete storedObject.id;
-      localStorageWrapper.setObject(key, storedObject);
+      setObject(type, id, object);
 
       if (options.remote) {
         clearChanged(type, id);
@@ -2527,22 +2797,16 @@ function hoodieStore (hoodie) {
         return extend(true, {}, cachedObject[key]);
       }
 
-      key = '' + type + '/' + id;
-
       // if object is not yet cached, load it from localStore
-      object = localStorageWrapper.getObject(key);
+      object = getObject(type, id);
 
       // stop here if object did not exist in localStore
       // and cache it so we don't need to look it up again
-      if (! object) {
+      if (object === false) {
         clearChanged(type, id);
         cachedObject[key] = false;
         return false;
       }
-
-      // add type & id as we don't store these in localStorage values
-      object.type = type;
-      object.id = id;
 
     }
 
@@ -2572,7 +2836,7 @@ function hoodieStore (hoodie) {
   //
   function bootstrapDirtyObjects() {
     var id, keys, obj, type, _i, _len, _ref;
-    keys = localStorageWrapper.getItem('_dirty');
+    keys = db.getItem('_dirty');
 
     if (!keys) {
       return;
@@ -2671,7 +2935,7 @@ function hoodieStore (hoodie) {
   }
 
 
-  // when a change comes from our remote store, we differentiate
+  // when a change come's from our remote store, we differentiate
   // whether an object has been removed or added / updated and
   // reflect the change in our local store.
   function handleRemoteChange(typeOfChange, object) {
@@ -2690,33 +2954,48 @@ function hoodieStore (hoodie) {
 
   //
   // all local changes get bulk pushed. For each object with local
-  // changes that have been pushed we trigger a sync event.
-  // Besides that, we also remove objects that have only been marked
-  // as _deleted and mark the others as synced.
+  // changes that has been pushed we trigger a sync event
   function handlePushedObject(object) {
     triggerEvents('sync', object);
+  }
 
-    if (object._deleted) {
-      store.remove(object.type, object.id, {
-        remote: true,
-        silent: true
-      });
+
+  // more advanced localStorage wrappers to find/save objects
+  function setObject(type, id, object) {
+    var key, store;
+
+    key = '' + type + '/' + id;
+    store = extend({}, object);
+
+    delete store.type;
+    delete store.id;
+    return db.setItem(key, JSON.stringify(store));
+  }
+  function getObject(type, id) {
+    var key, obj;
+
+    key = '' + type + '/' + id;
+    var json = db.getItem(key);
+
+    if (json) {
+      obj = JSON.parse(json);
+      obj.type = type;
+      obj.id = id;
+      return obj;
     } else {
-      store.save(object.type, object.id, object, {
-        remote: true,
-        silent: true
-      });
+      return false;
     }
   }
+
 
   // store IDs of dirty objects
   function saveDirtyIds() {
     try {
       if ($.isEmptyObject(dirty)) {
-        localStorageWrapper.removeItem('_dirty');
+        db.removeItem('_dirty');
       } else {
         var ids = Object.keys(dirty);
-        localStorageWrapper.setItem('_dirty', ids.join(','));
+        db.setItem('_dirty', ids.join(','));
       }
     } catch(e) {}
   }
@@ -2734,7 +3013,7 @@ function hoodieStore (hoodie) {
   }
 
   // `hasLocalChanges` returns true if there is a local change that
-  // has not been synced yet.
+  // has not been sync'd yet.
   function hasLocalChanges(object) {
     if (!object.updatedAt) {
       return false;
@@ -2849,10 +3128,26 @@ function hoodieStore (hoodie) {
 
   //
   function enqueue(method, args) {
-    var defer = getDefer();
+    var defer = hoodie.defer();
     queue.push([method, args, defer]);
     return defer.promise();
   }
+
+  //
+  // patchIfNotPersistant
+  //
+  function patchIfNotPersistant () {
+    if (!store.isPersistent()) {
+      db = {
+        getItem: function() { return null; },
+        setItem: function() { return null; },
+        removeItem: function() { return null; },
+        key: function() { return null; },
+        length: function() { return 0; }
+      };
+    }
+  }
+
 
   //
   // initialization
@@ -2875,11 +3170,18 @@ function hoodieStore (hoodie) {
     bootstrapDirtyObjects();
     delete store.bootstrapDirtyObjects;
   };
+
+  // allow to run this once from outside
+  store.patchIfNotPersistant = function() {
+    patchIfNotPersistant();
+    delete store.patchIfNotPersistant;
+  };
 }
 
 module.exports = hoodieStore;
 
-},{"../lib/error/object_id":13,"../lib/error/object_type":14,"../lib/store/api":17,"../utils/generate_id":24,"../utils/local_storage_wrapper":27,"../utils/promise/defer":28,"../utils/promise/reject_with":32,"../utils/promise/resolve_with":34,"extend":1}],10:[function(require,module,exports){
+}).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"../lib/error/object_id":14,"../lib/error/object_type":15,"../lib/store/api":17,"../utils/generate_id":21,"extend":2}],12:[function(_dereq_,module,exports){
 // Tasks
 // ============
 
@@ -2888,7 +3190,7 @@ module.exports = hoodieStore;
 // The returned API provides the following methods:
 //
 // * start
-// * abort
+// * cancel
 // * restart
 // * remove
 // * on
@@ -2900,15 +3202,13 @@ module.exports = hoodieStore;
 //
 //     var emailTasks = hoodie.task('email');
 //     emailTasks.start( properties );
-//     emailTasks.abort('id123');
+//     emailTasks.cancel('id123');
 //
-var hoodieEvents = require('../lib/events');
-var hoodieScopedTask = require('../lib/task/scoped');
-var HoodieError = require('../lib/error/error');
+var hoodieEvents = _dereq_('../lib/events');
+var hoodieScopedTask = _dereq_('../lib/task/scoped');
+var HoodieError = _dereq_('../lib/error/error');
 
-var extend = require('extend');
-
-var getDefer = require('../utils/promise/defer');
+var extend = _dereq_('extend');
 
 //
 function hoodieTask(hoodie) {
@@ -2946,22 +3246,22 @@ function hoodieTask(hoodie) {
   };
 
 
-  // abort
+  // cancel
   // -------
 
-  // abort a running task
+  // cancel a running task
   //
-  api.abort = function(type, id) {
+  api.cancel = function(type, id) {
     return hoodie.store.update('$' + type, id, {
-      abortedAt: now()
-    }).then(handleAbortedTaskObject);
+      cancelledAt: now()
+    }).then(handleCancelledTaskObject);
   };
 
 
   // restart
   // ---------
 
-  // first, we try to abort a running task. If that succeeds, we start
+  // first, we try to cancel a running task. If that succeeds, we start
   // a new one with the same properties as the original
   //
   api.restart = function(type, id, update) {
@@ -2969,18 +3269,18 @@ function hoodieTask(hoodie) {
       extend(object, update);
       delete object.$error;
       delete object.$processedAt;
-      delete object.abortedAt;
+      delete object.cancelledAt;
       return api.start(object.type, object);
     };
-    return api.abort(type, id).then(start);
+    return api.cancel(type, id).then(start);
   };
 
-  // abortAll
+  // cancelAll
   // -----------
 
   //
-  api.abortAll = function(type) {
-    return findAll(type).then(abortTaskObjects);
+  api.cancelAll = function(type) {
+    return findAll(type).then(cancelTaskObjects);
   };
 
   // restartAll
@@ -3021,7 +3321,7 @@ function hoodieTask(hoodie) {
 
   //
   function handleNewTask(object) {
-    var defer = getDefer();
+    var defer = hoodie.defer();
     var taskStore = hoodie.store(object.type, object.id);
 
     taskStore.on('remove', function(object) {
@@ -3034,9 +3334,9 @@ function hoodieTask(hoodie) {
         return defer.resolve(object);
       }
 
-      // manually removed / aborted.
+      // manually removed / cancelled.
       defer.reject(new HoodieError({
-        message: 'Task has been aborted',
+        message: 'Task has been cancelled',
         task: object
       }));
     });
@@ -3064,7 +3364,7 @@ function hoodieTask(hoodie) {
   }
 
   //
-  function handleAbortedTaskObject(taskObject) {
+  function handleCancelledTaskObject(taskObject) {
     var defer;
     var type = taskObject.type; // no need to prefix with $, it's already prefixed.
     var id = taskObject.id;
@@ -3075,7 +3375,7 @@ function hoodieTask(hoodie) {
       return removePromise;
     }
 
-    defer = getDefer();
+    defer = hoodie.defer();
     hoodie.one('store:sync:' + type + ':' + id, defer.resolve);
     removePromise.fail(defer.reject);
 
@@ -3107,9 +3407,9 @@ function hoodieTask(hoodie) {
   }
 
   //
-  function abortTaskObjects(taskObjects) {
+  function cancelTaskObjects(taskObjects) {
     return taskObjects.map(function(taskObject) {
-      return api.abort(taskObject.type.substr(1), taskObject.id);
+      return api.cancel(taskObject.type.substr(1), taskObject.id);
     });
   }
 
@@ -3130,8 +3430,8 @@ function hoodieTask(hoodie) {
       eventName = 'start';
     }
 
-    if (eventName === 'remove' && task.abortedAt) {
-      eventName = 'abort';
+    if (eventName === 'remove' && task.cancelledAt) {
+      eventName = 'cancel';
     }
 
     if (eventName === 'remove' && task.$processedAt) {
@@ -3159,7 +3459,7 @@ function hoodieTask(hoodie) {
     }
 
     // ignore all the other events
-    if (eventName !== 'start' && eventName !== 'abort' && eventName !== 'success') {
+    if (eventName !== 'start' && eventName !== 'cancel' && eventName !== 'success') {
       return;
     }
 
@@ -3189,13 +3489,13 @@ function hoodieTask(hoodie) {
 
 module.exports = hoodieTask;
 
-},{"../lib/error/error":11,"../lib/events":15,"../lib/task/scoped":22,"../utils/promise/defer":28,"extend":1}],11:[function(require,module,exports){
+},{"../lib/error/error":13,"../lib/events":16,"../lib/task/scoped":20,"extend":2}],13:[function(_dereq_,module,exports){
 // Hoodie Error
 // -------------
 
 // With the custom hoodie error function
 // we normalize all errors the get returned
-// when using hoodie's rejectWith
+// when using hoodie.rejectWith
 //
 // The native JavaScript error method has
 // a name & a message property. HoodieError
@@ -3223,7 +3523,7 @@ module.exports = hoodieTask;
 var errorMessageReplacePattern = /\{\{\s*\w+\s*\}\}/g;
 var errorMessageFindPropertyPattern = /\w+/;
 
-var extend = require('extend');
+var extend = _dereq_('extend');
 
 function HoodieError(properties) {
 
@@ -3235,7 +3535,7 @@ function HoodieError(properties) {
   }
 
   if (! properties.message) {
-    properties.message = 'Something went wrong';
+    throw new Error('FATAL: error.message must be set');
   }
 
   // must check for properties, as this.name is always set.
@@ -3255,21 +3555,14 @@ HoodieError.prototype.constructor = HoodieError;
 module.exports = HoodieError;
 
 
-},{"extend":1}],12:[function(require,module,exports){
-module.exports = {
-  error: require('./error'),
-  objectId: require('./object_id'),
-  objectType: require('./object_type')
-};
-
-},{"./error":11,"./object_id":13,"./object_type":14}],13:[function(require,module,exports){
+},{"extend":2}],14:[function(_dereq_,module,exports){
 // Hoodie Invalid Type Or Id Error
 // -------------------------------
 
 // only lowercase letters, numbers and dashes
 // are allowed for object IDs.
 //
-var HoodieError = require('./error');
+var HoodieError = _dereq_('./error');
 
 //
 function HoodieObjectIdError(properties) {
@@ -3289,7 +3582,7 @@ HoodieObjectIdError.prototype.rules = 'Lowercase letters, numbers and dashes all
 
 module.exports = HoodieObjectIdError;
 
-},{"./error":11}],14:[function(require,module,exports){
+},{"./error":13}],15:[function(_dereq_,module,exports){
 // Hoodie Invalid Type Or Id Error
 // -------------------------------
 
@@ -3297,7 +3590,7 @@ module.exports = HoodieObjectIdError;
 // are allowed for object types, plus must start
 // with a letter.
 //
-var HoodieError = require('./error');
+var HoodieError = _dereq_('./error');
 
 // Hoodie Invalid Type Or Id Error
 // -------------------------------
@@ -3323,7 +3616,7 @@ HoodieObjectTypeError.prototype.rules = 'lowercase letters, numbers and dashes a
 
 module.exports = HoodieObjectTypeError;
 
-},{"./error":11}],15:[function(require,module,exports){
+},{"./error":13}],16:[function(_dereq_,module,exports){
 // Events
 // ========
 //
@@ -3487,15 +3780,7 @@ function hoodieEvents(hoodie, options) {
 
 module.exports = hoodieEvents;
 
-},{}],16:[function(require,module,exports){
-module.exports = {
-  error: require('./error'),
-  events: require('./events'),
-  store: require('./store'),
-  task: require('./task')
-};
-
-},{"./error":12,"./events":15,"./store":18,"./task":21}],17:[function(require,module,exports){
+},{}],17:[function(_dereq_,module,exports){
 // Store
 // ============
 
@@ -3529,17 +3814,12 @@ module.exports = {
 //
 
 //
-var hoodieScopedStoreApi = require('./scoped');
-var hoodieEvents = require('../events');
-var HoodieError = require('../error/error');
-var HoodieObjectTypeError = require('../error/object_type');
-var HoodieObjectIdError = require('../error/object_id');
-var extend = require('extend');
-
-var getDefer = require('../../utils/promise/defer');
-var rejectWith = require('../../utils/promise/reject_with');
-var resolveWith = require('../../utils/promise/resolve_with');
-var isPromise = require('../../utils/promise/is_promise');
+var hoodieScopedStoreApi = _dereq_('./scoped');
+var hoodieEvents = _dereq_('../events');
+var HoodieError = _dereq_('../error/error');
+var HoodieObjectTypeError = _dereq_('../error/object_type');
+var HoodieObjectIdError = _dereq_('../error/object_id');
+var extend = _dereq_('extend');
 
 //
 function hoodieStoreApi(hoodie, options) {
@@ -3648,7 +3928,7 @@ function hoodieStoreApi(hoodie, options) {
     var error = api.validate(object, options || {});
 
     if (error) {
-      return rejectWith(error);
+      return hoodie.rejectWith(error);
     }
 
     return decoratePromise(backend.save(object, options || {}));
@@ -3749,7 +4029,7 @@ function hoodieStoreApi(hoodie, options) {
       }
 
       if (!objectUpdate) {
-        return resolveWith(currentObject);
+        return hoodie.resolveWith(currentObject);
       }
 
       // check if something changed
@@ -3759,7 +4039,7 @@ function hoodieStoreApi(hoodie, options) {
         for (var key in objectUpdate) {
           if (objectUpdate.hasOwnProperty(key)) {
             value = objectUpdate[key];
-            if (currentObject[key] === value) {
+            if ((currentObject[key] !== value) === false) {
               continue;
             }
             // workaround for undefined values, as extend ignores these
@@ -3771,7 +4051,7 @@ function hoodieStoreApi(hoodie, options) {
       })();
 
       if (!(changedProperties.length || options)) {
-        return resolveWith(newObj);
+        return hoodie.resolveWith(newObj);
       }
 
       //apply update
@@ -3826,11 +4106,11 @@ function hoodieStoreApi(hoodie, options) {
     case typeof filterOrObjects === 'string':
       promise = api.findAll(filterOrObjects);
       break;
-    case isPromise(filterOrObjects):
+    case hoodie.isPromise(filterOrObjects):
       promise = filterOrObjects;
       break;
     case $.isArray(filterOrObjects):
-      promise = getDefer().resolve(filterOrObjects).promise();
+      promise = hoodie.defer().resolve(filterOrObjects).promise();
       break;
     default:
       // e.g. null, update all
@@ -3931,15 +4211,9 @@ function hoodieStoreApi(hoodie, options) {
 
 module.exports = hoodieStoreApi;
 
-},{"../../utils/promise/defer":28,"../../utils/promise/is_promise":30,"../../utils/promise/reject_with":32,"../../utils/promise/resolve_with":34,"../error/error":11,"../error/object_id":13,"../error/object_type":14,"../events":15,"./scoped":20,"extend":1}],18:[function(require,module,exports){
-module.exports = {
-  api: require('./api'),
-  remote: require('./remote'),
-  scoped: require('./scoped')
-};
-
-},{"./api":17,"./remote":19,"./scoped":20}],19:[function(require,module,exports){
-var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {};// Remote
+},{"../error/error":13,"../error/object_id":14,"../error/object_type":15,"../events":16,"./scoped":19,"extend":2}],18:[function(_dereq_,module,exports){
+(function (global){
+// Remote
 // ========
 
 // Connection to a remote Couch Database.
@@ -3977,10 +4251,9 @@ var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? 
 // * on(event, callback)
 //
 
-var hoodieStoreApi = require('./api');
-var extend = require('extend');
-var generateId = require('../../utils/generate_id');
-var resolveWith = require('../../utils/promise/resolve_with');
+var hoodieStoreApi = _dereq_('./api');
+var extend = _dereq_('extend');
+var generateId = _dereq_('../../utils/generate_id');
 
 //
 function hoodieRemoteStore(hoodie, options) {
@@ -4164,10 +4437,10 @@ function hoodieRemoteStore(hoodie, options) {
   // request
   // ---------
 
-  // wrapper for hoodie's request, with some store specific defaults
+  // wrapper for hoodie.request, with some store specific defaults
   // and a prefixed path
   //
-  remote.request = function remoteRequest(type, path, options) {
+  remote.request = function request(type, path, options) {
     options = options || {};
 
     if (remoteName) {
@@ -4320,35 +4593,26 @@ function hoodieRemoteStore(hoodie, options) {
   // Push objects to remote store using the `_bulk_docs` API.
   //
   var pushRequest;
-  var pushedObjectRevisions = {};
   remote.push = function push(objects) {
-    var object;
-    var objectsForRemote = [];
+    var object, objectsForRemote, _i, _len;
 
-    if (! $.isArray(objects)) {
+    if (!$.isArray(objects)) {
       objects = defaultObjectsToPush();
     }
 
     if (objects.length === 0) {
-      return resolveWith([]);
+      return hoodie.resolveWith([]);
     }
 
-    // don't mess with the originals
-    objects = objects.map(function(object) {
-      return extend(true, {}, object);
-    });
-
     objectsForRemote = [];
-    for (var i = 0; i < objects.length; i++) {
 
-      object = objects[i];
+    for (_i = 0, _len = objects.length; _i < _len; _i++) {
+
+      // don't mess with original objects
+      object = extend(true, {}, objects[_i]);
       addRevisionTo(object);
       object = parseForRemote(object);
       objectsForRemote.push(object);
-
-      // store the revision to prevent change events from
-      // being triggered for the same object revisions
-      pushedObjectRevisions[object._rev] = 1;
     }
     pushRequest = remote.request('POST', '/_bulk_docs', {
       data: {
@@ -4359,7 +4623,6 @@ function hoodieRemoteStore(hoodie, options) {
 
     pushRequest.done(function() {
       for (var i = 0; i < objects.length; i++) {
-        delete objects[i]._revisions;
         remote.trigger('push', objects[i]);
       }
     });
@@ -4464,7 +4727,7 @@ function hoodieRemoteStore(hoodie, options) {
   }
 
 
-  // ### parseFromRemote
+  // ### _parseFromRemote
 
   // normalize objects coming from remote
   //
@@ -4472,7 +4735,7 @@ function hoodieRemoteStore(hoodie, options) {
   // e.g. `type/123` -> `123`
   //
   function parseFromRemote(object) {
-    var id, matches;
+    var id, ignore, _ref;
 
     // handle id and type
     id = object._id || object.id;
@@ -4480,20 +4743,26 @@ function hoodieRemoteStore(hoodie, options) {
 
     if (remote.prefix) {
       id = id.replace(remotePrefixPattern, '');
+      // id = id.replace(new RegExp('^' + remote.prefix), '');
     }
 
     // turn doc/123 into type = doc & id = 123
     // NOTE: we don't use a simple id.split(/\//) here,
     // as in some cases IDs might contain '/', too
     //
-    matches = id.match(/([^\/]+)\/(.*)/);
-    object.type = matches[1], object.id = matches[2];
+    _ref = id.match(/([^\/]+)\/(.*)/), ignore = _ref[0], object.type = _ref[1], object.id = _ref[2];
 
     return object;
   }
 
   function parseAllFromRemote(objects) {
-    return objects.map(parseFromRemote);
+    var object, _i, _len, _results;
+    _results = [];
+    for (_i = 0, _len = objects.length; _i < _len; _i++) {
+      object = objects[_i];
+      _results.push(parseFromRemote(object));
+    }
+    return _results;
   }
 
 
@@ -4502,9 +4771,9 @@ function hoodieRemoteStore(hoodie, options) {
   // extends passed object with a _rev property
   //
   function addRevisionTo(attributes) {
-    var currentRevId, currentRevNr, newRevisionId, parts;
+    var currentRevId, currentRevNr, newRevisionId, _ref;
     try {
-      parts = attributes._rev.split(/-/), currentRevNr = parts[0], currentRevId = parts[1];
+      _ref = attributes._rev.split(/-/), currentRevNr = _ref[0], currentRevId = _ref[1];
     } catch (_error) {}
     currentRevNr = parseInt(currentRevNr, 10) || 0;
     newRevisionId = generateNewRevisionId();
@@ -4661,16 +4930,12 @@ function hoodieRemoteStore(hoodie, options) {
   // ### handle changes from remote
   //
   function handlePullResults(changes) {
-    var doc, event, object;
+    var doc, event, object, _i, _len;
 
-    for (var i = 0; i < changes.length; i++) {
-      doc = changes[i].doc;
+    for (_i = 0, _len = changes.length; _i < _len; _i++) {
+      doc = changes[_i].doc;
 
       if (remote.prefix && doc._id.indexOf(remote.prefix) !== 0) {
-        continue;
-      }
-
-      if (pushedObjectRevisions[doc._rev]) {
         continue;
       }
 
@@ -4698,10 +4963,6 @@ function hoodieRemoteStore(hoodie, options) {
       remote.trigger('change:' + object.type, event, object);
       remote.trigger('change:' + object.type + ':' + object.id, event, object);
     }
-
-    // reset the hash for pushed object revisison after
-    // every response from the longpoll GET /_changes
-    pushedObjectRevisions = {};
   }
 
 
@@ -4723,14 +4984,15 @@ function hoodieRemoteStore(hoodie, options) {
 
 module.exports = hoodieRemoteStore;
 
-},{"../../utils/generate_id":24,"../../utils/promise/resolve_with":34,"./api":17,"extend":1}],20:[function(require,module,exports){
+}).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"../../utils/generate_id":21,"./api":17,"extend":2}],19:[function(_dereq_,module,exports){
 // scoped Store
 // ============
 
 // same as store, but with type preset to an initially
 // passed value.
 //
-var hoodieEvents = require('../events');
+var hoodieEvents = _dereq_('../events');
 
 //
 function hoodieScopedStoreApi(hoodie, storeApi, options) {
@@ -4836,19 +5098,14 @@ function hoodieScopedStoreApi(hoodie, storeApi, options) {
 
 module.exports = hoodieScopedStoreApi;
 
-},{"../events":15}],21:[function(require,module,exports){
-module.exports = {
-  scoped: require('./scoped')
-};
-
-},{"./scoped":22}],22:[function(require,module,exports){
+},{"../events":16}],20:[function(_dereq_,module,exports){
 // scoped Store
 // ============
 
 // same as store, but with type preset to an initially
 // passed value.
 //
-var hoodieEvents = require('../events');
+var hoodieEvents = _dereq_('../events');
 
 //
 function hoodieScopedTask(hoodie, taskApi, options) {
@@ -4873,8 +5130,8 @@ function hoodieScopedTask(hoodie, taskApi, options) {
     };
 
     //
-    api.abort = function abort(id) {
-      return taskApi.abort(type, id);
+    api.cancel = function cancel(id) {
+      return taskApi.cancel(type, id);
     };
 
     //
@@ -4883,8 +5140,8 @@ function hoodieScopedTask(hoodie, taskApi, options) {
     };
 
     //
-    api.abortAll = function abortAll() {
-      return taskApi.abortAll(type);
+    api.cancelAll = function cancelAll() {
+      return taskApi.cancelAll(type);
     };
 
     //
@@ -4903,8 +5160,8 @@ function hoodieScopedTask(hoodie, taskApi, options) {
     });
 
     //
-    api.abort = function abort() {
-      return taskApi.abort(type, id);
+    api.cancel = function cancel() {
+      return taskApi.cancel(type, id);
     };
 
     //
@@ -4918,73 +5175,7 @@ function hoodieScopedTask(hoodie, taskApi, options) {
 
 module.exports = hoodieScopedTask;
 
-},{"../events":15}],23:[function(require,module,exports){
-// Hoodie Config API
-// ===================
-
-var localStorageWrapper = require('../utils/local_storage_wrapper');
-
-// public API
-var config = {};
-
-var CONFIG_STORE_KEY = '_hoodie_config';
-var cache;
-
-// set
-// ----------
-
-// adds a configuration
-//
-config.set = function set(key, value) {
-  cache[key] = value;
-  localStorageWrapper.setObject(CONFIG_STORE_KEY, cache);
-};
-
-// get
-// ----------
-
-// receives a configuration
-//
-config.get = function get(key) {
-  return cache[key];
-};
-
-// clear
-// ----------
-
-// clears cache and removes object from localStorageWrapper
-//
-config.clear = function clear() {
-  cache = {};
-  return localStorageWrapper.removeItem(CONFIG_STORE_KEY);
-};
-
-// unset
-// ----------
-
-// unsets a configuration. If configuration is present, calls
-// config.set(key, undefined).
-//
-config.unset = function unset(key) {
-  delete cache[key];
-  localStorageWrapper.setObject(CONFIG_STORE_KEY, cache);
-};
-
-//
-// load current configuration from localStore.
-// The init method needs to be called once on startup
-//
-function init() {
-  cache = localStorageWrapper.getObject(CONFIG_STORE_KEY) || {};
-}
-
-// initialize
-init();
-
-module.exports = config;
-
-
-},{"../utils/local_storage_wrapper":27}],24:[function(require,module,exports){
+},{"../events":16}],21:[function(_dereq_,module,exports){
 var chars, i, radix;
 
 // uuids consist of numbers and lowercase letters only.
@@ -5014,7 +5205,7 @@ function generateId (length) {
 
 module.exports = generateId;
 
-},{}],25:[function(require,module,exports){
+},{}],22:[function(_dereq_,module,exports){
 var findLettersToUpperCase = /(^\w|_\w)/g;
 
 function hoodiefyRequestErrorName (name) {
@@ -5026,186 +5217,232 @@ function hoodiefyRequestErrorName (name) {
 }
 
 module.exports = hoodiefyRequestErrorName;
-},{}],26:[function(require,module,exports){
-module.exports = {
-  config: require('./config'),
-  generateId: require('./generate_id'),
-  localStorageWrapper: require('./local_storage_wrapper'),
-  promise: require('./promise')
-};
+},{}],23:[function(_dereq_,module,exports){
+(function (global){
+// Hoodie Defers / Promises
+// ------------------------
 
+// returns a defer object for custom promise handlings.
+// Promises are heavely used throughout the code of hoodie.
+// We currently borrow jQuery's implementation:
+// http://api.jquery.com/category/deferred-object/
+//
+//     defer = hoodie.defer()
+//     if (good) {
+//       defer.resolve('good.')
+//     } else {
+//       defer.reject('not good.')
+//     }
+//     return defer.promise()
+//
+var HoodieError = _dereq_('../lib/error/error');
 
-},{"./config":23,"./generate_id":24,"./local_storage_wrapper":27,"./promise":29}],27:[function(require,module,exports){
-var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {};// public API
-var store = {};
+//
+function hoodiePromises (hoodie) {
+  var $defer = global.jQuery.Deferred;
 
-store.setItem = function (name, item) {
-  global.localStorage.setItem(name, item);
-};
-
-store.getItem = function (name) {
-  return global.localStorage.getItem(name);
-};
-
-store.removeItem = function (name) {
-  return global.localStorage.removeItem(name);
-};
-
-store.clear = function () {
-  return global.localStorage.clear();
-};
-
-store.key = function (nr) {
-  return global.localStorage.key(nr);
-};
-
-store.length = function () {
-  return global.localStorage.length;
-};
-
-// more advanced localStorage wrappers to find/save objects
-store.setObject = function (key, object) {
-  return store.setItem(key, global.JSON.stringify(object));
-};
-
-store.getObject = function (key) {
-  var item = store.getItem(key);
-
-  if (! item) {
-    return null;
+  // returns true if passed object is a promise (but not a deferred),
+  // otherwise false.
+  function isPromise(object) {
+    return !! (object &&
+               typeof object.done === 'function' &&
+               typeof object.resolve !== 'function');
   }
 
-  try {
-    return global.JSON.parse(item);
-  } catch (e) {
-    return null;
-  }
-};
-
-function init() {
-  store.isPersistent = isPersistent();
-  if (store.isPersistent) {
-    return;
+  //
+  function resolve() {
+    return $defer().resolve().promise();
   }
 
-  // if store is not persistent, patch all store methods
-  store.getItem = function() { return null; };
-  store.setItem = function() { return null; };
-  store.removeItem = function() { return null; };
-  store.key = function() { return null; };
-  store.length = function() { return 0; };
-  store.isPersistent = function() { return false; };
+
+  //
+  function reject() {
+    return $defer().reject().promise();
+  }
+
+
+  //
+  function resolveWith() {
+    var _defer = $defer();
+    return _defer.resolve.apply(_defer, arguments).promise();
+  }
+
+  //
+  function rejectWith(errorProperties) {
+    var _defer = $defer();
+    var error = new HoodieError(errorProperties);
+    return _defer.reject(error).promise();
+  }
+
+  //
+  // Public API
+  //
+  hoodie.defer = $defer;
+  hoodie.isPromise = isPromise;
+  hoodie.resolve = resolve;
+  hoodie.reject = reject;
+  hoodie.resolveWith = resolveWith;
+  hoodie.rejectWith = rejectWith;
 }
 
+module.exports = hoodiePromises;
 
-// Is persistant?
-// ----------------
+}).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"../lib/error/error":13}],24:[function(_dereq_,module,exports){
 //
+// hoodie.request
+// ================
 
-// returns `true` or `false` depending on whether localStorage is supported or not.
-// Beware that some browsers like Safari do not support localStorage in private mode.
+// Hoodie's central place to send request to its backend.
+// At the moment, it's a wrapper around jQuery's ajax method,
+// but we might get rid of this dependency in the future.
 //
-// inspired by this cappuccino commit
-// https://github.com/cappuccino/cappuccino/commit/063b05d9643c35b303568a28809e4eb3224f71ec
+// It has build in support for CORS and a standard error
+// handling that normalizes errors returned by CouchDB
+// to JavaScript's native conventions of errors having
+// a name & a message property.
 //
+// Common errors to expect:
+//
+// * HoodieRequestError
+// * HoodieUnauthorizedError
+// * HoodieConflictError
+// * HoodieServerError
 
-function isPersistent() {
-  try {
+var hoodiefyRequestErrorName = _dereq_('./hoodiefy_request_error_name');
+var extend = _dereq_('extend');
 
-    // we've to put this in here. I've seen Firefox throwing `Security error: 1000`
-    // when cookies have been disabled
-    if (!global.localStorage) {
-      return false;
+function hoodieRequest(hoodie) {
+  var $ajax = $.ajax;
+
+  // Hoodie backend listents to requests prefixed by /_api,
+  // so we prefix all requests with relative URLs
+  var API_PATH = '/_api';
+
+  // Requests
+  // ----------
+
+  // sends requests to the hoodie backend.
+  //
+  //     promise = hoodie.request('GET', '/user_database/doc_id')
+  //
+  function request(type, url, options) {
+    var defaults, requestPromise, pipedPromise;
+
+    options = options || {};
+
+    defaults = {
+      type: type,
+      dataType: 'json'
+    };
+
+    // if absolute path passed, set CORS headers
+
+    // if relative path passed, prefix with baseUrl
+    if (!/^http/.test(url)) {
+      url = (hoodie.baseUrl || '') + API_PATH + url;
     }
 
-    // Just because localStorage exists does not mean it works. In particular it might be disabled
-    // as it is when Safari's private browsing mode is active.
-    localStorage.setItem('Storage-Test', '1');
-
-    // that should not happen ...
-    if (localStorage.getItem('Storage-Test') !== '1') {
-      return false;
+    // if url is cross domain, set CORS headers
+    if (/^http/.test(url)) {
+      defaults.xhrFields = {
+        withCredentials: true
+      };
+      defaults.crossDomain = true;
     }
 
-    // okay, let's clean up if we got here.
-    localStorage.removeItem('Storage-Test');
-  } catch (_error) {
+    defaults.url = url;
 
-    // in case of an error, like Safari's Private Mode, return false
-    return false;
+
+    // we are piping the result of the request to return a nicer
+    // error if the request cannot reach the server at all.
+    // We can't return the promise of ajax directly because of
+    // the piping, as for whatever reason the returned promise
+    // does not have the `abort` method any more, maybe others
+    // as well. See also http://bugs.jquery.com/ticket/14104
+    requestPromise = $ajax(extend(defaults, options));
+    pipedPromise = requestPromise.then( null, handleRequestError);
+    pipedPromise.abort = requestPromise.abort;
+
+    return pipedPromise;
   }
 
-  // we're good.
-  return true;
+  //
+  //
+  //
+  function handleRequestError(xhr) {
+    var error;
+
+    try {
+      error = parseErrorFromResponse(xhr);
+    } catch (_error) {
+
+      if (xhr.responseText) {
+        error = xhr.responseText;
+      } else {
+        error = {
+          name: 'HoodieConnectionError',
+          message: 'Could not connect to Hoodie server at {{url}}.',
+          url: hoodie.baseUrl || '/'
+        };
+      }
+    }
+
+    return hoodie.rejectWith(error).promise();
+  }
+
+  //
+  // CouchDB returns errors in JSON format, with the properties
+  // `error` and `reason`. Hoodie uses JavaScript's native Error
+  // properties `name` and `message` instead, so we are normalizing
+  // that.
+  //
+  // Besides the renaming we also do a matching with a map of known
+  // errors to make them more clear. For reference, see
+  // https://wiki.apache.org/couchdb/Default_http_errors &
+  // https://github.com/apache/couchdb/blob/master/src/couchdb/couch_httpd.erl#L807
+  //
+
+  function parseErrorFromResponse(xhr) {
+    var error = JSON.parse(xhr.responseText);
+
+    // get error name
+    error.name = HTTP_STATUS_ERROR_MAP[xhr.status];
+    if (! error.name) {
+      error.name = hoodiefyRequestErrorName(error.error);
+    }
+
+    // store status & message
+    error.status = xhr.status;
+    error.message = error.reason || '';
+    error.message = error.message.charAt(0).toUpperCase() + error.message.slice(1);
+
+    // cleanup
+    delete error.error;
+    delete error.reason;
+
+    return error;
+  }
+
+  // map CouchDB HTTP status codes to Hoodie Errors
+  var HTTP_STATUS_ERROR_MAP = {
+    400: 'HoodieRequestError', // bad request
+    401: 'HoodieUnauthorizedError',
+    403: 'HoodieRequestError', // forbidden
+    404: 'HoodieNotFoundError', // forbidden
+    409: 'HoodieConflictError',
+    412: 'HoodieConflictError', // file exist
+    500: 'HoodieServerError'
+  };
+
+  //
+  // public API
+  //
+  hoodie.request = request;
 }
 
-// initialize
-init();
+module.exports = hoodieRequest;
 
-module.exports = store;
-
-},{}],28:[function(require,module,exports){
-var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {};module.exports = global.jQuery.Deferred;
-},{}],29:[function(require,module,exports){
-module.exports = {
-  defer: require('./defer'),
-  isPromise: require('./is_promise'),
-  rejectWith: require('./reject_with'),
-  reject: require('./reject'),
-  resolveWith: require('./resolve_with'),
-  resolve: require('./resolve'),
-};
-
-},{"./defer":28,"./is_promise":30,"./reject":31,"./reject_with":32,"./resolve":33,"./resolve_with":34}],30:[function(require,module,exports){
-// returns true if passed object is a promise (but not a deferred),
-// otherwise false.
-function isPromise(object) {
-  return !! (object &&
-             typeof object.done === 'function' &&
-             typeof object.resolve !== 'function');
-}
-
-module.exports = isPromise;
-},{}],31:[function(require,module,exports){
-var defer = require('./defer');
-//
-function reject() {
-  return defer().reject().promise();
-}
-
-module.exports = reject;
-},{"./defer":28}],32:[function(require,module,exports){
-var getDefer = require('./defer');
-var HoodieError = require('../../lib/error/error');
-
-//
-function rejectWith(errorProperties) {
-  var error = new HoodieError(errorProperties);
-  return getDefer().reject(error).promise();
-}
-
-module.exports = rejectWith;
-
-},{"../../lib/error/error":11,"./defer":28}],33:[function(require,module,exports){
-var defer = require('./defer');
-//
-function resolve() {
-  return defer().resolve().promise();
-}
-
-module.exports = resolve;
-},{"./defer":28}],34:[function(require,module,exports){
-var getDefer = require('./defer');
-
-//
-function resolveWith() {
-  var defer = getDefer();
-  return defer.resolve.apply(defer, arguments).promise();
-}
-
-module.exports = resolveWith;
-
-},{"./defer":28}]},{},[2])
-(2)
+},{"./hoodiefy_request_error_name":22,"extend":2}]},{},[1])
+(1)
 });
-;
