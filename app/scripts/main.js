@@ -44,6 +44,7 @@ $( function() {
   var index =1;
   $("#workspace").droppable({
     drop: function (event, ui) {
+
       var $canvas = $(this);
 
       if (!ui.draggable.hasClass('canvas-element')) {
