@@ -12,104 +12,177 @@ $icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/
     color: #000;
     padding: 0.2em 0;
 }
+$bg: #f8f8f8;
+$shadow: gray;
 
-/* Space out content a bit */
+#_hc_bar {
+    display: none !important;   
+}
+
 body {
-    padding-top: 20px;
-    padding-bottom: 20px;
-}
+    .brick-container {
+        float: left;
+        padding: 0 10px 10px 10px;
+    }
+    .brick {
+        height: 60px;
+        width: 60px;
+        border: 1px solid #999;
+        background: #bbb;
+        border-radius: 5px;
+        cursor: pointer;
+        line-height: 60px;
+        text-align: center;
+        color: white;
+        text-transform: uppercase;
+        font-size: 14px;
+    }
+    .gate-and {
+        
+    }
+    .gate-not {
 
-/* Everything but the jumbotron gets side spacing for mobile first views */
-.header,
-.marketing,
-.footer {
-    padding-left: 15px;
-    padding-right: 15px;
-}
-
-/* Custom page header */
-.header {
-    border-bottom: 1px solid #e5e5e5;
-}
-
-/* Make the masthead heading the same height as the navigation */
-.header h3 {
-    margin-top: 0;
-    margin-bottom: 0;
-    line-height: 40px;
-    padding-bottom: 19px;
-}
-
-/* Custom page footer */
-.footer {
-    padding-top: 19px;
-    color: #777;
-    border-top: 1px solid #e5e5e5;
-}
-
-.container-narrow > hr {
-    margin: 30px 0;
-}
-
-/* Main marketing message and sign up button */
-.jumbotron {
-    text-align: center;
-    border-bottom: 1px solid #e5e5e5;
-}
-
-.jumbotron .btn {
-    font-size: 21px;
-    padding: 14px 24px;
-}
-
-/* Supporting marketing content */
-.marketing {
-    margin: 40px 0;
-}
-
-.marketing p + h4 {
-    margin-top: 28px;
-}
-
-/* Account bar */
-body .hoodie-account-signedin,
-body .hoodie-account-signedout,
-body .hoodie-account-error {
-  display: none;
-}
-
-html[data-hoodie-account-status=signedin]  .hoodie-account-signedin,
-html[data-hoodie-account-status=error]     .hoodie-account-error,
-html[data-hoodie-account-status=signedout] .hoodie-account-signedout {
-  display: block;
-}
-
-.hoodie-accountbar {
-  position: absolute;
-  top: 20px;
-  right: 10px;
-}
-
-
-/* Responsive: Portrait tablets and up */
-@media screen and (min-width: 768px) {
-    .container {
-        max-width: 730px;
     }
 
-    /* Remove the padding we set earlier */
-    .header,
-    .marketing,
-    .footer {
-        padding-left: 0;
-        padding-right: 0;
+    #loginModal {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow: hidden;
+        .modal-dialog {
+            margin-top: 300px;
+            width: 400px;
+            button .fa-tudelft {
+                background-image: url('../images/tudelft.png');
+                width: 16px;
+                height: 16px;
+            }
+            .modal-footer {
+                a,.splitter {
+                    float: left;
+                }
+                .splitter {
+                    padding: 0 10px;
+                }
+            }
+        }
     }
-    /* Space out the masthead */
-    .header {
-        margin-bottom: 30px;
-    }
-    /* Remove the bottom border on the jumbotron for visual effect */
-    .jumbotron {
-        border-bottom: 0;
+    overflow: hidden;
+    #main {
+        position: absolute;
+        left: 15px;
+        right: 15px;
+        top: 0;
+        bottom: 0;
+        #mainLeft {
+            overflow: hidden;
+            height: 100%;
+            .navbar {
+                position: absolute;
+                border-bottom: none;
+                box-shadow: 0px 0px 3px $shadow;
+                .navbar-right > ul > li > a > i {
+                    font-size: 1.4em;
+                }
+            }
+            .row {
+                position: absolute;
+                left: 15px;
+                right: 15px;
+                bottom: 0;
+                top: 50px;
+                #workspace {
+                    height: 100%;
+                    background: url('../images/grid.png') repeat;
+                    .btn-toolbar {
+                        position: absolute;
+                        bottom: 15px;
+                        right: 20px;
+                    }
+                }
+            }
+        }
+        #mainRight {
+            background-color: $bg;
+            box-shadow: 0px 0px 3px $shadow;
+            height: 100%;
+            .nav-tabs {
+                border-bottom: none;
+                margin-top: 9px;
+                position: relative;
+                z-index: 1;
+            }
+            .tab-content {
+                position: absolute;
+                left: 15px;
+                right: 15px;
+                bottom: 15px;
+                top: 50px;
+                .tab-pane {
+                    height: 100%;
+                }
+                #library {
+                    .panel {
+                        position: absolute;
+                        top: 0;
+                        bottom: 27px;
+                        right: 0;
+                        left: 0;
+                        -webkit-border-top-left-radius: 0;
+                        -moz-border-radius-topleft: 0;
+                        border-top-left-radius: 0;
+                        .panel-body {
+                            height: 100%;
+                            h3 {
+                                border-bottom: 1px solid #999;
+                                width: 100%;
+                                text-align: center;
+                                font-size: 0.7em;
+                                height: 0.6em;
+                                margin-bottom: 1em;
+                                clear: both;
+                                i {
+                                    float: left;
+                                    background-color: white;
+                                    padding: 1px 5px 1px 0;
+                                    color: #777;
+                                    cursor: pointer;
+                                }
+                                a {
+                                    padding: 0 5px;
+                                    color: #777;
+                                    background-color: white;
+                                    text-transform: uppercase;
+                                }
+                            }
+                            .gates-container {
+                                .bricks {
+
+                                }
+                            }
+                        }
+                    }
+                    .filters {
+                        position: absolute;
+                        left: 0;
+                        right: 0;
+                        bottom: -15px;
+                        .btn {
+                            padding: 9px 12px;
+                        }
+                    }
+                }
+                #visualisation {
+                    .panel {
+                        height: 100%;
+                        .panel-body {
+                            height: 100%;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

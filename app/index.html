@@ -8,6 +8,9 @@
     <title></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
+    
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css styles/vendor.css -->
     <!-- bower:css -->
@@ -22,8 +25,27 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <!-- Add your site or application content here -->
-    <div class="container" ng-controller="MainCtrl" ng-view=""></div>
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Please sign in</h4>
+                </div>
+                <div class="modal-body">
+                    <button class="btn btn-block btn-info"><i class="fa fa-tudelft"></i> | Connect with TU Delft</button>
+                    <button class="btn btn-block btn-google-plus"><i class="fa fa-google-plus"></i> | Connect with Google Plus</button>     
+                    <button class="btn btn-block btn-facebook"><i class="fa fa-facebook"></i> | Connect with Facebook</button>
+                </div>
+                 <div class="modal-footer">
+                    <a href="#">Contact</a>
+                    <div class="splitter"> | </div>
+                    <a href="#">About</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container-fluid" ng-controller="MainCtrl" ng-view=""></div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
      <script>
@@ -48,6 +70,7 @@
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/hoodie/dist/hoodie.js"></script>
+    <script src="bower_components/jquery-ui/ui/jquery-ui.js"></script>
     <script src="bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/affix.js"></script>
     <script src="bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/alert.js"></script>
     <script src="bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/button.js"></script>
@@ -67,7 +90,10 @@
     <!-- endbower -->
     <!-- endbuild -->
 
+
+    <script src="bower_components/jsPlumb/dist/js/jquery.jsPlumb-1.6.1-min.js"></script>
     <script src="scripts/hoodie.js"></script>
+    <script src="scripts/raphael.js"></script>
     <script src="scripts/hoodie.accountbar.bootstrap.js"></script>
     <script src="scripts/bootstrap.modalform.js"></script>
         <script src="scripts/main.js"></script>

@@ -1,88 +1,125 @@
-<div class="header">
-  <ul class="nav nav-pills pull-right">
-  </ul>
-  <h3 class="text-muted">genius</h3>
-</div>
-
-<div class="hero-unit">
-  <h1>db</h1>
-  <p>
-    hoodie playground.
-  </p>
-
-  <div class="hoodie-accountbar">
-
-    <div class="hoodie-account-signedout">
-      <span class="btn-group">
-        <button class="btn btn-small btn-inverse" data-hoodie-action="signup">Sign Up</button>
-        <button class="btn btn-small dropdown-toggle btn-inverse" data-toggle="dropdown">
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu pull-right">
-          <li><a href="#" data-hoodie-action="signin">Sign In</a></li>
-          <li><a href="#" data-hoodie-action="resetpassword">Reset Password</a></li>
-          <li><a href="#" data-hoodie-action="destroy">Clear local data</a></li>
-        </ul>
-      </span>
-    </div><!-- /.hoodie-account-signedout -->
-
-    <div class="hoodie-account-signedin">
-      Hello,
-      <span class="hoodie-username"><!-- usern name will be filled in here --></span>
-      <span class="btn-group">
-        <button class="btn btn-small btn-inverse" data-hoodie-action="signout">Sign Out</button>
-        <button class="btn btn-small dropdown-toggle btn-inverse" data-toggle="dropdown">
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu pull-right">
-          <li><a href="#" data-hoodie-action="changepassword">Change Password</a></li>
-          <li><a href="#" data-hoodie-action="changeusername">Change Username</a></li>
-          <li><a href="#" data-hoodie-action="destroy">Destroy Account</a></li>
-        </ul>
-      </span>
-    </div><!-- /.hoodie-account-signedin -->
-
-    <div class="hoodie-account-error">
-      Hello,
-      <span class="hoodie-username"><!-- username will be filled in here --></span>.
-      <span class="btn-group">
-        <button class="btn btn-small btn-danger" data-hoodie-action="signin">Authentication error: Sign in again</button>
-        <button class="btn btn-small dropdown-toggle btn-danger" data-toggle="dropdown">
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu pull-right">
-          <li><a href="#" data-hoodie-action="signout">Sign out</a></li>
-        </ul>
-      </span>
-    </div><!-- /.hoodie-account-error -->
-  </div><!--/hoodieAccountBar -->
-</div>
-
-<section id="todoapp" ng-controller="MainCtrl">
-  <header id="header">
-    <h1>todos</h1>
-    <form id="todo-form" ng-submit="addTodo()">
-      <input id="new-todo" placeholder="What needs to be done?" ng-model="newTodo" autofocus>
-    </form>
-  </header>
-  <section id="main" ng-show="todos.length" ng-cloak>
-    <input id="toggle-all" type="checkbox" ng-model="allChecked" ng-click="markAll(allChecked)">
-    <label for="toggle-all">Mark all as complete</label>
-    <ul id="todo-list">
-      <li ng-repeat="todo in todos" ng-class="{completed: todo.completed, editing: todo == editedTodo}">
-        <div class="view">
-          <input class="toggle" type="checkbox" ng-model="todo.completed">
-          <label ng-dblclick="editTodo(todo)">{{todo.title}}</label>
-          <button class="destroy" ng-click="removeTodo(todo)"></button>
+<div class="row" id="main">
+  <div class="col-xs-12 col-sm-9" id="mainLeft">
+    <div class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a href="#" class="navbar-brand">GENius</a>
         </div>
-        <form ng-submit="doneEditing(todo)">
-          <input class="edit" ng-model="todo.title" todo-blur="doneEditing(todo)" todo-focus="todo == editedTodo">
-        </form>
+        <div class="navbar-text">
+          Unnamed biobrick project <em class="text-muted hidden-xs">- saved</em>
+        </div>
+        <div class="navbar-right hidden-xs">
+          {{hoodie.account.username}}
+          <ul class="nav navbar-nav">
+            <li>
+              <a href="#" title="New&nbsp;brick">
+                <i class="fa fa-plus"></i>
+              </a>
+            </li>
+            <li>
+              <a href="#" title="Copy&nbsp;brick">
+                <i class="fa fa-copy"></i>
+              </a>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-user"></i>
+              </a>
+              <ul class="dropdown-menu pull-right">
+                <li>
+                  <a href="#">Profile</a>
+                </li>
+                <li>
+                  <a href="#">Logout</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 ui-widget-content" id="workspace">
+        <div id="data"></div>
+
+        <div class="btn-toolbar">
+          <div class="btn-group">
+            <a href="#" class="btn btn-lg btn-primary" title="Run">
+              <i class="fa fa-play"></i>
+            </a>
+            <a href="#" class="btn btn-lg btn-default" title="Export">
+              <i class="fa fa-download"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hidden-xs col-sm-3" id="mainRight">
+    <ul class="nav nav-tabs">
+      <li class="active" id="tab-library">
+        <a href="#library" data-toggle="tab">Library</a>
+      </li>
+      <li id="tab-visualisation">
+        <a href="#visualisation" data-toggle="tab">Visualisation</a>
       </li>
     </ul>
-  </section>
-</section>
+    <div class="tab-content">
+      <div class="tab-pane active" id="library">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="gates-container">
+              <h3>
+                <i class="fa fa-caret-right"></i>
+                <a href="#">Gates</a>
+              </h3>
+              <div class="brick-container">
+                <div class="bricks">
+                  <div class="brick ui-widget-content gate-and">AND</div>
+                </div>
+              </div>
+              <div class="brick-container">
+                <div class="bricks">
+                  <div class="brick ui-widget-content gate-not">NOT</div>
+                </div>
+              </div>
+            </div>
+            <h3>
+              <i class="fa fa-caret-right"></i>
+              <a href="#">Private</a>
+            </h3>
+            <h3>
+              <i class="fa fa-caret-right"></i>
+              <a href="#">Public</a>
+            </h3>
+          </div>
+        </div>
+        <form class="form-inline filters">
+          <div class="form-group">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Search...">
+              <div class="input-group-btn" data-toggle="buttons">
+                <a href="#" class="btn btn-default" title="Gates">
+                  <i class="fa fa-wrench"></i>
+                </a>
+                <a href="#" class="btn btn-default" title="Private">
+                  <i class="fa fa-eye-slash"></i>
+                </a>
+                <a href="#" class="btn btn-default" title="Public">
+                  <i class="fa fa-eye"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="tab-pane" id="visualisation">
+        <div class="panel panel-default">     
+          <div class="panel-body">
 
-<div class="footer">
-  <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
