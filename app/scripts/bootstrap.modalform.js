@@ -18,10 +18,10 @@
       html += "  <form style=\"margin:0\" class=\"modal-content\">";
       if (title) {
         html += "    <div class=\"modal-header\">";
-        html += "      <h3>";
+        html += "      <h4 class=\"modal-title\">";
         html += "      "+title;
         html += "        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>";
-        html += "      </h3>";
+        html += "      </h4>";
         html += "    <\/div>";
       }
       html += "    <div class=\"modal-body\">";
