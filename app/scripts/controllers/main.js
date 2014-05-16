@@ -131,7 +131,7 @@ angular.module('geniusApp').directive('isDroppable', function() {
   };
 });
 
-angular.module('geniusApp').directive('jsPlumb', function() {
+angular.module('geniusApp').directive('circuitSettings', function() {
   return {
     restrict: 'A',
     link: function(scope, elm, attrs) {
