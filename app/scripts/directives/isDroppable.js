@@ -29,9 +29,9 @@ angular.module('geniusApp').directive('isDroppable', function() {
             });
             $canvasElement.draggable( "destroy" );
 
-            jsPlumb.addEndpoint($canvasElement.attr('id'), { anchor:[0, 0.2, -1, 0] }, scope.sourceEndpoint);
-            jsPlumb.addEndpoint($canvasElement.attr('id'), { anchor:[0, 0.8, -1, 0] }, scope.sourceEndpoint);
-            jsPlumb.addEndpoint($canvasElement.attr('id'), { anchor:[1, 0.5, 0, 0] }, scope.targetEndpoint);  
+            jsPlumb.addEndpoint($canvasElement.attr('id'), { anchor:[0, 0.2, -1, 0], isTarget: true, isSource: false }, scope.sourceEndpoint);
+            jsPlumb.addEndpoint($canvasElement.attr('id'), { anchor:[0, 0.8, -1, 0], isTarget: true, isSource: false }, scope.sourceEndpoint);
+            jsPlumb.addEndpoint($canvasElement.attr('id'), { anchor:[1, 0.5, 0, 0], isSource: true, isTarget: false }, scope.targetEndpoint);  
 
             jsPlumb.draggable($canvasElement);
           }
