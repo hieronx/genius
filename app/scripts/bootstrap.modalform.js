@@ -15,25 +15,33 @@
 
       html += "<div class=\"modal fade\">";
       html += " <div class=\"modal-dialog\">";
-      html += "  <form style=\"margin:0\" class=\"modal-content\">";
+      html += "  <div class=\"modal-content\">";
       if (title) {
         html += "    <div class=\"modal-header\">";
         html += "      <h4 class=\"modal-title\">";
         html += "      "+title;
-        html += "        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>";
+        html += "        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>";
         html += "      </h4>";
         html += "    <\/div>";
       }
       html += "    <div class=\"modal-body\">";
+      html += "     <form class=\"form-horizontal\" role=\"form\">";
       while (field = fields.shift()) {
         type = /password/.test(field) ? 'password' : 'text';
-        html += "      <input class=\"span3\" type=\""+type+"\" name=\""+field+"\" placeholder=\""+field.replace(/_/g, ' ')+"\"><br \/>";
+        name = field.slice(0, 1).toUpperCase()+field.slice(1).split('_').join(' ')
+        html += "      <div class=\"form-group\">";
+        html += "        <label class=\"col-sm-4 control-label\">"+name+"<\/label>";
+        html += "        <div class=\"col-sm-7\">";
+        html += "         <input class=\"form-control\" type=\""+type+"\" name=\""+field+"\" placeholder=\""+field.replace(/_/g, ' ')+"\" \/>";
+        html += "        <\/div>"
+        html += "      <\/div>";
       }
+      html += "     </form>";
       html += "    <\/div>";
       html += "    <div class=\"modal-footer\">";
       html += "      <button type=\"submit\" class=\"btn btn-primary\">"+submit+"<\/button>";
       html += "    <\/div>";
-      html += "  <\/form>";
+      html += "  <\/div>";
       html += " <\/div>";
       html += "<\/div>";
 
