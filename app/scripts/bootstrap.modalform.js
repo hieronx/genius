@@ -13,7 +13,7 @@
       var submit = options.submit || 'submit';
       var $modal, field, type, html = "";
 
-      html += "<div class=\"modal hide fade\">";
+      html += "<div class=\"modal fade\">";
       html += "  <form style=\"margin:0\">";
       if (title) {
         html += "    <div class=\"modal-header\">";

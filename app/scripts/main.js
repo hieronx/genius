@@ -6,25 +6,8 @@ $( function() {
   };
 
   hoodie.account.on('signout signin', updatePreview)
-  hoodie.account.signOut();
 
-  $('.btn-facebook').on('click', function() {
-    hoodie.account.socialLogin("facebook")
-    .done(function(data){
-        $('#loginModal').modal('hide');
-
-        hoodie.account.socialGetProfile("facebook")
-        .done(function(data){
-            $('#data').append('<br /><br />'+JSON.stringify(data));
-        })
-        .fail(function(error){
-            console.log(error);
-        })
-    })
-    .fail(function(error){
-        console.log(error);
-    })
-  })
+  
 
   $('#workspace .btn-toolbar .btn, #library .filters .btn').tooltip({
     container: 'body'
