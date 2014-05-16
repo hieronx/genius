@@ -8,12 +8,11 @@
     <title></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
-    
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
+
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css styles/vendor.css -->
     <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,app}) styles/main.css -->
@@ -33,7 +32,7 @@
                 </div>
                 <div class="modal-body">
                     <button class="btn btn-block btn-info"><i class="fa fa-tudelft"></i> | Connect with TU Delft</button>
-                    <button class="btn btn-block btn-google-plus"><i class="fa fa-google-plus"></i> | Connect with Google Plus</button>     
+                    <button class="btn btn-block btn-google-plus"><i class="fa fa-google-plus"></i> | Connect with Google Plus</button>
                     <button class="btn btn-block btn-facebook"><i class="fa fa-facebook"></i> | Connect with Facebook</button>
                 </div>
                  <div class="modal-footer">
@@ -44,7 +43,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="container-fluid" ng-controller="MainCtrl" ng-view=""></div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
@@ -87,6 +86,7 @@
     <script src="bower_components/angular-cookies/angular-cookies.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -94,7 +94,7 @@
     <script src="scripts/hoodie.js"></script>
     <script src="scripts/raphael.js"></script>
     <script src="scripts/hoodie.accountbar.bootstrap.js"></script>
-    <script src="scripts/bootstrap.modalform.js"></script>
+    <!--<script src="scripts/bootstrap.modalform.js"></script>-->
     <script src="scripts/main.js"></script>
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
