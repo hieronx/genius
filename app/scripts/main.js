@@ -1,7 +1,7 @@
 window.hoodie  = new Hoodie('http://127.0.0.1:9000/')
 
 $( function() {
-  
+
   var updatePreview = function() {
   };
 
@@ -29,14 +29,14 @@ $( function() {
   $('#workspace .btn-toolbar .btn, #library .filters .btn').tooltip({
     container: 'body'
   });
-  
+
   $('.nav a').tooltip({
     placement: 'bottom',
     container: 'body'
   });
-  
+
   $('#loginModal').modal();
-  
+
   $(".brick").draggable({
     helper: "clone"
   });
@@ -67,7 +67,7 @@ $( function() {
 
         jsPlumb.addEndpoint($canvasElement.attr('id'), { anchor:[0, 0.2, -1, 0] }, sourceEndpoint);
         jsPlumb.addEndpoint($canvasElement.attr('id'), { anchor:[0, 0.8, -1, 0] }, sourceEndpoint);
-        jsPlumb.addEndpoint($canvasElement.attr('id'), { anchor:[1, 0.5, 0, 0] }, targetEndpoint);  
+        jsPlumb.addEndpoint($canvasElement.attr('id'), { anchor:[1, 0.5, 0, 0] }, targetEndpoint);
 
         jsPlumb.draggable($canvasElement);
       }
@@ -77,7 +77,7 @@ $( function() {
 
 jsPlumb.ready(function() {
   jsPlumb.Defaults.Container = $('#workspace');
-  
+
   endPointOptions = {
     endpoint:"Dot",
     isSource:true,
@@ -94,7 +94,7 @@ jsPlumb.ready(function() {
     outlineColor:"transparent"
   };
 
-  // .. and this is the hover style. 
+  // .. and this is the hover style.
   connectorHoverStyle = {
     lineWidth:4,
     strokeStyle:"#216477",
@@ -109,29 +109,29 @@ jsPlumb.ready(function() {
   // the definition of source endpoints (the small blue ones)
   sourceEndpoint = {
     endpoint:"Dot",
-    paintStyle:{ 
+    paintStyle:{
       strokeStyle:"#7AB02C",
       fillStyle:"transparent",
       radius:7,
-      lineWidth:3 
-    },        
+      lineWidth:3
+    },
     isSource:true,
     isTarget:true,
-    connector:[ "Flowchart", { stub:[40, 60], gap:10, cornerRadius:5, alwaysRespectStubs:true } ],                                
+    connector:[ "Flowchart", { stub:[40, 60], gap:10, cornerRadius:5, alwaysRespectStubs:true } ],
     connectorStyle:connectorPaintStyle,
     hoverPaintStyle:endpointHoverStyle,
     connectorHoverStyle:connectorHoverStyle
   };
 
   targetEndpoint = {
-    endpoint:"Dot",         
+    endpoint:"Dot",
     paintStyle:{ fillStyle:"#7AB02C",radius:11 },
     maxConnections: -1,
-    connector:[ "Flowchart", { stub:[40, 60], gap:10, cornerRadius:5, alwaysRespectStubs:true } ],                                
+    connector:[ "Flowchart", { stub:[40, 60], gap:10, cornerRadius:5, alwaysRespectStubs:true } ],
     connectorStyle:connectorPaintStyle,
     hoverPaintStyle:endpointHoverStyle,
     connectorHoverStyle:connectorHoverStyle,
     isSource:true,
-    isTarget:true  
+    isTarget:true
   };
 });

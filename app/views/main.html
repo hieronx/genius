@@ -1,5 +1,5 @@
 <div class="row" id="main">
-  <div class="col-xs-12 col-sm-9" id="mainLeft">
+  <div class="col-xs-12 col-sm-8 col-md-9" id="mainLeft">
     <div class="navbar navbar-default navbar-fixed-top">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -12,17 +12,17 @@
           {{hoodie.account.username}}
           <ul class="nav navbar-nav">
             <li>
-              <a href="#" title="New&nbsp;brick">
+              <a href="#" tooltip="New&nbsp;brick" tooltip-placement="bottom">
                 <i class="fa fa-plus"></i>
               </a>
             </li>
             <li>
-              <a href="#" title="Copy&nbsp;brick">
+              <a href="#" tooltip="Copy&nbsp;brick" tooltip-placement="bottom">
                 <i class="fa fa-copy"></i>
               </a>
             </li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <li class="dropdown" on-toggle="toggled(open)">
+              <a href="#" class="dropdown-toggle">
                 <i class="fa fa-user"></i>
               </a>
               <ul class="dropdown-menu pull-right">
@@ -44,10 +44,10 @@
 
         <div class="btn-toolbar">
           <div class="btn-group">
-            <a href="#" class="btn btn-lg btn-primary" title="Run">
+            <a href="#" class="btn btn-lg btn-primary" tooltip="Run" tooltip-append-to-body="true">
               <i class="fa fa-play"></i>
             </a>
-            <a href="#" class="btn btn-lg btn-default" title="Export">
+            <a href="#" class="btn btn-lg btn-default" tooltip="Export" tooltip-append-to-body="true">
               <i class="fa fa-download"></i>
             </a>
           </div>
@@ -55,17 +55,9 @@
       </div>
     </div>
   </div>
-  <div class="hidden-xs col-sm-3" id="mainRight">
-    <ul class="nav nav-tabs">
-      <li class="active" id="tab-library">
-        <a href="#library" data-toggle="tab">Library</a>
-      </li>
-      <li id="tab-visualisation">
-        <a href="#visualisation" data-toggle="tab">Visualisation</a>
-      </li>
-    </ul>
-    <div class="tab-content">
-      <div class="tab-pane active" id="library">
+  <tabset class="hidden-xs col-sm-4 col-md-3" id="mainRight">
+    <tab heading="Library">
+      <div id="library">
         <div class="panel panel-default">
           <div class="panel-body">
             <div class="gates-container">
@@ -101,13 +93,13 @@
             <div class="input-group">
               <input type="text" class="form-control" placeholder="Search...">
               <div class="input-group-btn" data-toggle="buttons">
-                <a href="#" class="btn btn-default" title="Gates">
+                <a href="#" class="btn btn-default" tooltip="Gates" tooltip-append-to-body="true">
                   <i class="fa fa-wrench"></i>
                 </a>
-                <a href="#" class="btn btn-default" title="Private">
+                <a href="#" class="btn btn-default" tooltip="Private" tooltip-append-to-body="true">
                   <i class="fa fa-eye-slash"></i>
                 </a>
-                <a href="#" class="btn btn-default" title="Public">
+                <a href="#" class="btn btn-default" tooltip="Public" tooltip-append-to-body="true">
                   <i class="fa fa-eye"></i>
                 </a>
               </div>
@@ -115,13 +107,15 @@
           </div>
         </form>
       </div>
-      <div class="tab-pane" id="visualisation">
-        <div class="panel panel-default">     
+    </tab>
+    <tab heading="Visualisation">
+      <div id="visualisation">
+        <div class="panel panel-default">
           <div class="panel-body">
 
           </div>
         </div>
       </div>
-    </div>
+    </tab>
   </div>
 </div>
