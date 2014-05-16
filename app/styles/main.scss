@@ -56,20 +56,17 @@ body {
 
   }
 
-  #loginModal {
-    .modal-dialog {
-      width: 400px;
-      .modal-footer {
-        a,.splitter {
-          float: left;
-        }
-        .splitter {
-          padding: 0 10px;
-        }
+  .modal {
+    .modal-body {
+      text-align: center;
+      input {
+        font-size: 1.2em;
+        margin-bottom: 20px;
+        padding: 8px;
+        width: 50%;
       }
     }
   }
-
   #main {
     position: absolute;
     left: 15px;
