@@ -35,7 +35,7 @@ $( function() {
     container: 'body'
   });
   
-  $('#loginModal').modal();
+  // $('#loginModal').modal();
   
   $(".brick").draggable({
     helper: "clone"
