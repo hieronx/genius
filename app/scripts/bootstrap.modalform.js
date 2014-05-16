@@ -14,7 +14,8 @@
       var $modal, field, type, html = "";
 
       html += "<div class=\"modal fade\">";
-      html += "  <form style=\"margin:0\">";
+      html += " <div class=\"modal-dialog\">";
+      html += "  <form style=\"margin:0\" class=\"modal-content\">";
       if (title) {
         html += "    <div class=\"modal-header\">";
         html += "      <h3>";
@@ -33,6 +34,7 @@
       html += "      <button type=\"submit\" class=\"btn btn-primary\">"+submit+"<\/button>";
       html += "    <\/div>";
       html += "  <\/form>";
+      html += " <\/div>";
       html += "<\/div>";
 
       // make sure that only one modal is visible
