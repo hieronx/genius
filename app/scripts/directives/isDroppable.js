@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('geniusApp').directive('isDroppable', function() {
+angular.module('geniusApp').directive('isDroppable', function(Block) {
   return {
     restrict: 'A',
     link: function(scope, element, attributes) {
@@ -32,20 +32,49 @@ angular.module('geniusApp').directive('isDroppable', function() {
             if ($canvasElement.hasClass('gate-and')) {
             	jsPlumb.addEndpoint($canvasElement.attr('id'), { anchor:[0, 0.2, -1, 0] }, scope.targetEndPoint);
             	jsPlumb.addEndpoint($canvasElement.attr('id'), { anchor:[0, 0.8, -1, 0] }, scope.targetEndPoint);
-            	jsPlumb.addEndpoint($canvasElement.attr('id'), { anchor:[1, 0.5, 0, 0] }, scope.sourceEndPoint);  
+            	jsPlumb.addEndpoint($canvasElement.attr('id'), { anchor:[1, 0.5, 0, 0] }, scope.sourceEndPoint);
+
+              Block.add({
+                left: ui.position.left + $par.outerWidth() + $par.position().left,
+                top: ui.position.top,
+                type: 'AND'
+              });
             } else if ($canvasElement.hasClass('gate-not')) {
             	jsPlumb.addEndpoint($canvasElement.attr('id'), { anchor:[0, 0.5, -1, 0] }, scope.targetEndPoint);
             	jsPlumb.addEndpoint($canvasElement.attr('id'), { anchor:[1, 0.5, 0, 0, 7, 0] }, scope.sourceEndPoint);  
+
+              Block.add({
+                left: ui.position.left + $par.outerWidth() + $par.position().left,
+                top: ui.position.top,
+                type: 'NOT'
+              });
             } else if ($canvasElement.hasClass('gate-or')) {
             	jsPlumb.addEndpoint($canvasElement.attr('id'), { anchor:[0, 0.25, -1, 0, 10, 0] }, scope.targetEndPoint);
             	jsPlumb.addEndpoint($canvasElement.attr('id'), { anchor:[0, 0.75, -1, 0, 10, 0] }, scope.targetEndPoint);
             	jsPlumb.addEndpoint($canvasElement.attr('id'), { anchor:[1, 0.5, 0, 0] }, scope.sourceEndPoint);  
+
+              Block.add({
+                left: ui.position.left + $par.outerWidth() + $par.position().left,
+                top: ui.position.top,
+                type: 'OR'
+              });
             } else if ($canvasElement.hasClass('gate-input')) {
             	jsPlumb.addEndpoint($canvasElement.attr('id'), { anchor:[1, 0.5, 0, 0, -32, 0] }, scope.sourceEndPoint);  
+
+              Block.add({
+                left: ui.position.left + $par.outerWidth() + $par.position().left,
+                top: ui.position.top,
+                type: 'input'
+              });
             } else {
             	jsPlumb.addEndpoint($canvasElement.attr('id'), { anchor:[0, 0.2, -1, 0] }, scope.targetEndPoint);
             	jsPlumb.addEndpoint($canvasElement.attr('id'), { anchor:[0, 0.8, -1, 0] }, scope.targetEndPoint);
             	jsPlumb.addEndpoint($canvasElement.attr('id'), { anchor:[1, 0.5, 0, 0] }, scope.sourceEndPoint);  
+
+              Block.add({
+                left: ui.position.left + $par.outerWidth() + $par.position().left,
+                top: ui.position.top
+              });
             }
             
             jsPlumb.draggable($canvasElement);
