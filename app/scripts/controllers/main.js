@@ -6,8 +6,10 @@
  * - retrieves and persists the model via the todoStorage service
  * - exposes the model to the template and provides event handlers
  */
-angular.module('geniusApp').controller('MainCtrl', function MainCtrl($scope, $location) {
+angular.module('geniusApp').controller('MainCtrl', function MainCtrl(Block) {
   
-  
+  Block.all().done(function(data) {
+    console.log(data);
+  });
   
 });
