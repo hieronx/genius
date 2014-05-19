@@ -16,6 +16,7 @@
     "jsPlumb": "1.6.1",
     "angular-bootstrap": "0.11.0",
     "fontawesome": "4.1.0",
+    "underscore": "1.6.0",
     "angular-underscore-module": "1.0.1"
   },
   "devDependencies": {
