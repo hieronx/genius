@@ -47,9 +47,7 @@ angular.module("geniusApp").controller "TodoCtrl", TodoCtrl = ($scope, $location
     todos.splice todos.indexOf(todo), 1
 
   $scope.clearCompletedTodos = ->
-    $scope.todos = todos = todos.filter (val) ->
-      not val.completed
-    )
+    $scope.todos = todos = todos.filter (val) -> not val.completed
 
   $scope.markAll = (completed) ->
     todos.forEach (todo) ->
