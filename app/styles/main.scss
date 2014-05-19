@@ -89,11 +89,7 @@ body {
           height: 100%;
           background: url('../images/grid.png') repeat;
           border: none;
-          .btn-toolbar {
-            position: absolute;
-            bottom: 15px;
-            right: 20px;
-          }
+          overflow: auto;
         }
       }
     }
