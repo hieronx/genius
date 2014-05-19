@@ -1,5 +1,5 @@
 "use strict"
-angular.module("geniusApp").directive "isDroppable", ->
+angular.module("geniusApp").directive "isDroppable", (Block) ->
   restrict: "A"
   link: (scope, element, attributes) ->
     options = scope.$eval(attributes.isDraggable) #allow options to be passed in
