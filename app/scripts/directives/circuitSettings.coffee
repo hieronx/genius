@@ -2,7 +2,7 @@
 angular.module("geniusApp").directive "circuitSettings", ($rootScope) ->
   restrict: "A"
   link: (scope, element, attributes) ->
-    options = scope.$eval(attributes.isDraggable) #allow options to be passed in
+    options = scope.$eval(attributes.circuitSettings) #allow options to be passed in
     jsPlumb.Defaults.Container = element
     
     # the definition of source endpoints (the small blue ones)

@@ -1,8 +1,8 @@
 "use strict"
-angular.module("geniusApp").directive "isDroppable", (Block) ->
+angular.module("geniusApp").directive "isDroppable", (Block, $compile, $rootScope) ->
   restrict: "A"
   link: (scope, element, attributes) ->
-    options = scope.$eval(attributes.isDraggable) #allow options to be passed in
+    options = scope.$eval(attributes.isDroppable) #allow options to be passed in
     index = 1
     element.droppable drop: (event, ui) ->
       $canvas = $(this)
@@ -21,6 +21,12 @@ angular.module("geniusApp").directive "isDroppable", (Block) ->
 
         $canid = $canvasElement.attr('id')
         $canvasElement.draggable "destroy"
+        # $canvasElement.append "<i class='fa fa-times delete-brick' delete-brick></i>"
+        
+        delBrick = angular.element '<i class="fa fa-times delete-brick" delete-brick></i>'       
+        $canvasElement.append delBrick ;
+        $compile(delBrick)($rootScope);
+
         if $canvasElement.hasClass("gate-and")
           jsPlumb.addEndpoint $canid, anchor: [0, 0.2, -1, 0 ], scope.targetEndPoint
           jsPlumb.addEndpoint $canid, anchor: [0, 0.8, -1, 0 ], scope.targetEndPoint
@@ -40,4 +46,5 @@ angular.module("geniusApp").directive "isDroppable", (Block) ->
           jsPlumb.addEndpoint $canid, anchor: [0, 0.2, -1, 0 ], scope.targetEndPoint
           jsPlumb.addEndpoint $canid, anchor: [0, 0.8, -1, 0 ], scope.targetEndPoint
           jsPlumb.addEndpoint $canid, anchor: [1, 0.5, 0, 0 ], scope.sourceEndPoint
+
         jsPlumb.draggable $canvasElement
