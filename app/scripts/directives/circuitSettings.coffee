@@ -77,5 +77,3 @@ angular.module("geniusApp").directive "circuitSettings", ($rootScope) ->
         outlineColor: "transparent"
 
       isSource: true
-
-    return

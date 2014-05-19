@@ -34,7 +34,7 @@ body {
   overflow: hidden;
   .brick-container {
     float: left;
-    padding: 0 10px 10px 10px;
+    padding: 0 15px 10px 15px;
   }
   .brick {
     height: 64px;
@@ -65,6 +65,11 @@ body {
     background-image: url('../images/gates/INPUT.svg');
     background-position: center center;
     background-size: 32px 32px;
+  }
+  .gate-output {
+    background-image: url('../images/gates/OUTPUT.svg');
+    background-position: center center;
+    background-size: 48px 48px;
   }
 
   #main {
