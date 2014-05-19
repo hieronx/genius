@@ -21,6 +21,16 @@
                 <i class="fa fa-copy"></i>
               </a>
             </li>
+            <li>
+              <a href="#" tooltip="Run" tooltip-placement="bottom">
+                <i class="fa fa-play"></i>
+              </a>
+            </li>
+            <li>
+              <a href="#" tooltip="Export" tooltip-placement="bottom">
+                <i class="fa fa-download"></i>
+              </a>
+            </li>
             <li class="dropdown hoodie-accountbar" on-toggle="toggled(open)">
               <a href="#" class="dropdown-toggle">
                 <i class="fa fa-user"></i>
@@ -68,20 +78,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-xs-12 ui-widget-content" id="workspace" is-droppable circuit-Settings>
-        <div id="data"></div>
-
-        <div class="btn-toolbar">
-          <div class="btn-group">
-            <a href="#" class="btn btn-lg btn-primary" tooltip="Run" tooltip-append-to-body="true">
-              <i class="fa fa-play"></i>
-            </a>
-            <a href="#" class="btn btn-lg btn-default" tooltip="Export" tooltip-append-to-body="true">
-              <i class="fa fa-download"></i>
-            </a>
-          </div>
-        </div>
-      </div>
+      <div class="col-xs-12 ui-widget-content" id="workspace" is-droppable circuit-Settings></div>
     </div>
   </div>
   <tabset class="hidden-xs col-sm-4 col-md-3" id="mainRight">
@@ -96,14 +93,17 @@
               </h3>
               <div class="brick-container">
                 <div class="bricks">
-                  <!-- <div class="brick ui-widget-content gate-and">AND</div> -->
                   <div class="brick gate-and" is-draggable="{helper: 'clone'}">AND</div>
                 </div>
               </div>
               <div class="brick-container">
                 <div class="bricks">
-                  <!-- <div class="brick ui-widget-content gate-not">NOT</div> -->
                   <div class="brick gate-not" is-draggable="{helper: 'clone'}">NOT</div>
+                </div>
+              </div>
+              <div class="brick-container">
+                <div class="bricks">
+                  <div class="brick gate-or" is-draggable="{helper: 'clone'}">OR</div>
                 </div>
               </div>
             </div>
