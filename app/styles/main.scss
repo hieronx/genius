@@ -37,23 +37,29 @@ body {
     padding: 0 10px 10px 10px;
   }
   .brick {
-    height: 60px;
-    width: 60px;
-    border: 1px solid #999;
-    background: #bbb;
+    height: 64px;
+    width: 65px;
+    // border: 1px solid #999;
+    // background: #bbb;
     border-radius: 5px;
     cursor: pointer;
     line-height: 60px;
     text-align: center;
-    color: white;
+    color: transparent;
     text-transform: uppercase;
     font-size: 14px;
+    background-repeat: no-repeat;
   }
   .gate-and {
-
+    background-image: url('../images/gates/AND.svg');
   }
   .gate-not {
-
+    background-image: url('../images/gates/NOT.svg');
+    width: 68px;
+  }
+  .gate-or {
+    background-image: url('../images/gates/OR.svg');
+    width: 78px;
   }
 
   #main {

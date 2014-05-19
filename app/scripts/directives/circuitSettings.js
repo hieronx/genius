@@ -8,7 +8,7 @@ angular.module('geniusApp').directive('circuitSettings', function($rootScope) {
       jsPlumb.Defaults.Container = element;
 
       // the definition of source endpoints (the small blue ones)
-      $rootScope.sourceEndpoint = {
+      $rootScope.targetEndPoint = {
         endpoint:"Dot",
         paintStyle:{ 
           strokeStyle:"#7AB02C",
@@ -16,7 +16,6 @@ angular.module('geniusApp').directive('circuitSettings', function($rootScope) {
           radius:7,
           lineWidth:3 
         },        
-        isSource:true,
         isTarget:true,
         connector:[ "Flowchart", { stub:[40, 60], gap:10, cornerRadius:5, alwaysRespectStubs:true } ],                                
         connectorStyle: { lineWidth:4, strokeStyle:"#61B7CF", joinstyle:"round", outlineColor:"transparent" },
@@ -24,7 +23,7 @@ angular.module('geniusApp').directive('circuitSettings', function($rootScope) {
         connectorHoverStyle: { lineWidth:4, strokeStyle:"#216477", outlineColor:"transparent" }
       };
 
-      $rootScope.targetEndpoint = {
+      $rootScope.sourceEndPoint = {
         endpoint:"Dot",         
         paintStyle:{ fillStyle:"#7AB02C",radius:11 },
         maxConnections: -1,
@@ -33,7 +32,6 @@ angular.module('geniusApp').directive('circuitSettings', function($rootScope) {
         hoverPaintStyle: { fillStyle:"#216477", strokeStyle:"#216477" },
         connectorHoverStyle: { lineWidth:4, strokeStyle:"#216477", outlineColor:"transparent" },
         isSource:true,
-        isTarget:true  
       };
     }
   };
