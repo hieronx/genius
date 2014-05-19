@@ -40,6 +40,8 @@ angular.module('geniusApp').directive('isDroppable', function() {
             	jsPlumb.addEndpoint($canvasElement.attr('id'), { anchor:[0, 0.25, -1, 0, 10, 0] }, scope.targetEndPoint);
             	jsPlumb.addEndpoint($canvasElement.attr('id'), { anchor:[0, 0.75, -1, 0, 10, 0] }, scope.targetEndPoint);
             	jsPlumb.addEndpoint($canvasElement.attr('id'), { anchor:[1, 0.5, 0, 0] }, scope.sourceEndPoint);  
+            } else if ($canvasElement.hasClass('gate-input')) {
+            	jsPlumb.addEndpoint($canvasElement.attr('id'), { anchor:[1, 0.5, 0, 0, -32, 0] }, scope.sourceEndPoint);  
             } else {
             	jsPlumb.addEndpoint($canvasElement.attr('id'), { anchor:[0, 0.2, -1, 0] }, scope.targetEndPoint);
             	jsPlumb.addEndpoint($canvasElement.attr('id'), { anchor:[0, 0.8, -1, 0] }, scope.targetEndPoint);

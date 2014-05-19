@@ -26,7 +26,7 @@ angular.module('geniusApp').directive('circuitSettings', function($rootScope) {
       $rootScope.sourceEndPoint = {
         endpoint:"Dot",         
         paintStyle:{ fillStyle:"#7AB02C",radius:11 },
-        maxConnections: -1,
+        maxConnections: 1,
         connector:[ "Flowchart", { stub:[40, 60], gap:10, cornerRadius:5, alwaysRespectStubs:true } ],                                
         connectorStyle: { lineWidth:4, strokeStyle:"#61B7CF", joinstyle:"round", outlineColor:"transparent" },
         hoverPaintStyle: { fillStyle:"#216477", strokeStyle:"#216477" },

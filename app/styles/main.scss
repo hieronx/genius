@@ -61,6 +61,11 @@ body {
     background-image: url('../images/gates/OR.svg');
     width: 78px;
   }
+  .gate-input {
+    background-image: url('../images/gates/INPUT.svg');
+    background-position: center center;
+    background-size: 32px 32px;
+  }
 
   #main {
     position: absolute;
@@ -151,6 +156,11 @@ body {
                 }
               }
               .gates-container {
+                margin-bottom: 20px;
+                overflow: hidden;
+                h3 {
+                  margin-bottom: 20px;
+                }
                 .bricks {
 
                 }
