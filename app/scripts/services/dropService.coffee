@@ -1,24 +1,30 @@
 'use strict'
 angular.module("geniusApp").factory "dropService", ($compile, $rootScope) ->
   index = 1
-  drop: (elementScope, $canvas, ui) ->
+  drop: (elementScope, ui, newElement) ->
     unless ui.draggable.hasClass("canvas-element")
+      $canvas = $('#workspace')
+      console.log($canvas)
+
       $canvasElement = ui.draggable.clone()
       $canvasElement.addClass "canvas-element"
       $canvasElement.draggable containment: "#workspace"
       $canvasElement.addClass("brick-jsplumb").attr "id", "brick-" + index
       $canvas.append $canvasElement
+
       $par = $canvas.parent()
-      $canvasElement.css
-        left: (ui.position.left + $par.outerWidth() + $par.position().left + "px")
-        top: (ui.position.top)
-        position: "absolute"
+      if newElement
+        $canvasElement.css
+          left: (ui.position.left + $par.outerWidth() + $par.position().left + "px")
+          top: (ui.position.top)
+          position: "absolute"
+      else
+        $canvasElement.css
+          left: (ui.position.left + "px")
+          top: (ui.position.top)
+          position: "absolute"
 
       $canid = $canvasElement.attr('id')
-
-      console.log(elementScope)
-      console.log($canvas)
-      console.log(ui)
 
       $canvasElement.draggable "destroy"
 
