@@ -5,81 +5,12 @@
         <div class="navbar-header">
           <a href="#" class="navbar-brand">GENius</a>
         </div>
-        <div class="navbar-text">
-          Unnamed biobrick project <em class="text-muted hidden-xs">- saved</em>
-        </div>
-        <div class="navbar-right hidden-xs">
-          {{hoodie.account.username}}
-          <ul class="nav navbar-nav">
-            <li>
-              <a href="#" tooltip="New&nbsp;brick" tooltip-placement="bottom">
-                <i class="fa fa-plus"></i>
-              </a>
-            </li>
-            <li>
-              <a href="#" tooltip="Copy&nbsp;brick" tooltip-placement="bottom">
-                <i class="fa fa-copy"></i>
-              </a>
-            </li>
-            <li>
-              <a href="#" tooltip="Run" tooltip-placement="bottom">
-                <i class="fa fa-play"></i>
-              </a>
-            </li>
-            <li>
-              <a href="#" tooltip="Export" tooltip-placement="bottom">
-                <i class="fa fa-download"></i>
-              </a>
-            </li>
-            <li class="dropdown hoodie-accountbar" on-toggle="toggled(open)">
-              <a href="#" class="dropdown-toggle">
-                <i class="fa fa-user"></i>
-              </a>
-
-              <ul class="dropdown-menu pull-right">
-                <li class="hoodie-account-signedout">
-                  <a href="#" data-hoodie-action="signup">Sign up</a>
-                </li>
-                <li class="hoodie-account-signedout">
-                  <a href="#" data-hoodie-action="signin">Sign in</a>
-                </li>
-                <li class="hoodie-account-signedout">
-                  <a href="#" data-hoodie-action="resetpassword">Reset password</a>
-                </li>
-                <li class="hoodie-account-signedout">
-                  <a href="#" data-hoodie-action="destroy">Clear local data</a>
-                </li>
-
-                <li class="hoodie-account-signedin">
-                  <a href="#" data-hoodie-action="signout">Sign out</a>
-                </li>
-                <li class="hoodie-account-signedin">
-                  <a href="#" data-hoodie-action="changepassword">Change password</a>
-                </li>
-                <li class="hoodie-account-signedin">
-                  <a href="#" data-hoodie-action="changeusername">Change username</a>
-                </li>
-                <li class="hoodie-account-signedin">
-                  <a href="#" data-hoodie-action="destroy">Destroy account</a>
-                </li>
-
-                <li class="hoodie-account-error">
-                  <a href="#" data-hoodie-action="signin">Authentication error: sign in again</a>
-                </li>
-                <li class="hoodie-account-error">
-                  <a href="#" data-hoodie-action="signout">Sign out</a>
-                </li>
-              </ul>
-
-            </li>
-
-          </ul>
-        </div>
+        <div class="navbar-text" ng-include="'views/bricks/title.html'"></div>
+        <div class="navbar-right hidden-xs" ng-include="'views/users/nav.html'"></div>
+        <div class="navbar-right hidden-xs" ng-include="'views/bricks/nav.html'"></div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-xs-12 ui-widget-content" id="workspace" is-droppable circuit-Settings></div>
-    </div>
+    <div class="row" ng-include="'views/bricks/show.html'"></div>
   </div>
   <tabset class="hidden-xs col-sm-4 col-md-3" id="mainRight">
     <tab heading="Library">
@@ -88,7 +19,6 @@
           <div class="panel-body">
             <div class="gates-container">
               <h3>
-                <i class="fa fa-caret-right"></i>
                 <a href="#">Gates</a>
               </h3>
               <div class="brick-container">
@@ -105,7 +35,7 @@
                 <div class="bricks">
                   <div class="brick gate-not" tooltip="NOT" is-draggable="{helper: 'clone'}">NOT</div>
                 </div>
-              </div> 
+              </div>
               <div class="brick-container">
                 <div class="bricks">
                   <div class="brick gate-input" tooltip="INPUT" is-draggable="{helper: 'clone'}">INPUT</div>
@@ -118,11 +48,9 @@
               </div>
             </div>
             <h3>
-              <i class="fa fa-caret-right"></i>
               <a href="#">Private</a>
             </h3>
             <h3>
-              <i class="fa fa-caret-right"></i>
               <a href="#">Public</a>
             </h3>
           </div>

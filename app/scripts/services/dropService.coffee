@@ -1,7 +1,7 @@
 'use strict'
 angular.module("geniusApp").factory "dropService", ($compile, $rootScope) ->
-  drop: (index, elementScope, $canvas, event, ui) ->
-    console.log($canvas)
+  index = 1
+  drop: (elementScope, $canvas, ui) ->
     unless ui.draggable.hasClass("canvas-element")
       $canvasElement = ui.draggable.clone()
       $canvasElement.addClass "canvas-element"
@@ -15,8 +15,11 @@ angular.module("geniusApp").factory "dropService", ($compile, $rootScope) ->
         position: "absolute"
 
       $canid = $canvasElement.attr('id')
-      console.log($canid)
+
       console.log(elementScope)
+      console.log($canvas)
+      console.log(ui)
+      
       $canvasElement.draggable "destroy"
 
       delBrick = angular.element '<i class="fa fa-times delete-brick" delete-brick></i>'       
@@ -49,3 +52,5 @@ angular.module("geniusApp").factory "dropService", ($compile, $rootScope) ->
         jsPlumb.addEndpoint $canid, anchor: [1, 0.5, 0, 0 ], elementScope.sourceEndPoint
 
       jsPlumb.draggable $canvasElement
+
+      index++
