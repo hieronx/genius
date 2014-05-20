@@ -1,0 +1,1308 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"in",
+				"input"
+			],
+			[
+				"re",
+				"return"
+			],
+			[
+				"null",
+				"ifx_nullformat"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "app/scripts/services/dropService.coffee",
+			"settings":
+			{
+				"buffer_size": 2273,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/index.html",
+			"settings":
+			{
+				"buffer_size": 6145,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/scripts/directives/isDroppable.coffee",
+			"settings":
+			{
+				"buffer_size": 352,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": ".tmp/scripts/app.js",
+			"settings":
+			{
+				"buffer_size": 392,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/scripts/directives/circuitSettings.coffee",
+			"settings":
+			{
+				"buffer_size": 1786,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "Packages/Java/JavaC.sublime-build",
+	"command_palette":
+	{
+		"height": 74.0,
+		"selected_items":
+		[
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"list",
+				"Package Control: List Packages"
+			],
+			[
+				"coffeesc",
+				"Set Syntax: CoffeeScript"
+			],
+			[
+				"js2",
+				"JS2Coffee: Convert & Overwrite Current File"
+			],
+			[
+				"javascr",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"git diff",
+				"Git: Diff Current File"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"diff",
+				"FileDiffs: Menu"
+			],
+			[
+				"json",
+				"Set Syntax: JSON"
+			],
+			[
+				"java",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"ruby",
+				"Set Syntax: Ruby"
+			],
+			[
+				"sassbea",
+				"SassBeautify: Convert from SASS to current type"
+			],
+			[
+				"css",
+				"Set Syntax: CSS"
+			],
+			[
+				"sass",
+				"Set Syntax: Sass"
+			],
+			[
+				"javascript",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"coffee",
+				"Set Syntax: CoffeeScript"
+			],
+			[
+				"javascrip",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"setcoff",
+				"Set Syntax: CoffeeScript"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"coffeescript",
+				"Set Syntax: CoffeeScript (Literate)"
+			],
+			[
+				"coffeescrip",
+				"Set Syntax: CoffeeScript"
+			],
+			[
+				"javasc",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"disablepack",
+				"Package Control: Disable Package"
+			],
+			[
+				"packagedis",
+				"Package Control: Disable Package"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"installp",
+				"Package Control: Install Package"
+			],
+			[
+				"htmlrail",
+				"Set Syntax: HTML (Rails)"
+			],
+			[
+				"html",
+				"Set Syntax: HTML"
+			],
+			[
+				"scala",
+				"Set Syntax: Scala"
+			],
+			[
+				"lint",
+				"SublimeLinter: Lint Current File"
+			],
+			[
+				"vintage",
+				"Set Syntax: VintageEx Command Line"
+			],
+			[
+				"package",
+				"Package Control: Remove Package"
+			],
+			[
+				"snippet",
+				"Snippet: Lorem ipsum"
+			],
+			[
+				"snipp",
+				"Snippet: html"
+			],
+			[
+				"pack",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: install",
+				"Package Control: Install Package"
+			],
+			[
+				"packin",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 561.0
+	},
+	"console":
+	{
+		"height": 0.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/jeroen/genius/.tmp/scripts/directives/isDroppable.js",
+		"/Users/jeroen/genius/node_modules/hoodie-plugin-appconfig/pocket/appconfig.js",
+		"/Users/jeroen/genius/app/scripts/app.coffee",
+		"/Users/jeroen/genius/.tmp/scripts/services/dropService.js",
+		"/Users/jeroen/genius/Gruntfile.js",
+		"/Users/jeroen/genius/app/scripts/controllers/main.coffee",
+		"/Users/jeroen/genius/app/scripts/models/block.coffee",
+		"/Users/jeroen/genius/app/scripts/directives/isDraggable.js",
+		"/Users/jeroen/genius/app/index.html",
+		"/Users/jeroen/genius/app/views/main.html",
+		"/Users/jeroen/genius/app/scripts/directives/isDroppable.coffee",
+		"/Users/jeroen/genius/app/scripts/services/dropService.coffee",
+		"/Users/jeroen/genius/db/package.json",
+		"/Users/jeroen/genius/package.json",
+		"/Users/jeroen/genius/app/scripts/directives/deleteBrick.coffee",
+		"/Users/jeroen/genius/app/scripts/services/todoStorage.coffee",
+		"/Users/jeroen/genius/app/scripts/vendor/bootstrap.modalform.js",
+		"/Users/jeroen/genius/app/scripts/directives/isDroppable.js",
+		"/Users/jeroen/genius/app/scripts/main.js",
+		"/Users/jeroen/genius/app/scripts/controllers/todo.js",
+		"/Users/jeroen/genius/app/scripts/models/block.js",
+		"/Users/jeroen/genius/app/scripts/services/todoStorage.js",
+		"/Users/jeroen/genius/app/scripts/hoodie.accountbar.bootstrap.js",
+		"/Users/jeroen/genius/app/styles/main.scss",
+		"/Users/jeroen/genius/node_modules/grunt-contrib-imagemin/node_modules/gifsicle/node_modules/bin-wrapper/node_modules/download/node_modules/decompress/node_modules/.bin/extname",
+		"/Users/jeroen/genius/app/scripts/directives/circuitSettings.js",
+		"/Users/jeroen/genius/test/spec/controllers/main.js",
+		"/Users/jeroen/genius/app/scripts/controllers/main.js",
+		"/Users/jeroen/genius/app/images/gates/and.png",
+		"/Users/jeroen/genius/bower.json",
+		"/Users/jeroen/genius/app/scripts/app.js",
+		"/Users/jeroen/genius/app/scripts/vendor/hoodie.js",
+		"/Users/jeroen/genius/app/scripts/vendor/angular-underscore.min.js",
+		"/Users/jeroen/genius/node_modules/grunt-ngmin/node_modules/ngmin/node_modules/astral-angular-annotate/lib/annotate-injectable.js",
+		"/Users/jeroen/genius/app/scripts/hoodie.angularjs.js",
+		"/Users/jeroen/genius/app/scripts/hoodie-angular.js",
+		"/Users/jeroen/genius/app/scripts/bootstrap.modalform.js",
+		"/Users/jeroen/genius/app/styles/social-buttons.scss",
+		"/Users/jeroen/genius/.gitignore",
+		"/Users/jeroen/genius/app/scripts/directives/drag.js",
+		"/Users/jeroen/genius/app/scripts/directives/draggable.js",
+		"/Users/jeroen/Downloads/GENiusTemp/application.js",
+		"/Users/jeroen/Downloads/GENiusTemp/index.html",
+		"/Users/jeroen/Downloads/GENiusTemp/application.css",
+		"/Users/jeroen/Downloads/GENiusTemp/application.scss",
+		"/Users/jeroen/Downloads/GENiusTemp/social-buttons-3.css",
+		"/Users/jeroen/genius/node_modules/grunt-bower-install/node_modules/bower-config/node_modules/mout/lang/isNull.js",
+		"/Users/jeroen/genius/app/scripts/hoodie.js",
+		"/Users/jeroen/genius/db/node_modules/hoodie-plugin-users/app/components/backbone.subroute/spec/js/prefix-and-route-both-have-trailing-slashes-specs.js",
+		"/Users/jeroen/genius/app/scripts/directives/todoBlur.js",
+		"/Users/jeroen/genius/app/scripts/directives/todoFocus.js",
+		"/Users/jeroen/genius/app/scripts/!function ($)bootstrap.modalform.js{",
+		"/Users/jeroen/genius/node_modules/grunt-contrib-connect/node_modules/connect/node_modules/formidable/test/fixture/js/no-filename.js",
+		"/Users/jeroen/genius/app/bower_components/angular/angular.js",
+		"/Users/jeroen/genius/Gruntfile2.js",
+		"/Users/jeroen/genius/www/index.html",
+		"/Users/jeroen/genius/www/views/signup.html",
+		"/Users/jeroen/genius/dist/views/login.html",
+		"/Users/jeroen/genius/www/scripts/app.js",
+		"/Users/jeroen/genius/www/scripts/hoodie-angular.js",
+		"/Users/jeroen/genius/karma.conf.js",
+		"/Users/jeroen/genius/.travis.yml",
+		"/Users/jeroen/genius/component.json",
+		"/Users/jeroen/genius/www/scripts/hoodie-collection.js",
+		"/Users/jeroen/genius/db/data/config.json",
+		"/Users/jeroen/genius/.bowerrc",
+		"/Users/jeroen/genius/db/www/assets/js/main.js",
+		"/Users/jeroen/genius/db/www/assets/vendor/hoodie.accountbar.bootstrap.js",
+		"/Users/jeroen/transvise/sherpa/app/models/submission.rb",
+		"/Users/jeroen/transvise/sherpa/app/models/user.rb",
+		"/Users/jeroen/transvise/sherpa/app/themes/redesign/views/dashboard/table_of_contents.html.erb",
+		"/Users/jeroen/transvise/sherpa/app/themes/redesign/views/stages/index.html.erb",
+		"/Users/jeroen/transvise/sherpa/app/controllers/users_controller.rb",
+		"/Users/jeroen/transvise/sherpa/app/themes/redesign/views/tasks/show.html.erb",
+		"/Users/jeroen/transvise/sherpa/Rakefile",
+		"/Users/jeroen/transvise/sherpa/app/models/course.rb",
+		"/Users/jeroen/transvise/sherpa/app/models/ability.rb",
+		"/Users/jeroen/transvise/sherpa/Gemfile",
+		"/Users/jeroen/transvise/sherpa/doc/app/table_of_contents.html",
+		"/Users/jeroen/transvise/sherpa/config/routes.rb",
+		"/Users/jeroen/transvise/sherpa/app/assets/javascripts/general.js.coffee",
+		"/Users/jeroen/transvise/sherpa/app/themes/redesign/views/users/_form.html.erb",
+		"/Users/jeroen/transvise/sherpa/app/themes/redesign/views/users/change_password.html.erb",
+		"/Users/jeroen/transvise/sherpa/app/models/stage.rb",
+		"/Users/jeroen/transvise/sherpa/app/themes/redesign/views/stages/_form.html.erb",
+		"/Users/jeroen/transvise/sherpa/app/themes/redesign/views/dashboard/admin.html.erb",
+		"/Users/jeroen/transvise/sherpa/app/controllers/application_controller.rb",
+		"/Users/jeroen/transvise/sherpa/app/controllers/courses_controller.rb",
+		"/Users/jeroen/transvise/sherpa/app/assets/stylesheets/style.css.scss",
+		"/Users/jeroen/transvise/sherpa/app/controllers/dashboard_controller.rb",
+		"/Users/jeroen/transvise/sherpa/public/files/Competitors.docx",
+		"/Users/jeroen/transvise/sherpa/app/themes/redesign/views/blocks/index.html.erb",
+		"/Users/jeroen/transvise/sherpa/tmp/cache/assets/DC3/A30/sprockets%2Fa0aeaca7f3fb6f2d0a7068c797b35c04",
+		"/Users/jeroen/Downloads/done.txt",
+		"/Users/jeroen/transvise/sherpa/app/themes/redesign/views/tasks/index.html.erb",
+		"/Users/jeroen/transvise/sherpa/app/themes/redesign/views/questions/index.html.erb",
+		"/Users/jeroen/transvise/sherpa/app/controllers/submissions_controller.rb",
+		"/Users/jeroen/transvise/sherpa/app/themes/redesign/views/bmc/index.html.erb",
+		"/Users/jeroen/transvise/sherpa/app/themes/redesign/views/dashboard/files.html.erb",
+		"/Users/jeroen/transvise/sherpa/app/themes/redesign/views/layouts/dashboard.html.erb",
+		"/Users/jeroen/transvise/sherpa/app/themes/redesign/views/users/show.html.erb",
+		"/Users/jeroen/transvise/sherpa/config/initializers/client_side_validations.rb",
+		"/Users/jeroen/transvise/sherpa/app/themes/redesign/views/users/showself.html.erb",
+		"/Users/jeroen/transvise/sherpa/app/themes/redesign/views/calendar/index.html.erb",
+		"/Users/jeroen/transvise/sherpa/app/themes/redesign/views/pages/index.html.erb",
+		"/Users/jeroen/transvise/sherpa/tmp/cache/sass/bb0e3c54de78c26a4734958d71e97006cd4e352c/_unstyled-link.scssc",
+		"/Users/jeroen/transvise/sherpa/app/controllers/bmc_controller.rb",
+		"/Users/jeroen/transvise/sherpa/app/themes/redesign/views/bmc/export.pdf.erb",
+		"/Users/jeroen/transvise/sherpa/app/themes/redesign/views/users/export.pdf.erb",
+		"/Users/jeroen/transvise/sherpa/app/assets/stylesheets/pdf.css.scss",
+		"/Users/jeroen/transvise/sherpa/app/controllers/stages_controller.rb",
+		"/Users/jeroen/transvise/sherpa/app/models/step.rb",
+		"/Users/jeroen/transvise/sherpa/app/controllers/tasks_controller.rb",
+		"/Users/jeroen/transvise/sherpa/app/controllers/steps_controller.rb",
+		"/Users/jeroen/transvise/sherpa/app/themes/redesign/views/stages/menu.html.erb",
+		"/Users/jeroen/transvise/sherpa/db/migrate/20130730160031_create_impressions_table.rb",
+		"/Users/jeroen/transvise/sherpa/app/themes/redesign/views/pages/show.html.erb",
+		"/Users/jeroen/transvise/sherpa/config/initializers/will_paginate_extensions.rb",
+		"/Users/jeroen/transvise/sherpa/app/themes/redesign/views/steps/menu.html.erb",
+		"/Users/jeroen/transvise/sherpa/app/models/task.rb",
+		"/Users/jeroen/transvise/sherpa/app/themes/redesign/views/steps/show.html.erb",
+		"/Users/jeroen/transvise/sherpa/app/themes/redesign/views/layouts/_header.html.erb",
+		"/Users/jeroen/transvise/sherpa/app/themes/redesign/views/announcements/index.html.erb",
+		"/Users/jeroen/transvise/sherpa/app/themes/redesign/views/layouts/_meta.html.erb",
+		"/Users/jeroen/transvise/sherpa/.gitignore",
+		"/Users/jeroen/transvise/sherpa/app/themes/redesign/views/layouts/export.pdf.erb",
+		"/Users/jeroen/transvise/sherpa/app/themes/redesign/views/courses/index.html.erb",
+		"/Users/jeroen/transvise/sherpa/app/controllers/pages_controller.rb"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+			"/Users/jeroen/genius/www",
+			"/Users/jeroen/transvise/sherpa/app/controllers",
+			"/Users/jeroen/transvise/sherpa",
+			"/Users/jeroen/transvise/sherpa/app",
+			"/Users/jeroen/transvise/sherpa",
+			"/Users/jeroen/transvise/sherpa/app/models",
+			"/Users/jeroen/transvise/sherpa",
+			"/Users/jeroen/transvise/sherpa/app/views",
+			"/Users/jeroen/transvise/sherpa",
+			"/Users/jeroen/transvise/sherpa/test",
+			"/Users/jeroen/transvise/sherpa",
+			"/Users/jeroen/transvise/sherpa/db/migrate",
+			"/Users/jeroen/transvise/sherpa",
+			"/Users/jeroen/bmlab",
+			"/Users/jeroen/bmlab/app/controllers",
+			"/Users/jeroen/bmlab/app",
+			"/Users/jeroen/bmlab/app/controllers",
+			"/Users/jeroen/bmlab/app",
+			"/Users/jeroen/bmlab/app/views",
+			"/Users/jeroen/bmlab/app/controllers",
+			"/Users/jeroen/bmlab/app/models",
+			"/Users/jeroen/bmlab/app/controllers",
+			"",
+			"/Users/jeroen/bmlab",
+			"/Users/jeroen/bmlab/spec/views",
+			"/Users/jeroen/bmlab/app/controllers",
+			"/Users/jeroen/Sites/netles/sites",
+			"/Users/jeroen/Sites/netles/sites/all",
+			"/Users/jeroen/Sites/netles/sites/all/modules",
+			"/Users/jeroen/Sites/netles",
+			"\""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"scope",
+			"$(",
+			"coffee",
+			"hoodie",
+			"BlockModel",
+			"object",
+			"ListService",
+			"display",
+			"important",
+			"dropdown.hoodie-accountbar",
+			"dropdown",
+			"$shadow",
+			"$bg",
+			"rootScope",
+			"connectorHoverStyle",
+			"endpointHoverStyle",
+			"connectorPaintStyle",
+			" scope",
+			"scope",
+			"Scope",
+			"scope",
+			"targetEndpoint",
+			"sourceEnd",
+			"attrs",
+			"elm",
+			"attrs",
+			"elm",
+			"attrs",
+			"elm",
+			"ng-app",
+			"karma",
+			"grid",
+			"hoodie",
+			"hoodie.account",
+			"configureProxi",
+			"proxy",
+			"hoodie",
+			"cfg",
+			"signUp()",
+			"provider",
+			"TodoCtrl",
+			"pdf",
+			"sign",
+			"[Course]",
+			"download",
+			"submission",
+			"index",
+			"task",
+			"block",
+			"task.",
+			"user",
+			"select{",
+			"sub_level",
+			"course",
+			"page",
+			"change_password",
+			"user",
+			"email",
+			"sort {",
+			"sort{",
+			">\n",
+			"tasks",
+			"step",
+			"<>",
+			"@current_course",
+			"z-index: -1",
+			"i",
+			", ",
+			"runs",
+			"select2",
+			"\\u023a:\"A\",\\",
+			"pdf",
+			"jpanelmenu-menu",
+			"attachment",
+			"mount",
+			"  \n",
+			"noti-content",
+			"8%",
+			"announcement",
+			"pages",
+			".exists?",
+			"exists? ",
+			"task",
+			".pdf",
+			"download",
+			"dashboard_path(first_time: true)",
+			"\"",
+			"yield",
+			"task",
+			"info_pro",
+			"progressbar",
+			"controls",
+			"header",
+			"h2",
+			"h3",
+			"h2",
+			"h1",
+			"main",
+			"bmc_activities",
+			"activities",
+			"/bu",
+			"request.url",
+			"/",
+			"  {{> item}}",
+			"{{#each items 0}}",
+			"            <div class=\"item item-create\">\n",
+			"\n\n            <div class=\"item item-create\">\n              <div class=\"id\">\n                -\n              </div>\n              <div class=\"content\">\n                <textarea class=\"new-item\" id=\"0\" placeholder=\"New item\"></textarea>\n              </div>\n            </div>",
+			".item ",
+			"#items ",
+			"td",
+			"#canvas ",
+			"bmc",
+			"\"",
+			":admin",
+			"is? :admin",
+			"rds of deletion",
+			"h1",
+			"30",
+			"    .",
+			"table",
+			" !important",
+			"form",
+			"pure-button",
+			".button",
+			"pure-button",
+			"40",
+			", input_html: { size: 40 }",
+			"#list"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			" #{undo_link}\"",
+			"#{undo_link}\"",
+			" #{undo_link}\"",
+			"notice: \"",
+			"was succesvol bijgewerkt. #{undo_link}",
+			"was succesvol aangemaakt. #{undo_link}",
+			"was succesvol bijgewerkt",
+			"was succesvol aangemaakt",
+			"only: [:index, :new, :edit, :create, :update, :destroy]",
+			"",
+			"title $1",
+			"$gradient3",
+			"$gradient2",
+			"$gradient1",
+			"$gradient2",
+			"before_filter :authenticate_user!",
+			"\"http://www.net-les.nl/sites/",
+			"http://www.net-les.nl/sites/",
+			"\"",
+			"label"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "app/scripts/services/dropService.coffee",
+					"settings":
+					{
+						"buffer_size": 2273,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1135,
+								1135
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "app/index.html",
+					"settings":
+					{
+						"buffer_size": 6145,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6104,
+								6104
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 790.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "app/scripts/directives/isDroppable.coffee",
+					"settings":
+					{
+						"buffer_size": 352,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								352,
+								352
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": ".tmp/scripts/app.js",
+					"settings":
+					{
+						"buffer_size": 392,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								392,
+								392
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScriptNext - ES6 Syntax/JavaScriptNext.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "app/scripts/directives/circuitSettings.coffee",
+					"settings":
+					{
+						"buffer_size": 1786,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								510,
+								510
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 33.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 220.0
+	},
+	"output.sbt":
+	{
+		"height": 0.0
+	},
+	"output.sbt_error":
+	{
+		"height": 0.0
+	},
+	"output.tests":
+	{
+		"height": 92.0
+	},
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"appcoffee",
+				"app/scripts/app.coffee"
+			],
+			[
+				"appco",
+				"node_modules/hoodie-plugin-appconfig/pocket/appconfig.js"
+			],
+			[
+				"appjs",
+				".tmp/scripts/app.js"
+			],
+			[
+				"index",
+				"app/index.html"
+			],
+			[
+				"isdropp",
+				".tmp/scripts/directives/isDroppable.js"
+			],
+			[
+				"dropser",
+				".tmp/scripts/services/dropService.js"
+			],
+			[
+				"gruntf",
+				"Gruntfile.js"
+			],
+			[
+				"gr",
+				"Gruntfile.js"
+			],
+			[
+				"packag",
+				"package.json"
+			],
+			[
+				"brick",
+				"app/scripts/directives/deleteBrick.coffee"
+			],
+			[
+				"grunt",
+				"Gruntfile.js"
+			],
+			[
+				"modalform",
+				"app/scripts/vendor/bootstrap.modalform.js"
+			],
+			[
+				"mainhtml",
+				"app/views/main.html"
+			],
+			[
+				"mainjs",
+				"app/scripts/main.js"
+			],
+			[
+				"maincof",
+				"app/scripts/controllers/main.coffee"
+			],
+			[
+				"droppab",
+				"app/scripts/directives/isDroppable.js"
+			],
+			[
+				"draggab",
+				"app/scripts/directives/isDraggable.js"
+			],
+			[
+				"conmainjs",
+				"test/spec/controllers/main.js"
+			],
+			[
+				"circuitset",
+				"app/scripts/directives/circuitSettings.js"
+			],
+			[
+				"indexh",
+				"app/index.html"
+			],
+			[
+				"bowerjson",
+				"bower.json"
+			],
+			[
+				"blockjs",
+				"app/scripts/models/block.js"
+			],
+			[
+				"hoodiejs",
+				"app/scripts/vendor/hoodie.js"
+			],
+			[
+				"hoodie.js",
+				"app/scripts/vendor/hoodie.js"
+			],
+			[
+				"blockj",
+				"app/scripts/models/block.js"
+			],
+			[
+				"bowerjs",
+				"bower.json"
+			],
+			[
+				"idnex",
+				"node_modules/grunt-contrib-imagemin/node_modules/gifsicle/node_modules/bin-wrapper/node_modules/download/node_modules/decompress/node_modules/.bin/extname"
+			],
+			[
+				"moblo",
+				"app/scripts/models/block.js"
+			],
+			[
+				"comain",
+				"app/scripts/controllers/main.js"
+			],
+			[
+				"inde",
+				"app/index.html"
+			],
+			[
+				"conmain",
+				"app/scripts/controllers/main.js"
+			],
+			[
+				"mainj",
+				"app/scripts/controllers/main.js"
+			],
+			[
+				"mainct",
+				"node_modules/grunt-ngmin/node_modules/ngmin/node_modules/astral-angular-annotate/lib/annotate-injectable.js"
+			],
+			[
+				"indexhtml",
+				"app/index.html"
+			],
+			[
+				"indexht",
+				"app/index.html"
+			],
+			[
+				"isdrop",
+				"app/scripts/directives/isDroppable.js"
+			],
+			[
+				"circuits",
+				"app/scripts/directives/circuitSettings.js"
+			],
+			[
+				"circuit",
+				"app/scripts/directives/circuitSettings.js"
+			],
+			[
+				"mainsc",
+				"app/styles/main.scss"
+			],
+			[
+				"bower",
+				"bower.json"
+			],
+			[
+				"contrmain",
+				"app/scripts/controllers/main.js"
+			],
+			[
+				"sidrop",
+				"app/scripts/directives/isDroppable.js"
+			],
+			[
+				"isdragg",
+				"app/scripts/directives/isDraggable.js"
+			],
+			[
+				"controller",
+				"app/scripts/controllers/main.js"
+			],
+			[
+				"mainht",
+				"genius/app/views/main.html"
+			],
+			[
+				"packages",
+				"genius/package.json"
+			],
+			[
+				"bowerj",
+				"genius/bower.json"
+			],
+			[
+				"appscs",
+				"GENiusTemp/application.scss"
+			],
+			[
+				"contmain",
+				"app/scripts/controllers/main.js"
+			],
+			[
+				"pack",
+				"db/package.json"
+			],
+			[
+				"todostor",
+				"app/scripts/services/todoStorage.js"
+			],
+			[
+				"mainh",
+				"app/views/main.html"
+			],
+			[
+				"ind",
+				"app/index.html"
+			],
+			[
+				"accountb",
+				"app/scripts/hoodie.accountbar.bootstrap.js"
+			],
+			[
+				"hoodieang",
+				"app/scripts/hoodie.angularjs.js"
+			],
+			[
+				"grutnf",
+				"node_modules/grunt-contrib-connect/node_modules/connect/node_modules/formidable/test/fixture/js/no-filename.js"
+			],
+			[
+				"main",
+				"app/views/main.html"
+			],
+			[
+				"loginhtml",
+				"dist/views/login.html"
+			],
+			[
+				"indexhtm",
+				"www/index.html"
+			],
+			[
+				"signup",
+				"www/views/signup.html"
+			],
+			[
+				"config",
+				"db/data/config.json"
+			],
+			[
+				"mosubm",
+				"app/models/submission.rb"
+			],
+			[
+				"includ",
+				"app/themes/redesign/views/layouts/_includes.html.erb"
+			],
+			[
+				"meta",
+				"app/themes/redesign/views/layouts/_meta.html.erb"
+			],
+			[
+				"layouthome",
+				"app/themes/redesign/views/layouts/home.html.erb"
+			],
+			[
+				"homeind",
+				"app/themes/redesign/views/home/index.html.erb"
+			],
+			[
+				"gemf",
+				"Gemfile"
+			],
+			[
+				"mosubmi",
+				"app/models/submission.rb"
+			],
+			[
+				"mouser",
+				"app/models/user.rb"
+			],
+			[
+				"tableof",
+				"app/themes/redesign/views/dashboard/table_of_contents.html.erb"
+			],
+			[
+				"stagind",
+				"app/themes/redesign/views/stages/index.html.erb"
+			],
+			[
+				"route",
+				"config/routes.rb"
+			],
+			[
+				"routes",
+				"config/routes.rb"
+			],
+			[
+				"userco",
+				"app/controllers/users_controller.rb"
+			],
+			[
+				"abili",
+				"app/models/ability.rb"
+			],
+			[
+				"generaljs",
+				"app/assets/javascripts/general.js.coffee"
+			],
+			[
+				"taskshow",
+				"app/themes/redesign/views/tasks/show.html.erb"
+			],
+			[
+				"changep",
+				"app/themes/redesign/views/users/change_password.html.erb"
+			],
+			[
+				"rakefile",
+				"Rakefile"
+			],
+			[
+				"abi",
+				"app/models/ability.rb"
+			],
+			[
+				"userform",
+				"app/themes/redesign/views/users/_form.html.erb"
+			],
+			[
+				"mocou",
+				"app/models/course.rb"
+			],
+			[
+				"mocourse",
+				"app/models/course.rb"
+			],
+			[
+				"dashco",
+				"app/controllers/dashboard_controller.rb"
+			],
+			[
+				"courseco",
+				"app/controllers/courses_controller.rb"
+			],
+			[
+				"style",
+				"app/assets/stylesheets/style.css.scss"
+			],
+			[
+				"genera",
+				"app/assets/javascripts/general.js.coffee"
+			],
+			[
+				"bi",
+				"app/themes/redesign/views/blocks/index.html.erb"
+			],
+			[
+				"coursco",
+				"app/controllers/courses_controller.rb"
+			],
+			[
+				"apco",
+				"app/controllers/application_controller.rb"
+			],
+			[
+				"abil",
+				"app/models/ability.rb"
+			],
+			[
+				"taskind",
+				"app/themes/redesign/views/tasks/index.html.erb"
+			],
+			[
+				"dashadmin",
+				"app/themes/redesign/views/dashboard/admin.html.erb"
+			],
+			[
+				"stageform",
+				"app/themes/redesign/views/stages/_form.html.erb"
+			],
+			[
+				"mostage",
+				"app/models/stage.rb"
+			],
+			[
+				"usershow",
+				"app/themes/redesign/views/users/show.html.erb"
+			],
+			[
+				"laydash",
+				"app/themes/redesign/views/layouts/dashboard.html.erb"
+			],
+			[
+				"files",
+				"app/themes/redesign/views/dashboard/files.html.erb"
+			],
+			[
+				"bmcind",
+				"app/themes/redesign/views/bmc/index.html.erb"
+			],
+			[
+				"file",
+				"app/themes/redesign/views/dashboard/files.html.erb"
+			],
+			[
+				"questind",
+				"app/themes/redesign/views/questions/index.html.erb"
+			],
+			[
+				"fileind",
+				"config/initializers/client_side_validations.rb"
+			],
+			[
+				"dashboco",
+				"app/controllers/dashboard_controller.rb"
+			],
+			[
+				"subco",
+				"app/controllers/submissions_controller.rb"
+			],
+			[
+				"calind",
+				"app/themes/redesign/views/calendar/index.html.erb"
+			],
+			[
+				"pageind",
+				"app/themes/redesign/views/pages/index.html.erb"
+			],
+			[
+				"showself",
+				"app/themes/redesign/views/users/showself.html.erb"
+			],
+			[
+				"styel",
+				"tmp/cache/sass/bb0e3c54de78c26a4734958d71e97006cd4e352c/_unstyled-link.scssc"
+			],
+			[
+				"tableofco",
+				"doc/app/table_of_contents.html"
+			],
+			[
+				"ageind",
+				"app/themes/redesign/views/pages/index.html.erb"
+			],
+			[
+				"pageshow",
+				"app/themes/redesign/views/pages/show.html.erb"
+			],
+			[
+				"contentrb",
+				"app/themes/redesign/views/dashboard/table_of_contents.html.erb"
+			],
+			[
+				"tablerb",
+				"db/migrate/20130730160031_create_impressions_table.rb"
+			],
+			[
+				"contentsrb",
+				"app/themes/redesign/views/dashboard/table_of_contents.html.erb"
+			],
+			[
+				"stepmenu",
+				"app/themes/redesign/views/steps/menu.html.erb"
+			],
+			[
+				"stagin",
+				"app/themes/redesign/views/stages/index.html.erb"
+			],
+			[
+				"mostep",
+				"app/models/step.rb"
+			],
+			[
+				"stagemenu",
+				"app/themes/redesign/views/stages/menu.html.erb"
+			],
+			[
+				"stepshow",
+				"app/themes/redesign/views/steps/show.html.erb"
+			],
+			[
+				"motask",
+				"app/models/task.rb"
+			],
+			[
+				"stepco",
+				"app/controllers/steps_controller.rb"
+			],
+			[
+				"taskco",
+				"app/controllers/tasks_controller.rb"
+			],
+			[
+				"head",
+				"app/themes/redesign/views/layouts/_header.html.erb"
+			],
+			[
+				"annind",
+				"app/themes/redesign/views/announcements/index.html.erb"
+			],
+			[
+				"stageind",
+				"app/themes/redesign/views/stages/index.html.erb"
+			],
+			[
+				"stageco",
+				"app/controllers/stages_controller.rb"
+			],
+			[
+				"laymeta",
+				"app/themes/redesign/views/layouts/_meta.html.erb"
+			],
+			[
+				"",
+				".gitignore"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": false,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 218.0,
+	"status_bar_visible": true
+}
