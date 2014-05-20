@@ -65,23 +65,23 @@ body {
 
     }
   }
-  .gate-and {
+  .brick-and {
     background-image: url('../images/gates/AND.svg');
   }
-  .gate-not {
+  .brick-not {
     background-image: url('../images/gates/NOT.svg');
     width: 68px;
   }
-  .gate-or {
+  .brick-or {
     background-image: url('../images/gates/OR.svg');
     width: 78px;
   }
-  .gate-input {
+  .brick-input {
     background-image: url('../images/gates/INPUT.svg');
     background-position: center center;
     background-size: 32px 32px;
   }
-  .gate-output {
+  .brick-output {
     background-image: url('../images/gates/OUTPUT.svg');
     background-position: center center;
     background-size: 48px 48px;
