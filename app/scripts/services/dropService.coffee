@@ -1,6 +1,5 @@
 'use strict'
-
-angular.module("geniusApp").factory "dropService", ->
+angular.module("geniusApp").factory "dropService", ($compile, $rootScope) ->
   drop: (index, elementScope, $canvas, event, ui) ->
     console.log($canvas)
     unless ui.draggable.hasClass("canvas-element")
@@ -19,6 +18,10 @@ angular.module("geniusApp").factory "dropService", ->
       console.log($canid)
       console.log(elementScope)
       $canvasElement.draggable "destroy"
+
+      delBrick = angular.element '<i class="fa fa-times delete-brick" delete-brick></i>'       
+      $canvasElement.append delBrick ;
+      $compile(delBrick)($rootScope);
 
       if $canvasElement.hasClass("gate-and")
         jsPlumb.addEndpoint $canid, anchor: [0, 0.2, -1, 0 ], elementScope.targetEndPoint
