@@ -1,13 +1,14 @@
 "use strict"
 
-angular.module("geniusApp").directive "deleteBrick", ($compile) ->
-  restrict: "A"
-  link: (scope, element, attributes) ->
-    options = scope.$eval(attributes.deleteBrick) #allow options to be passed in
-    console.log "PRE"
-    element.on 'click', ->
-   #  	targetBoxId = $(this).parent().attr('id')
-			# jsPlumb.detachAllConnections(targetBoxId)
-			# jsPlumb.removeAllEndpoints(targetBoxId)
-			# $('#' + targetBoxId).remove()
-    	
+angular.module("geniusApp").directive "deleteBrick", ( $compile, $rootScope) ->
+	restrict: "A"
+	link: (scope, element, attributes) ->
+  	options = scope.$eval(attributes.isDroppable) #allow options to be passed in
+  	console.log "WORKS"
+  	element.on 'click', ->
+  		$rootScope.par = elemen.parent()
+  		$rootScope.brickId = scope.par.attr ('id')
+  		console.log($('#' + scope.brickId))
+			# jsPlumb.reset
+			console.log "POST"
+			# $('#' + scope.brickId).remove()
