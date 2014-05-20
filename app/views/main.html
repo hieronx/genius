@@ -10,7 +10,7 @@
         <div class="navbar-right hidden-xs" ng-include="'views/bricks/nav.html'"></div>
       </div>
     </div>
-    <div class="row" ng-include="'views/bricks/show.html'"></div>
+    <div class="row" ng-include="'views/bricks/show.html'" ng-controller="BricksCtrl" onLoad="loadStoredBricks()"></div>
   </div>
   <tabset class="hidden-xs col-sm-4 col-md-3" id="mainRight">
     <tab heading="Library">
