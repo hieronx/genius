@@ -1,8 +1,6 @@
 module.exports = function(config){
   config.set({
     preprocessors: {
-      //'app/scripts/*.coffee': 'coffee',
-      //'app/scripts/**/*.coffee': 'coffee',
       '**/*.coffee': 'coffee'
     },
 

@@ -2,17 +2,12 @@
 
 describe "Controller: BricksCtrl", ->
 
-  # load the controller's module
   beforeEach module("geniusApp")
 
-  # Initialize the controller and a mock scope
-  beforeEach inject(($controller, $rootScope) ->
+  beforeEach inject ($controller, $rootScope) ->
     scope = $rootScope.$new()
-    BricksCtrl = $controller("BricksCtrl",
+    BricksCtrl = $controller "BricksCtrl",
       $scope: scope
-    )
-  )
 
   it "should have a list of 5 gates", ->
-    console.log scope
     expect(scope.gates.length).toBe 5
