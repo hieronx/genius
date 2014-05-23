@@ -4,7 +4,6 @@ angular.module("geniusApp").directive "brickPopover", ($compile, $rootScope) ->
     restrict: 'A'
     link: (scope, element, attributes) ->
         options = scope.$eval(attributes.brickPopover)
-        console.log "hello world"
         # $this = $('.canvas-element')
         # show = false
         # $this = element
