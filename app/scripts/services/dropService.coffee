@@ -29,8 +29,12 @@ angular.module("geniusApp").factory "dropService", ($compile, $rootScope) ->
       $canvasElement.draggable "destroy"
 
       delBrick = angular.element '<i class="fa fa-times delete-brick" delete-brick></i>'
-      $canvasElement.append delBrick ;
-      $compile(delBrick)($rootScope);
+      $canvasElement.append delBrick
+      $compile(delBrick)($rootScope)
+
+      brickPopover = angular.element '<i class="fa fa-cubes brick-popover" brick-popover></i>'
+      $canvasElement.append brickPopover
+      $compile(brickPopover)($rootScope)
 
       if $canvasElement.hasClass("brick-and")
         jsPlumb.addEndpoint $canid, anchor: [0, 0.2, -1, 0 ], elementScope.targetEndPoint
