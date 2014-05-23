@@ -43,11 +43,11 @@ angular.module("geniusApp").directive "brickPopover", ($compile, $rootScope) ->
         #         $(this).children('form').show()
         #         show = true
 
-    #  element.popover(    
+    #  element.popover(
     #     trigger:'click',
     #     html : true,
     #     placement: 'bottom',
-    #         content: () ->               
+    #         content: () ->
     #             return element.find('div')
     # )
     # templateUrl: 'main.html'
