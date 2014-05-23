@@ -13,11 +13,15 @@ exports.config = {
 
   chromeOnly: true,
 
-  baseUrl: 'http://localhost:8000/',
+  baseUrl: 'http://127.0.0.1:9000/',
 
   framework: 'jasmine',
 
   jasmineNodeOpts: {
     defaultTimeoutInterval: 30000
+  },
+  
+  onPrepare: function() {
+    global.findBy = protractor.By;
   }
 };
