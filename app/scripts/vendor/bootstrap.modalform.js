@@ -37,7 +37,7 @@
       }
       html += "    <\/div>";
       html += "    <div class=\"modal-footer\">";
-      html += "      <button type=\"submit\" class=\"btn btn-primary\">"+submit+"<\/button>";
+      html += "      <button type=\"submit\" id=\"modalSubmitButton\" class=\"btn btn-primary\">"+submit+"<\/button>";
       html += "    <\/div>";
       html += "  <\/form>";
       html += " <\/div>";
