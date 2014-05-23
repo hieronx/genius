@@ -72,19 +72,26 @@ angular.module("geniusApp").directive "circuitSettings", ($rootScope) ->
 
       # connectorOverlays: [ [ "Arrow", { location:0.5 } ] ]
       connectorOverlays: [
-        [
-          "Label"
-          {
-            cssClass: "l1 component label"
-            label: "Connection One"
-            location: 0.7
-            id: "label"
-            events:
-              click: (label, evt) ->
-                alert "clicked on label for connection " + label.component.id
-                return
+        ["Custom", {
+          cssClass: "l1 component label"
+          location: 0.5
+          create: -> 
+            return $("<select><option value='Protein1'>Protein1</option><option value='Protein2'>Protein2</option><option value='Protein3'>Protein3</option><option value='Protein4'>Protein4</option></select>")            
           }
         ]
+        # [
+        #   "Label"
+        #   {
+        #     cssClass: "l1 component label"
+        #     label: "Connection One"
+        #     location: 0.7
+        #     id: "label"
+        #     events:
+        #       click: (label, evt) ->
+        #         alert "clicked on label for connection " + label.component.id
+        #         return
+        #   }
+        # ]
         [
           "Arrow"
           {
