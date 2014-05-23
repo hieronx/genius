@@ -33,9 +33,9 @@ angular.module("geniusApp").factory "dropService", ($compile, $rootScope) ->
       $compile(delBrick)($rootScope);
 
       if $canvasElement.hasClass("brick-and")
-        jsPlumb.addEndpoint $canid, anchor: [0, 0.2, -1, 0 ], elementScope.targetEndPoint
-        jsPlumb.addEndpoint $canid, anchor: [0, 0.8, -1, 0 ], elementScope.targetEndPoint
-        jsPlumb.addEndpoint $canid, anchor: [1, 0.5, 0, 0 ], elementScope.sourceEndPoint
+        jsPlumb.addEndpoint($canid, anchor: [0, 0.2, -1, 0 ], elementScope.targetEndPoint).addOverlay([ "Arrow", { width:10, height:10, id:"arrow" }]);
+        jsPlumb.addEndpoint($canid, anchor: [0, 0.8, -1, 0 ], elementScope.targetEndPoint).addOverlay([ "Arrow", { width:10, height:10, id:"arrow" }]);
+        jsPlumb.addEndpoint($canid, anchor: [1, 0.5, 0, 0 ], elementScope.sourceEndPoint).addOverlay([ "Arrow", { width:10, height:10, id:"arrow" }]);
 
       else if $canvasElement.hasClass("brick-not")
         jsPlumb.addEndpoint $canid, anchor: [0, 0.5, -1, 0 ], elementScope.targetEndPoint
