@@ -1,16 +1,21 @@
 module.exports = function(config){
   config.set({
 
+
     basePath : '../',
 
     files : [
-      'bower_components/angular/angular.js',
-      'bower_components/angular-route/angular-route.js',
-      'bower_components/angular-resource/angular-resource.js',
-      'bower_components/angular-animate/angular-animate.js',
-      'bower_components/angular-mocks/angular-mocks.js',
-      'app/js/**/*.js',
-      'test/unit/**/*.js'
+      'app/bower_components/angular/angular.js',
+      'app/bower_components/angular-route/angular-route.js',
+      'app/bower_components/angular-resource/angular-resource.js'
+      'app/bower_components/angular-mocks/angular-mocks.js',
+      //'app/scripts/**/*.coffee',
+      //'test/unit/**/*_spec.coffee',
+
+      {
+        pattern: 'test/unit/**/*_spec.coffee',
+        included: true
+      }
     ],
 
     autoWatch : true,
@@ -20,10 +25,11 @@ module.exports = function(config){
     browsers : ['Chrome'],
 
     plugins : [
-            'karma-chrome-launcher',
-            'karma-firefox-launcher',
-            'karma-jasmine'
-            ],
+      //'karma-coffee-preprocessor',
+      'karma-chrome-launcher',
+      'karma-firefox-launcher',
+      'karma-jasmine'
+    ],
 
     junitReporter : {
       outputFile: 'test_out/unit.xml',

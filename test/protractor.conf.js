@@ -1,8 +1,10 @@
+require('coffee-script');
+
 exports.config = {
   allScriptsTimeout: 11000,
 
   specs: [
-    'e2e/**/*_spec.js'
+    'e2e/**/*_spec.coffee'
   ],
 
   capabilities: {
