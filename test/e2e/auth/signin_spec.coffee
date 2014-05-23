@@ -13,4 +13,4 @@ describe 'GENius', ->
       element(findBy.id('password')).sendKeys('password')
       element(findBy.id('password_confirmation')).sendKeys('password')
 
-      browser.driver.sleep(100000)
+      # browser.driver.sleep(1000)
