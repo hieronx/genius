@@ -10,6 +10,8 @@ angular.module("geniusApp").factory "dropService", ($compile, $rootScope) ->
       $canvasElement.addClass "canvas-element"
       $canvasElement.draggable containment: "#workspace"
       $canvasElement.addClass("brick-jsplumb").attr "id", "brick-" + index
+      $canvasElement.attr('brick-popover', "")
+      $compile($canvasElement)($rootScope)
       $canvas.append $canvasElement
 
       $par = $canvas.parent()
@@ -31,10 +33,6 @@ angular.module("geniusApp").factory "dropService", ($compile, $rootScope) ->
       delBrick = angular.element '<i class="fa fa-times delete-brick" delete-brick></i>'
       $canvasElement.append delBrick
       $compile(delBrick)($rootScope)
-
-      brickPopover = angular.element '<i class="fa fa-cubes brick-popover" brick-popover></i>'
-      $canvasElement.append brickPopover
-      $compile(brickPopover)($rootScope)
 
       if $canvasElement.hasClass("brick-and")
         jsPlumb.addEndpoint $canid, anchor: [0, 0.2, -1, 0 ], elementScope.targetEndPoint
@@ -62,5 +60,6 @@ angular.module("geniusApp").factory "dropService", ($compile, $rootScope) ->
         jsPlumb.addEndpoint $canid, anchor: [1, 0.5, 0, 0 ], elementScope.sourceEndPoint
 
       jsPlumb.draggable $canvasElement
+
 
       index++
