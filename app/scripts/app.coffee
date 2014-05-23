@@ -12,3 +12,5 @@ angular.module("geniusApp", [
     templateUrl: "views/main.html"
     controller: "MainCtrl"
   ).otherwise redirectTo: "/"
+
+window.hoodie = new Hoodie("http://127.0.0.1:9000/")
