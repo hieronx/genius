@@ -1,4 +1,5 @@
 require('coffee-script');
+require('../app/scripts/vendor/hoodie.js');
 
 exports.config = {
   allScriptsTimeout: 11000,

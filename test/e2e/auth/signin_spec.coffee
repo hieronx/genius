@@ -13,4 +13,6 @@ describe 'GENius', ->
       element(findBy.id('password')).sendKeys('password')
       element(findBy.id('password_confirmation')).sendKeys('password')
 
-      # browser.driver.sleep(1000)
+      element(findBy.id('modalSubmitButton')).click()
+
+      # expect(hoodie.account.username).toEqual('John Doe')
