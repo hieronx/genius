@@ -70,14 +70,13 @@ angular.module("geniusApp").directive "circuitSettings", ($rootScope) ->
         strokeStyle: "#216477"
         outlineColor: "transparent"
 
-      # connectorOverlays: [ [ "Arrow", { location:0.5 } ] ]
       connectorOverlays: [
-        ["Custom", {
-          cssClass: "l1 component label"
-          location: 0.5
-          create: -> 
-            return $("<select><option value='Protein1'>Protein1</option><option value='Protein2'>Protein2</option><option value='Protein3'>Protein3</option><option value='Protein4'>Protein4</option></select>")            
-          }
+        [
+          "Custom"
+            cssClass: "component label"
+            location: 0.5
+            create: -> 
+              return $("<select><option value='Protein1'>Protein1</option><option value='Protein2'>Protein2</option><option value='Protein3'>Protein3</option><option value='Protein4'>Protein4</option></select>")            
         ]
         # [
         #   "Label"
