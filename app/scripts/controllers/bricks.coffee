@@ -6,7 +6,7 @@ The main controller for the app. The controller:
 - retrieves and persists the model via the todoStorage service
 - exposes the model to the template and provides event handlers
 ###
-angular.module("geniusApp").controller "BricksCtrl", BricksCtrl = ($scope, Brick, dropService) ->
+angular.module("geniusApp").controller "BricksCtrl", BricksCtrl = ($scope, $rootScope, Brick, dropService) ->
 
   $scope.gates =
     [
@@ -27,8 +27,8 @@ angular.module("geniusApp").controller "BricksCtrl", BricksCtrl = ($scope, Brick
     Brick.all().done (bricks) ->
       for brick in bricks
         ui =
-          draggable: $('div.brick.gate-and.ng-scope.ui-draggable')
+          draggable: $('.bricks-container div.brick.gate-and.ng-scope.ui-draggable')
           position:
             left: brick.left
             top: brick.top
-        dropService.drop($scope, ui, false)
+        dropService.drop($rootScope, ui, false)

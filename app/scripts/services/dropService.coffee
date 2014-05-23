@@ -4,7 +4,6 @@ angular.module("geniusApp").factory "dropService", ($compile, $rootScope) ->
   drop: (elementScope, ui, newElement) ->
     unless ui.draggable.hasClass("canvas-element")
       $canvas = $('#workspace')
-      console.log($canvas)
 
       $canvasElement = ui.draggable.clone()
       $canvasElement.addClass "canvas-element"
@@ -19,12 +18,15 @@ angular.module("geniusApp").factory "dropService", ($compile, $rootScope) ->
           top: (ui.position.top)
           position: "absolute"
       else
+        console.log($canvasElement)
         $canvasElement.css
           left: (ui.position.left + "px")
           top: (ui.position.top)
           position: "absolute"
+        console.log($canvasElement)
+        console.log("-------------------------------------------")
 
-      $canid = $canvasElement.attr('id')
+      $canid = "brick-" + index
 
       $canvasElement.draggable "destroy"
 

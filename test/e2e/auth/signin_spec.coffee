@@ -1,9 +1,16 @@
 describe 'GENius', ->
 
-  describe 'Authentication sign in', ->
+  describe 'authentication', ->
 
     beforeEach ->
-      browser.get('app/index.html');
+      browser.get('/');
 
-    it 'should log in as user completes the login form', ->
-      browser.debugger();
+    it 'should allow users to sign up', ->
+      element(findBy.id('nav-dropdown')).click()
+      element(findBy.id('signup')).click()
+
+      element(findBy.id('username')).sendKeys('John Doe')
+      element(findBy.id('password')).sendKeys('password')
+      element(findBy.id('password_confirmation')).sendKeys('password')
+
+      browser.driver.sleep(100000)
