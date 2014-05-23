@@ -10,7 +10,7 @@ module.exports = function(config){
 
     files : [
       'app/bower_components/jquery/dist/jquery.js',
-      'bower_components/hoodie/dist/hoodie.js',
+      'app/bower_components/hoodie/dist/hoodie.js',
       'app/bower_components/angular/angular.js',
       'app/bower_components/angular-cookies/angular-cookies.js',
       'app/bower_components/angular-resource/angular-resource.js',

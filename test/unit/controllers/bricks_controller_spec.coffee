@@ -14,4 +14,5 @@ describe "Controller: BricksCtrl", ->
   )
 
   it "should have a list of 5 gates", ->
-    expect(BricksCtrl.gates.length).toBe 5
+    console.log scope
+    expect(scope.gates.length).toBe 5
