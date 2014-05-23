@@ -1,0 +1,9 @@
+<!-- Button which opens popover when clicked -->
+<button title="Filter" type="button" name="filter-node-btn" class="filter-node-btn">open</button>
+
+<!-- Popover content -->
+<div class="filterNodeDialog">                          
+    <div class="filterCriteriaContent">    
+        <form name="filterCriteriaForm">                              
+            <input type="radio" name="filterOption" value="hdnodes" ng-model="filterOption" ng-change="setFilterOption();">
+            <span>All HD nodes</span>  
