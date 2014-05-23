@@ -1,9 +1,9 @@
 module.exports = function(config){
   config.set({
     preprocessors: {
-      'app/scripts/*.coffee': 'coffee',
-      'app/scripts/**/*.coffee': 'coffee',
-      'test/unit/**/*.coffee': 'coffee'
+      //'app/scripts/*.coffee': 'coffee',
+      //'app/scripts/**/*.coffee': 'coffee',
+      '**/*.coffee': 'coffee'
     },
 
     basePath : '../',
@@ -15,6 +15,7 @@ module.exports = function(config){
       'app/bower_components/angular-resource/angular-resource.js',
       'app/bower_components/angular-mocks/angular-mocks.js',
       'app/scripts/*.coffee',
+      'app/scripts/**/*.coffee',
       'app/scripts/**/*.js',
       'test/unit/**/*_spec.coffee'
     ],
