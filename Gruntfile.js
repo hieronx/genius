@@ -93,7 +93,7 @@ module.exports = function (grunt) {
         {
           context: '/_api',
           host: '127.0.0.1',
-          port: 6003,
+          port: 6009,
           https: false,
           changeOrigin: true,
           xforward: false,
@@ -443,7 +443,7 @@ module.exports = function (grunt) {
     // Test settings
     karma: {
       unit: {
-        configFile: 'karma.conf.js',
+        configFile: 'test/karma.conf.js',
         singleRun: true
       }
     }

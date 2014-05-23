@@ -31,7 +31,7 @@
         html += "     <div class=\"form-group\">";
         html += "      <label class=\"col-sm-4 control-label\">"+name+"<\/label>";
         html += "      <div class=\"col-sm-7\">";
-        html += "       <input class=\"form-control\" type=\""+type+"\" name=\""+field+"\" placeholder=\""+field.replace(/_/g, ' ')+"\" \/>";
+        html += "       <input class=\"form-control\" type=\""+type+"\" name=\""+field+"\" id=\"" + field + "\" placeholder=\""+field.replace(/_/g, ' ')+"\" \/>";
         html += "      <\/div>"
         html += "     <\/div>";
       }

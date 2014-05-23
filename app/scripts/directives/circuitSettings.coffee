@@ -18,10 +18,7 @@ angular.module("geniusApp").directive "circuitSettings", ($rootScope) ->
       connector: [
         "Flowchart"
         {
-          stub: [
-            40
-            60
-          ]
+          stub: [ 40, 60 ]
           gap: 10
           cornerRadius: 5
           alwaysRespectStubs: true
@@ -52,10 +49,7 @@ angular.module("geniusApp").directive "circuitSettings", ($rootScope) ->
       connector: [
         "Flowchart"
         {
-          stub: [
-            40
-            60
-          ]
+          stub: [ 40, 60 ]
           gap: 10
           cornerRadius: 5
           alwaysRespectStubs: true
@@ -75,5 +69,41 @@ angular.module("geniusApp").directive "circuitSettings", ($rootScope) ->
         lineWidth: 4
         strokeStyle: "#216477"
         outlineColor: "transparent"
+
+      connectorOverlays: [
+        [
+          "Custom"
+            cssClass: "component label"
+            location: 0.5
+            create: -> 
+              return $("<select><option value='Protein1'>Protein1</option><option value='Protein2'>Protein2</option><option value='Protein3'>Protein3</option><option value='Protein4'>Protein4</option></select>")            
+        ]
+        # [
+        #   "Label"
+        #   {
+        #     cssClass: "l1 component label"
+        #     label: "Connection One"
+        #     location: 0.7
+        #     id: "label"
+        #     events:
+        #       click: (label, evt) ->
+        #         alert "clicked on label for connection " + label.component.id
+        #         return
+        #   }
+        # ]
+        [
+          "Arrow"
+          {
+            cssClass: "l1arrow"
+            location: 0.2
+            width: 20
+            length: 20
+            events:
+              click: (arrow, evt) ->
+                alert "clicked on arrow for connection " + arrow.component.id
+                return
+          }
+        ]
+      ]
 
       isSource: true

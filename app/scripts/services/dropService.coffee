@@ -4,7 +4,6 @@ angular.module("geniusApp").factory "dropService", ($compile, $rootScope) ->
   drop: (elementScope, ui, newElement) ->
     unless ui.draggable.hasClass("canvas-element")
       $canvas = $('#workspace')
-      console.log($canvas)
 
       $canvasElement = ui.draggable.clone()
       $canvasElement.addClass "canvas-element"
@@ -21,12 +20,15 @@ angular.module("geniusApp").factory "dropService", ($compile, $rootScope) ->
           top: (ui.position.top)
           position: "absolute"
       else
+        console.log($canvasElement)
         $canvasElement.css
           left: (ui.position.left + "px")
           top: (ui.position.top)
           position: "absolute"
+        console.log($canvasElement)
+        console.log("-------------------------------------------")
 
-      $canid = $canvasElement.attr('id')
+      $canid = "brick-" + index
 
       $canvasElement.draggable "destroy"
 
@@ -35,9 +37,9 @@ angular.module("geniusApp").factory "dropService", ($compile, $rootScope) ->
       $compile(delBrick)($rootScope)
 
       if $canvasElement.hasClass("brick-and")
-        jsPlumb.addEndpoint $canid, anchor: [0, 0.2, -1, 0 ], elementScope.targetEndPoint
-        jsPlumb.addEndpoint $canid, anchor: [0, 0.8, -1, 0 ], elementScope.targetEndPoint
-        jsPlumb.addEndpoint $canid, anchor: [1, 0.5, 0, 0 ], elementScope.sourceEndPoint
+        jsPlumb.addEndpoint($canid, anchor: [0, 0.2, -1, 0 ], elementScope.targetEndPoint).addOverlay([ "Arrow", { width:10, height:10, id:"arrow" }]);
+        jsPlumb.addEndpoint($canid, anchor: [0, 0.8, -1, 0 ], elementScope.targetEndPoint).addOverlay([ "Arrow", { width:10, height:10, id:"arrow" }]);
+        jsPlumb.addEndpoint($canid, anchor: [1, 0.5, 0, 0 ], elementScope.sourceEndPoint).addOverlay([ "Arrow", { width:10, height:10, id:"arrow" }]);
 
       else if $canvasElement.hasClass("brick-not")
         jsPlumb.addEndpoint $canid, anchor: [0, 0.5, -1, 0 ], elementScope.targetEndPoint
