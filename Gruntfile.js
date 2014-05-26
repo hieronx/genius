@@ -76,7 +76,7 @@ module.exports = function (grunt) {
       start: {
         options: {
           callback: function(config) {
-            grunt.config.set('connect.proxies.0.port', config.stack.www.port);
+            grunt.config.set('connect.proxies.0.port', config.stack.couch.port);
           }
         }
       }
@@ -93,7 +93,7 @@ module.exports = function (grunt) {
         {
           context: '/_api',
           host: '127.0.0.1',
-          port: 6003,
+          port: grunt.config.get('connect.proxies.0.port'),
           https: false,
           changeOrigin: true,
           xforward: false,
@@ -460,6 +460,7 @@ module.exports = function (grunt) {
       'bowerInstall',
       'concurrent:server',
       'autoprefixer',
+      'hoodie',
       'configureProxies',
       'connect:livereload',
       'watch'

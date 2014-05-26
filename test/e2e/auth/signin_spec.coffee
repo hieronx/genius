@@ -4,8 +4,12 @@ describe 'GENius', ->
 
     beforeEach ->
       browser.get('/');
+      # ptor = protractor.getInstance()
+      # ptor.ignoreSynchronization = true
 
     it 'should allow users to sign up', ->
+      # browser.driver.sleep(100000)
+
       element(findBy.id('nav-dropdown')).click()
       element(findBy.id('signup')).click()
 
