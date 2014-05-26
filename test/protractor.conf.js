@@ -5,7 +5,7 @@ exports.config = {
   allScriptsTimeout: 11000,
 
   specs: [
-    'e2e/**/*_spec.coffee'
+    'e2e/**/*Spec.coffee'
   ],
 
   capabilities: {
@@ -21,7 +21,7 @@ exports.config = {
   jasmineNodeOpts: {
     defaultTimeoutInterval: 30000
   },
-  
+
   onPrepare: function() {
     global.findBy = protractor.By;
   }

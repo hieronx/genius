@@ -1,5 +1,6 @@
-'use strict'
-angular.module("geniusApp").factory "dropService", ($compile, $rootScope) ->
+app = angular.module("geniusApp")
+
+app.factory "dropService", ($compile, $rootScope) ->
   index = 1
   drop: (elementScope, ui, newElement) ->
     unless ui.draggable.hasClass("canvas-element")

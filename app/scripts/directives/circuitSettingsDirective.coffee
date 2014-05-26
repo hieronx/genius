@@ -1,5 +1,6 @@
-"use strict"
-angular.module("geniusApp").directive "circuitSettings", ($rootScope) ->
+app = angular.module("geniusApp")
+
+app.directive "circuitSettings", ($rootScope) ->
   restrict: "A"
   link: (scope, element, attributes) ->
     options = scope.$eval(attributes.circuitSettings) #allow options to be passed in

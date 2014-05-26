@@ -1,12 +1,12 @@
-"use strict"
-
-describe "Controller: BricksCtrl", ->
+describe 'BricksCtrl', ->
+  scope = undefined
+  controller = undefined
 
   beforeEach module("geniusApp")
 
-  beforeEach inject ($controller, $rootScope) ->
+  beforeEach inject ($rootScope, $controller) ->
     scope = $rootScope.$new()
-    BricksCtrl = $controller "BricksCtrl",
+    controller = $controller 'BricksCtrl',
       $scope: scope
 
   it "should have a list of 5 gates", ->

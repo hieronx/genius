@@ -1,6 +1,6 @@
-"use strict"
+app = angular.module("geniusApp")
 
-angular.module("geniusApp").directive "brickPopover", ($compile, $rootScope) ->
+app.directive "brickPopover", ($compile, $rootScope) ->
     restrict: 'A'
     link: (scope, element, attributes) ->
         options = scope.$eval(attributes.brickPopover)
