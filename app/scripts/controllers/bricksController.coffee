@@ -19,7 +19,7 @@ class BricksCtrl extends BaseCtrl
 
     @$scope.public = []
 
-  loadStoredBricks = ->
+  loadStoredBricks: ->
     Brick.all().done (bricks) ->
       for brick in bricks
         ui =
