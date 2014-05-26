@@ -35,7 +35,7 @@
     "karma-jasmine": "~0.2.2",
     "karma-safari-launcher": "~0.1.1",
     "karma-ng-html2js-preprocessor": "^0.1.0",
-    "protractor": "git://github.com/cesarandreu/protractor.git#9d568edbee95b4eebda7ff8f03c47b01cc3a010c",
+    "protractor": "0.23.1",
     "http-server": "^0.6.1",
     "shelljs": "^0.2.6",
     "karma-chrome-launcher": "~0.1.4",
