@@ -2,7 +2,7 @@ class @BaseCtrl
 
   @register: (app, name) ->
     name ?= @name || @toString().match(/function\s*(.*?)\(/)?[1]
-    app.controller name, this
+    app.controller name, @
 
   @inject: (annotations...) ->
     ANNOTATION_REG = /^(\S+)(\s+as\s+(\w+))?$/
@@ -15,6 +15,6 @@ class @BaseCtrl
 
   constructor: (dependencies...) ->
     for annotation, index in @constructor.annotations
-      this[annotation.identifier] = dependencies[index]
+      @[annotation.identifier] = dependencies[index]
 
     @initialize?()

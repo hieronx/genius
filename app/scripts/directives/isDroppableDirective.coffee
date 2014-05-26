@@ -10,7 +10,6 @@ app.directive "isDroppable", (Brick, $compile, $rootScope, dropService) ->
       $canvas = $(this)
       $par = $canvas.parent()
 
-      args =
+      Brick.add
         left: ui.position.left + $par.outerWidth() + $par.position().left
         top: ui.position.top
-      Brick.add(args)

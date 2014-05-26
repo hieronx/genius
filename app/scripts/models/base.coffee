@@ -3,7 +3,7 @@ class @Base
 
   @register: (app, name) ->
     name ?= @name || @toString().match(/function\s*(.*?)\(/)?[1]
-    app.factory name, @
+    app.service name, @
 
   all: ->
     hoodie.store.findAll(@type).done (items) =>
