@@ -4,11 +4,10 @@ describe 'GENius', ->
 
     beforeEach ->
       browser.get('/');
+      browser.ignoreSynchronization = true
       browser.driver.sleep(500)
 
     it 'should allow users to sign up', ->
-      # browser.driver.sleep(100000)
-
       element(findBy.id('nav-dropdown')).click()
       element(findBy.id('signup')).click()
 
@@ -17,5 +16,3 @@ describe 'GENius', ->
       element(findBy.id('password_confirmation')).sendKeys('password')
 
       element(findBy.id('modalSubmitButton')).click()
-
-      # expect(hoodie.account.username).toEqual('John Doe')
