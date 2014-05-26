@@ -5,7 +5,7 @@ describe 'GENius', ->
     beforeEach ->
       browser.ignoreSynchronization = true
       browser.get('/');
-      browser.driver.sleep(500)
+      browser.driver.sleep(5000)
 
     it 'should allow users to sign up', ->
       element(findBy.id('nav-dropdown')).click()
