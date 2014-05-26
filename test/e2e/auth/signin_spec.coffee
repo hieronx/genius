@@ -3,8 +3,8 @@ describe 'GENius', ->
   describe 'authentication', ->
 
     beforeEach ->
-      browser.get('/');
       browser.ignoreSynchronization = true
+      browser.get('/');
       browser.driver.sleep(500)
 
     it 'should allow users to sign up', ->
