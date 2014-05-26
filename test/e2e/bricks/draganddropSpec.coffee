@@ -1,11 +1,11 @@
-describe 'GENius', ->
+# describe 'GENius', ->
 
-  describe 'bricks', ->
+#   describe 'bricks', ->
 
-    beforeEach ->
-      # browser.get('app/index.html');
+#     beforeEach ->
+#       # browser.get('app/index.html');
 
-    it 'should be be draggable and droppable', ->
-    	element(findBy.id('brick-and')).click()
-      # handle = $(".brick-and")
-			# ptor.actions().dragAndDrop(handle,{x:1000,y:0}).perform();
+#     it 'should be be draggable and droppable', ->
+#     	element(findBy.id('brick-and')).click()
+#       # handle = $(".brick-and")
+# 			# ptor.actions().dragAndDrop(handle,{x:1000,y:0}).perform();
