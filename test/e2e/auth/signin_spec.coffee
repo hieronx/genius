@@ -5,14 +5,17 @@ describe 'GENius', ->
     beforeEach ->
       browser.ignoreSynchronization = true
       browser.get('/');
-      browser.driver.sleep(5000)
+      browser.driver.sleep(500)
 
     it 'should allow users to sign up', ->
-      element(findBy.id('nav-dropdown')).click()
-      element(findBy.id('signup')).click()
+      elementToFind = findBy.id('nav-dropdown')
 
-      element(findBy.id('username')).sendKeys('John Doe')
-      element(findBy.id('password')).sendKeys('password')
-      element(findBy.id('password_confirmation')).sendKeys('password')
+      browser.driver.isElementPresent(elementToFind).then (isPresent) ->
+        element(elementToFind).click().then ->
+          element(findBy.id('signup')).click()
 
-      element(findBy.id('modalSubmitButton')).click()
+          element(findBy.id('username')).sendKeys('John Doe')
+          element(findBy.id('password')).sendKeys('password')
+          element(findBy.id('password_confirmation')).sendKeys('password')
+
+          element(findBy.id('modalSubmitButton')).click()
