@@ -20,7 +20,7 @@ module.exports = function(config){
       'app/scripts/*.coffee',
       'app/scripts/**/*.coffee',
       'app/scripts/**/*.js',
-      'test/unit/**/*_spec.coffee'
+      'test/unit/**/*Spec.coffee'
     ],
 
     autoWatch : true,

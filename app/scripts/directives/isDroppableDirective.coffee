@@ -1,5 +1,6 @@
-"use strict"
-angular.module("geniusApp").directive "isDroppable", (Brick, $compile, $rootScope, dropService) ->
+app = angular.module("geniusApp")
+
+app.directive "isDroppable", (Brick, $compile, $rootScope, dropService) ->
   restrict: "A"
   link: (scope, element, attributes) ->
     options = scope.$eval(attributes.isDroppable) #allow options to be passed in

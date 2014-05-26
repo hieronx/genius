@@ -1,6 +1,6 @@
-"user strict"
+app = angular.module("geniusApp")
 
-angular.module("geniusApp").directive "deleteBrick", ($compile, $rootScope) ->
+app.directive "deleteBrick", ($compile, $rootScope) ->
 	restrict: "A"
 	link: (scope, element, attributes) ->
 		options = scope.$eval(attributes.deleteBrick)

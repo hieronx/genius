@@ -1,6 +1,6 @@
-"use strict"
+app = angular.module("geniusApp")
 
-angular.module("geniusApp").directive "isDraggable", ->
+app.directive "isDraggable", ->
   restrict: "A"
   link: (scope, element, attributes) ->
     options = scope.$eval(attributes.isDraggable) #allow options to be passed in
