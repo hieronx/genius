@@ -1,29 +1,25 @@
-#global todomvc
-"use strict"
+app = angular.module("geniusApp")
 
-###
-The main controller for the app. The controller:
-- retrieves and persists the model via the todoStorage service
-- exposes the model to the template and provides event handlers
-###
-angular.module("geniusApp").controller "BricksCtrl", BricksCtrl = ($scope, $rootScope, Brick, dropService) ->
+class BricksCtrl extends BaseCtrl
 
-  $scope.gates =
-    [
-      { type: 'AND' },
-      { type: 'OR' },
-      { type: 'NOT' },
-      { type: 'INPUT' },
-      { type: 'OUTPUT' }
-    ]
+  @register app, 'BricksCtrl'
+  @inject "$scope", "$rootScope", "Brick", "dropService"
 
-  $scope.private =
-    []
+  initialize: ->
+    @$scope.gates =
+      [
+        { type: 'AND' },
+        { type: 'OR' },
+        { type: 'NOT' },
+        { type: 'INPUT' },
+        { type: 'OUTPUT' }
+      ]
 
-  $scope.public =
-    []
+    @$scope.private = []
 
-  $scope.loadStoredBricks = ->
+    @$scope.public = []
+
+  loadStoredBricks = ->
     Brick.all().done (bricks) ->
       for brick in bricks
         ui =
