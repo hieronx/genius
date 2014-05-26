@@ -3,9 +3,7 @@ describe 'GENius', ->
   describe 'bricks', ->
 
     beforeEach ->
-      # browser.get('app/index.html');
+      browser.get('/');
 
-    it 'should be be draggable and droppable', ->
-      # element(findBy.id('brick-and')).click()
-      # handle = $(".brick-and")
-      # ptor.actions().dragAndDrop(handle,{x:1000,y:0}).perform();
+    it 'should be draggable and droppable', ->
+      expect(element(findBy.id('brick-and')).getText()).toEqual('AND')
