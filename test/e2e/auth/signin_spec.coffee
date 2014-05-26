@@ -4,8 +4,7 @@ describe 'GENius', ->
 
     beforeEach ->
       browser.get('/');
-      # ptor = protractor.getInstance()
-      # ptor.ignoreSynchronization = true
+      browser.driver.sleep(500)
 
     it 'should allow users to sign up', ->
       # browser.driver.sleep(100000)
