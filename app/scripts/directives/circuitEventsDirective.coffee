@@ -10,6 +10,7 @@ app.directive "circuitEvents", ($compile, $rootScope) ->
     	$label = $('#label-' + info.connection.id)
     	$label.data('sourceId', info.connection.source.id)
     	$label.data('targetId', info.connection.target.id)
+    	$label.addClass(info.connection.source.id).addClass(info.connection.target.id)
 
     # Any brick or gate cannot create a connection to itself
    	jsPlumb.bind "beforeDrop", (info) ->
