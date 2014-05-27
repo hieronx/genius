@@ -31,7 +31,7 @@ app.factory "dropService", ($compile, $rootScope) ->
 
       $canid = "brick-" + index
 
-      $canvasElement.draggable "destroy"
+      $canvasElement.draggable("destroy")
 
       delBrick = angular.element '<i class="fa fa-times delete-brick" delete-brick></i>'
       $canvasElement.append delBrick
@@ -79,6 +79,6 @@ app.factory "dropService", ($compile, $rootScope) ->
           $this.removeClass('dragDisabled')
           $this.draggable('enable')
         else
-          $(this).addClass('dragDisabled')
-          $(this).draggable('disable')
+          $this.addClass('dragDisabled')
+          $this.draggable('disable')
       
