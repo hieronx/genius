@@ -62,8 +62,16 @@ app.factory "dropService", ($compile, $rootScope) ->
         jsPlumb.addEndpoint $canid, anchor: [0, 0.8, -1, 0 ], elementScope.targetEndPoint
         jsPlumb.addEndpoint $canid, anchor: [1, 0.5, 0, 0 ], elementScope.sourceEndPoint
 
-      jsPlumb.draggable $canvasElement
       index++
+
+      jsPlumb.draggable $canvasElement,
+        # containment: $('#workspace')
+        start: (event, ui) ->
+          $(this).popover('disable')
+        stop: (event, ui) ->
+          setTimeout (=>
+            $(this).popover('enable')
+          ), 0
       
       $canvasElement.on 'click', ->
         $this = $(this)
