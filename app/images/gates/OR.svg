@@ -1,21 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-<svg id="svg2" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="64" width="78.021" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
- <defs id="defs4"></defs>
- <metadata id="metadata7">
-  <rdf:RDF>
-   <cc:Work rdf:about="">
-    <dc:format>image/svg+xml</dc:format>
-    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:title/>
-   </cc:Work>
-  </rdf:RDF>
- </metadata>
- <g id="layer1" transform="translate(-277.17013,-479.79076)">
-  <g id="layer1-8" transform="matrix(1.5999996,0,0,1.5999996,222.57014,471.79076)">
-   <g id="g2560" transform="translate(26.5,-39.5)">
-    <path id="path4973" d="m7.625,44.5,2,2.4375s5.6562,7,5.6562,17.562-5.6562,17.562-5.6562,17.562l-2,2.4375h3.1562,14c2.4081,0.000001,7.6897,0.02451,13.625-2.4062,5.9353-2.4308,12.537-7.3433,17.688-16.875l0.294-0.808-0.294-0.63c-10.303-19.065-26.556-19.281-31.313-19.281h-14zm5.875,3,11.281,0c4.6842,0,18.287-0.13021,27.969,17-4.7668,8.4291-10.521,12.684-15.719,14.812-5.3607,2.1954-9.8419,2.1875-12.25,2.1875h-11.25c1.8736-3.1084,4.75-9.0494,4.75-17,0-7.9734-2.9085-13.9-4.7812-17z" fill-rule="evenodd" fill="#000"/>
-   </g>
-  </g>
- </g>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.4, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Laag_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="80px" height="65px" viewBox="0 0 80 65" enable-background="new 0 0 80 65" xml:space="preserve">
+<path fill="none" stroke="#010202" stroke-width="4" stroke-miterlimit="10" d="M14.417,32.055
+	C14.162,51.475,9.947,54.54,5.348,62.972h25.292c0,0,27.978,2.429,45.607-30.405c0.459-0.857-14.82-30.404-47.267-30.532
+	c-4.984-0.019-24.145,0-24.145,0S14.659,13.66,14.417,32.055z"/>
 </svg>

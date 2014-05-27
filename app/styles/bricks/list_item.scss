@@ -1,0 +1,59 @@
+.brick {
+  height: 65px;
+  width: 80px;
+  border-radius: 5px;
+  cursor: pointer;
+  line-height: 60px;
+  text-align: center;
+  color: transparent;
+  text-transform: uppercase;
+  font-size: 14px;
+  background-repeat: no-repeat;
+  &:hover {
+     i.delete-brick {
+      display: block;
+    }
+     i.brick-popover {
+      display: block;
+     }
+  }
+  &.brick-and {
+    background-image: url('../images/gates/AND.svg');
+  }
+  &.brick-not {
+    background-image: url('../images/gates/NOT.svg');
+  }
+  &.brick-or {
+    background-image: url('../images/gates/OR.svg');
+  }
+  &.brick-input {
+    background-image: url('../images/gates/INPUT.svg');
+    background-position: center center;
+    background-size: 32px 32px;
+  }
+  &.brick-output {
+    background-image: url('../images/gates/OUTPUT.svg');
+    background-position: center center;
+    background-size: 48px 48px;
+  }
+  i.delete-brick {
+    display: none;
+    z-index: 1000;
+    color: #999;
+    font-size: 20px;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    cursor: pointer;
+  }
+  i.brick-popover {
+    display: none;
+    z-index: 1000;
+    color: black;
+    font-size: 20px;
+    position: absolute;
+    top: -10px;
+    right: 50px;
+    cursor: pointer;
+  }
+}

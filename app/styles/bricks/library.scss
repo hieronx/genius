@@ -1,0 +1,46 @@
+#library {
+  height: 100%;
+  .panel {
+    position: absolute;
+    top: 0;
+    bottom: 27px;
+    right: 0;
+    left: 0;
+    -webkit-border-top-left-radius: 0;
+    -moz-border-radius-topleft: 0;
+    border-top-left-radius: 0;
+    .panel-body {
+      height: 100%;
+      .bricks-container {
+        h3 {
+          border-bottom: 1px solid #999;
+          width: 100%;
+          text-align: center;
+          font-size: 0.7em;
+          height: 0.6em;
+          margin-bottom: 1em;
+          clear: both;
+          a {
+            padding: 0 5px;
+            color: #777;
+            background-color: white;
+            text-transform: uppercase;
+          }
+        }
+        .brick-container {
+          float: left;
+          padding: 10px 5px;
+        }
+      }
+    }
+  }
+  .filters {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    .input-group-btn {
+      width: 1%;
+    }
+  }
+}
