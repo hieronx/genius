@@ -66,6 +66,7 @@ app.factory "dropService", ($compile, $rootScope) ->
 
       index++
 
+      # Enable draggable behaviour and ensure a popover will not appear when dragged
       jsPlumb.draggable $canvasElement,
         # containment: $('#workspace')
         start: (event, ui) ->
@@ -75,6 +76,7 @@ app.factory "dropService", ($compile, $rootScope) ->
             $(this).popover('enable')
           ), 0
       
+      # Bricks cannot be dragged when a popover is active
       $canvasElement.on 'click', ->
         $this = $(this)
         if $this.hasClass('dragDisabled')

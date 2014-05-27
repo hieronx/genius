@@ -11,7 +11,7 @@ app.directive "connectionPopover", ($compile, $rootScope) ->
       content: '<form class="form-horizontal" role="form">
                   <input type="text" class="form-control" placeholder="Propertie1">
                   <input type="text" class="form-control" placeholder="Propertie2">
-                  <button type="submit" class="btn pull-right btn-primary">Save</button>
+                  <button type="submit" class="btn btn-block btn-primary">Save</button>
                 </form>'
     )
 
