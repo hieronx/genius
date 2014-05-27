@@ -3,9 +3,8 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" id="Laag_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="80px" height="65px" viewBox="0 0 80 65" enable-background="new 0 0 80 65" xml:space="preserve">
-<g>
-	<polygon fill="none" stroke="#010202" stroke-width="4" stroke-miterlimit="10" points="9.296,61.498 9.415,3.519 59.419,32.568 	
-		"/>
-	<circle fill="none" stroke="#010202" stroke-width="4" stroke-miterlimit="10" cx="67.144" cy="32.53" r="5.536"/>
-</g>
+<path fill="none" stroke="#010202" stroke-width="2" stroke-miterlimit="10" d="M9.25,60.375L9.417,4.667
+	c0,0,0.042-1.084,1.031-0.549C10.714,4.263,58.969,32.25,58.969,32.25c0.531,0.375-0.017,0.587-0.017,0.587L10.104,61.031
+	C10.104,61.031,9.25,61.562,9.25,60.375z"/>
+<circle fill="none" stroke="#010202" stroke-width="2" stroke-miterlimit="10" cx="65.811" cy="32.53" r="5.536"/>
 </svg>

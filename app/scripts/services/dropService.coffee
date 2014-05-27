@@ -39,12 +39,12 @@ app.factory "dropService", ($compile, $rootScope, Brick) ->
       $compile(delBrick)($rootScope)
 
       if $canvasElement.hasClass("brick-and")
-        jsPlumb.addEndpoint $canid, anchor: [0, 0.2, -1, 0, 10,  0], $rootScope.targetEndPoint
-        jsPlumb.addEndpoint $canid, anchor: [0, 0.8, -1, 0, 10,  0], $rootScope.targetEndPoint
-        jsPlumb.addEndpoint $canid, anchor: [1, 0.5, 0,  0, -10, 0], $rootScope.sourceEndPoint
+        jsPlumb.addEndpoint $canid, anchor: [0, 0.2, -1, 0, 8,  0], $rootScope.targetEndPoint
+        jsPlumb.addEndpoint $canid, anchor: [0, 0.8, -1, 0, 8,  0], $rootScope.targetEndPoint
+        jsPlumb.addEndpoint $canid, anchor: [1, 0.5, 0,  0, -8, 0], $rootScope.sourceEndPoint
 
       else if $canvasElement.hasClass("brick-not")
-        jsPlumb.addEndpoint $canid, anchor: [0, 0.5, -1, 0, 10, 0], $rootScope.targetEndPoint
+        jsPlumb.addEndpoint $canid, anchor: [0, 0.5, -1, 0, 8, 0], $rootScope.targetEndPoint
         jsPlumb.addEndpoint $canid, anchor: [1, 0.5, 0,  0], $rootScope.sourceEndPoint
 
       else if $canvasElement.hasClass("brick-or")
@@ -56,7 +56,7 @@ app.factory "dropService", ($compile, $rootScope, Brick) ->
         jsPlumb.addEndpoint $canid, anchor: [1, 0.5, 0, 0, -40, 0], $rootScope.sourceEndPoint
 
       else if $canvasElement.hasClass("brick-output")
-        jsPlumb.addEndpoint $canid, anchor: [0, 0.5, -1, 0, 32, 0], $rootScope.targetEndPoint
+        jsPlumb.addEndpoint $canid, anchor: [0, 0.5, -1, 0, 33, 0], $rootScope.targetEndPoint
 
       else
         jsPlumb.addEndpoint $canid, anchor: [0, 0.2, -1, 0 ], $rootScope.targetEndPoint

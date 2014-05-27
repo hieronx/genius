@@ -28,13 +28,9 @@
   }
   &.brick-input {
     background-image: url('../images/gates/INPUT.svg');
-    background-position: center center;
-    background-size: 32px 32px;
   }
   &.brick-output {
     background-image: url('../images/gates/OUTPUT.svg');
-    background-position: center center;
-    background-size: 48px 48px;
   }
   i.delete-brick {
     display: none;

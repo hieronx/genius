@@ -3,6 +3,7 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" id="Laag_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="80px" height="65px" viewBox="0 0 80 65" enable-background="new 0 0 80 65" xml:space="preserve">
-<path fill="none" stroke="#010202" stroke-width="4" stroke-miterlimit="10" d="M10.104,2.012h32.002
-	c0,0,28.938-0.832,28.734,30.304C70.633,63.808,43.384,62.96,43.384,62.96h-33.28V2.012z"/>
+<path fill="none" stroke="#010202" stroke-width="2" stroke-miterlimit="10" d="M10.105,2.355c0.021-0.292,0.354-0.354,0.354-0.354
+	l31.647,0.011c0,0,28.938-0.832,28.734,30.304C70.633,63.808,43.384,62.96,43.384,62.96H10.396c0,0-0.312,0-0.312-0.271
+	C10.083,62.604,10.105,2.355,10.105,2.355z"/>
 </svg>
