@@ -78,7 +78,8 @@ app.directive "circuitSettings", ($compile, $rootScope) ->
             attributes: 'connection-popover'
             location: 0.5
             create: (component)->
-              $element = angular.element "<div connection-popover>Properties</div>"
+              console.log(component)
+              $element = angular.element "<div data-connection='#{component.id}' connection-popover>Properties</div>"
               $compile($element)($rootScope)
               return $element
         ]

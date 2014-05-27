@@ -9,20 +9,12 @@ app.directive "connectionPopover", ($compile, $rootScope) ->
       html : true,
       placement: 'bottom',
       content: '<form class="form-horizontal" role="form">
-                  <div class="form-group">
-                    <label for="Gene1" class="col-sm-2 control-label">Email</label>
-                    <div class="col-sm-10">
-                      <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
-                    </div>
-                    <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
-                    <div class="col-sm-10">
-                      <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                      <button type="submit" class="btn pull-right btn-primary">Save</button>
-                    </div>
-                  </div>
+                  <input type="text" class="form-control" placeholder="Propertie1">
+                  <input type="text" class="form-control" placeholder="Propertie2">
+                  <button type="submit" class="btn pull-right btn-primary">Save</button>
                 </form>'
     )
+
+    element.on 'click', (event) ->
+      $connId = element.data('connection') 
+      console.log($('#' + $connId))
