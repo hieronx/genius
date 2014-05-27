@@ -6,6 +6,9 @@ app.factory "dropService", ($compile, $rootScope) ->
     unless ui.draggable.hasClass("canvas-element")
       $canvas = $('#workspace')
 
+      console.log("ui draggable: ")
+      console.log ui.draggable
+
       $canvasElement = ui.draggable.clone()
       $canvasElement.removeAttr('tooltip')
 
@@ -39,30 +42,33 @@ app.factory "dropService", ($compile, $rootScope) ->
       $canvasElement.append delBrick
       $compile(delBrick)($rootScope)
 
+      console.log("bladiebla")
+      console.log $rootScope
+
       if $canvasElement.hasClass("brick-and")
-        jsPlumb.addEndpoint($canid, anchor: [0, 0.2, -1, 0 ], elementScope.targetEndPoint).addOverlay([ "Arrow", { width:10, height:10, id:"arrow" }]);
-        jsPlumb.addEndpoint($canid, anchor: [0, 0.8, -1, 0 ], elementScope.targetEndPoint).addOverlay([ "Arrow", { width:10, height:10, id:"arrow" }]);
-        jsPlumb.addEndpoint($canid, anchor: [1, 0.5, 0, 0 ], elementScope.sourceEndPoint).addOverlay([ "Arrow", { width:10, height:10, id:"arrow" }]);
+        jsPlumb.addEndpoint($canid, anchor: [0, 0.2, -1, 0 ], $rootScope.targetEndPoint).addOverlay([ "Arrow", { width:10, height:10, id:"arrow" }]);
+        jsPlumb.addEndpoint($canid, anchor: [0, 0.8, -1, 0 ], $rootScope.targetEndPoint).addOverlay([ "Arrow", { width:10, height:10, id:"arrow" }]);
+        jsPlumb.addEndpoint($canid, anchor: [1, 0.5, 0, 0 ], $rootScope.sourceEndPoint).addOverlay([ "Arrow", { width:10, height:10, id:"arrow" }]);
 
       else if $canvasElement.hasClass("brick-not")
-        jsPlumb.addEndpoint $canid, anchor: [0, 0.5, -1, 0 ], elementScope.targetEndPoint
-        jsPlumb.addEndpoint $canid, anchor: [1, 0.5, 0, 0, 7, 0 ], elementScope.sourceEndPoint
+        jsPlumb.addEndpoint $canid, anchor: [0, 0.5, -1, 0 ], $rootScope.targetEndPoint
+        jsPlumb.addEndpoint $canid, anchor: [1, 0.5, 0, 0, 7, 0 ], $rootScope.sourceEndPoint
 
       else if $canvasElement.hasClass("brick-or")
-        jsPlumb.addEndpoint $canid, anchor: [0, 0.25, -1, 0, 10, 0 ], elementScope.targetEndPoint
-        jsPlumb.addEndpoint $canid, anchor: [0, 0.75, -1, 0, 10, 0 ], elementScope.targetEndPoint
-        jsPlumb.addEndpoint $canid, anchor: [1, 0.5, 0, 0, ], elementScope.sourceEndPoint
+        jsPlumb.addEndpoint $canid, anchor: [0, 0.25, -1, 0, 10, 0 ], $rootScope.targetEndPoint
+        jsPlumb.addEndpoint $canid, anchor: [0, 0.75, -1, 0, 10, 0 ], $rootScope.targetEndPoint
+        jsPlumb.addEndpoint $canid, anchor: [1, 0.5, 0, 0, ], $rootScope.sourceEndPoint
 
       else if $canvasElement.hasClass("brick-input")
-        jsPlumb.addEndpoint $canid, anchor: [1, 0.5, 0, 0, -32, 0 ], elementScope.sourceEndPoint
+        jsPlumb.addEndpoint $canid, anchor: [1, 0.5, 0, 0, -32, 0 ], $rootScope.sourceEndPoint
 
       else if $canvasElement.hasClass("brick-output")
-        jsPlumb.addEndpoint $canid, anchor: [0, 0.5, -1, 0, 25, 0 ], elementScope.targetEndPoint
+        jsPlumb.addEndpoint $canid, anchor: [0, 0.5, -1, 0, 25, 0 ], $rootScope.targetEndPoint
 
       else
-        jsPlumb.addEndpoint $canid, anchor: [0, 0.2, -1, 0 ], elementScope.targetEndPoint
-        jsPlumb.addEndpoint $canid, anchor: [0, 0.8, -1, 0 ], elementScope.targetEndPoint
-        jsPlumb.addEndpoint $canid, anchor: [1, 0.5, 0, 0 ], elementScope.sourceEndPoint
+        jsPlumb.addEndpoint $canid, anchor: [0, 0.2, -1, 0 ], $rootScope.targetEndPoint
+        jsPlumb.addEndpoint $canid, anchor: [0, 0.8, -1, 0 ], $rootScope.targetEndPoint
+        jsPlumb.addEndpoint $canid, anchor: [1, 0.5, 0, 0 ], $rootScope.sourceEndPoint
 
       index++
 

@@ -45,8 +45,7 @@
     "hoodie-server": "0.9.19",
     "hoodie-plugin-appconfig": "^0.1.0",
     "hoodie-plugin-email": "^0.1.4",
-    "hoodie-plugin-users": "^0.1.0",
-    "hoodie-plugin-social": "^0.9.10"
+    "hoodie-plugin-users": "^0.1.0"
   },
   "engines": {
     "node": ">=0.10.22"
@@ -68,8 +67,7 @@
     "plugins": [
       "hoodie-plugin-appconfig",
       "hoodie-plugin-email",
-      "hoodie-plugin-users",
-      "hoodie-plugin-social"
+      "hoodie-plugin-users"
     ]
   }
 }
