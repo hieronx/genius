@@ -19,12 +19,8 @@ class BricksCtrl extends BaseCtrl
 
     @$scope.public = []
 
-    @$scope.loadStoredBricks = =>
-      console.log "1"
-      
+    @$scope.loadStoredBricks = =>      
       @$rootScope.$on 'ngRepeatFinished', (ngRepeatFinishedEvent) =>
-        console.log "2"
-
         @Brick.all().done (bricks) =>
           for brick in bricks
             ui =
@@ -32,8 +28,5 @@ class BricksCtrl extends BaseCtrl
               position:
                 left: brick.left
                 top: brick.top
-
-            console.log "3"
-            console.log ui.draggable
             
-            @dropService.drop(@$rootScope, ui, false)
+            @dropService.drop(brick.id, @$rootScope, ui, false)

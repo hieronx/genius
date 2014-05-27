@@ -1,6 +1,6 @@
 app = angular.module("geniusApp")
 
-app.directive "deleteBrick", ($compile, $rootScope) ->
+app.directive "deleteBrick", ($compile, $rootScope, Brick) ->
 	restrict: "A"
 	link: (scope, element, attributes) ->
 		options = scope.$eval(attributes.deleteBrick)
@@ -22,3 +22,6 @@ app.directive "deleteBrick", ($compile, $rootScope) ->
 			jsPlumb.detachAllConnections($elPar)
 			jsPlumb.removeAllEndpoints($elPar)
 			$elPar.remove()
+
+			index = $brickId.slice 6
+			Brick.destroy(index)

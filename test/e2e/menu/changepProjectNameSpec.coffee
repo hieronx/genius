@@ -14,3 +14,4 @@ describe 'GENius', ->
       expect($projectName.getText()).toEqual('')
       $projectName.sendKeys('New Project Name')
       expect($projectName.getText()).toEqual('New Project Name')
+    
