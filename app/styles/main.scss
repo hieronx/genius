@@ -2,10 +2,10 @@ $icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/
 
 // bower:scss
 @import "../bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss";
+// endbower
 
 @import "browsehappy";
 
-@import "colors.scss";
 @import "layout.scss";
 
 @import "users/hoodie-account.scss";
@@ -16,4 +16,3 @@ $icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/
 @import "bricks/connection.scss";
 @import "bricks/list_item.scss";
 @import "bricks/title.scss";
-// endbower
