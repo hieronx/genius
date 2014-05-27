@@ -32,8 +32,5 @@ class BricksCtrl extends BaseCtrl
               position:
                 left: brick.left
                 top: brick.top
-
-            console.log "3"
-            console.log ui.draggable
             
-            @dropService.drop(@$rootScope, ui, false)
+            @dropService.drop(brick.id, @$rootScope, ui, false)

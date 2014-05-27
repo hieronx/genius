@@ -1,5 +1,4 @@
 class @Base
-  defer: hoodie?.defer?()
   database: hoodie?.store
 
   @register: (app, name) ->
@@ -7,36 +6,22 @@ class @Base
     app.service name, @
 
   all: ->
-    @database.findAll(@type).done (items) =>
-      @defer.resolve items
-    @defer.promise()
+    @database.findAll(@type)
 
   find: (index) ->
-    @database.find(@type, index).done (item) =>
-      @defer.resolve item
-    @defer.promise()
+    @database.find(@type, index)
 
   where: (properties) ->
-    @database.findAll(@type).done (items) =>
-      @defer.resolve _.where(items, properties)
-    @defer.promise()
+    @database.findAll(@type)
 
   add: (attributes) ->
-    @database.add(@type, attributes).done (item) =>
-      @defer.resolve item
-    @defer.promise()
+    @database.add(@type, attributes)
 
   update: (index, attributes) ->
-    @database.update(@type, index, attributes).done (item) =>
-      @defer.resolve item
-    @defer.promise()
+    @database.update(@type, index, attributes)
 
   destroy: (index) ->
-    @database.remove(@type, index).done (item) =>
-      @defer.resolve item
-    @defer.promise()
+    @database.remove(@type, index)
 
   size: ->
-    @database.findAll(@type).done (items) =>
-      @defer.resolve items.length
-    @defer.promise()
+    @database.findAll(@type)
