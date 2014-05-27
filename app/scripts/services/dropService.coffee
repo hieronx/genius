@@ -1,13 +1,9 @@
 app = angular.module("geniusApp")
 
-app.factory "dropService", ($compile, $rootScope) ->
-  index = 1
-  drop: (elementScope, ui, newElement) ->
+app.factory "dropService", ($compile, $rootScope, Brick) ->
+  drop: (index, elementScope, ui, newElement) ->
     unless ui.draggable.hasClass("canvas-element")
       $canvas = $('#workspace')
-
-      console.log("ui draggable: ")
-      console.log ui.draggable
 
       $canvasElement = ui.draggable.clone()
       $canvasElement.addClass "canvas-element"
@@ -24,16 +20,18 @@ app.factory "dropService", ($compile, $rootScope) ->
           top: (ui.position.top)
           position: "absolute"
       else
-        console.log($canvasElement)
         $canvasElement.css
           left: (ui.position.left + "px")
           top: (ui.position.top)
           position: "absolute"
-        console.log($canvasElement)
-        console.log("-------------------------------------------")
+
+      position = {
+        left: $canvasElement.position().left
+        top: $canvasElement.position().top
+      }
+      Brick.update(index, position)
 
       $canid = "brick-" + index
-
       $canvasElement.draggable("destroy")
 
       delBrick = angular.element '<i class="fa fa-times delete-brick" delete-brick></i>'
@@ -65,15 +63,26 @@ app.factory "dropService", ($compile, $rootScope) ->
         jsPlumb.addEndpoint $canid, anchor: [0, 0.8, -1, 0 ], $rootScope.targetEndPoint
         jsPlumb.addEndpoint $canid, anchor: [1, 0.5, 0, 0 ], $rootScope.sourceEndPoint
 
-      index++
-
       jsPlumb.draggable $canvasElement,
         # containment: $('#workspace')
         start: (event, ui) ->
+          console.log "A"
           $(this).popover('disable')
         stop: (event, ui) ->
           setTimeout (=>
+            console.log "B"
             $(this).popover('enable')
+
+            $canid = $(this).attr 'id'
+            index = $canid.slice 6
+
+            position = {
+              left: $(this).position().left
+              top: $(this).position().top
+            }
+
+            Brick.update(index, position).done (updatedObj) ->
+              console.log updatedObj
           ), 0
 
       $canvasElement.on 'click', ->
