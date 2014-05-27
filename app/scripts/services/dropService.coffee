@@ -34,7 +34,7 @@ app.factory "dropService", ($compile, $rootScope) ->
 
       $canid = "brick-" + index
 
-      $canvasElement.draggable "destroy"
+      $canvasElement.draggable("destroy")
 
       delBrick = angular.element '<i class="fa fa-times delete-brick" delete-brick></i>'
       $canvasElement.append delBrick
@@ -68,7 +68,23 @@ app.factory "dropService", ($compile, $rootScope) ->
         jsPlumb.addEndpoint $canid, anchor: [0, 0.8, -1, 0 ], $rootScope.targetEndPoint
         jsPlumb.addEndpoint $canid, anchor: [1, 0.5, 0, 0 ], $rootScope.sourceEndPoint
 
-      jsPlumb.draggable $canvasElement
-
-
       index++
+
+      jsPlumb.draggable $canvasElement,
+        # containment: $('#workspace')
+        start: (event, ui) ->
+          $(this).popover('disable')
+        stop: (event, ui) ->
+          setTimeout (=>
+            $(this).popover('enable')
+          ), 0
+      
+      $canvasElement.on 'click', ->
+        $this = $(this)
+        if $this.hasClass('dragDisabled')
+          $this.removeClass('dragDisabled')
+          $this.draggable('enable')
+        else
+          $this.addClass('dragDisabled')
+          $this.draggable('disable')
+      
