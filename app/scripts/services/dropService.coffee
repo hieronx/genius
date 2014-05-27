@@ -63,6 +63,14 @@ app.factory "dropService", ($compile, $rootScope) ->
         jsPlumb.addEndpoint $canid, anchor: [1, 0.5, 0, 0 ], elementScope.sourceEndPoint
 
       jsPlumb.draggable $canvasElement
-
-
       index++
+      
+      $canvasElement.on 'click', ->
+        $this = $(this)
+        if $this.hasClass('dragDisabled')
+          $this.removeClass('dragDisabled')
+          $this.draggable('enable')
+        else
+          $(this).addClass('dragDisabled')
+          $(this).draggable('disable')
+      
