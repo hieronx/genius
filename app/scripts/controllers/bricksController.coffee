@@ -19,12 +19,8 @@ class BricksCtrl extends BaseCtrl
 
     @$scope.public = []
 
-    @$scope.loadStoredBricks = =>
-      console.log "1"
-      
+    @$scope.loadStoredBricks = =>      
       @$rootScope.$on 'ngRepeatFinished', (ngRepeatFinishedEvent) =>
-        console.log "2"
-
         @Brick.all().done (bricks) =>
           for brick in bricks
             ui =
