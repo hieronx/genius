@@ -7,6 +7,8 @@ app.factory "dropService", ($compile, $rootScope) ->
       $canvas = $('#workspace')
 
       $canvasElement = ui.draggable.clone()
+      $canvasElement.removeAttr('tooltip')
+
       $canvasElement.addClass "canvas-element"
       $canvasElement.draggable containment: "#workspace"
       $canvasElement.addClass("brick-jsplumb").attr "id", "brick-" + index
