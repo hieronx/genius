@@ -78,9 +78,8 @@ app.factory "dropService", ($compile, $rootScope) ->
       $canvasElement.on 'click', ->
         $this = $(this)
         if $this.hasClass('dragDisabled')
-          $this.removeClass('dragDisabled')
-          $this.draggable('enable')
+          unless $this.hasClass('labelDisabled')
+            $this.removeClass('dragDisabled').draggable('enable')
         else
-          $this.addClass('dragDisabled')
-          $this.draggable('disable')
-      
+          $this.addClass('dragDisabled').draggable('disable')
+

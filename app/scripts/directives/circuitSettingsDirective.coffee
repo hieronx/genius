@@ -3,7 +3,7 @@ app = angular.module("geniusApp")
 app.directive "circuitSettings", ($compile, $rootScope) ->
   restrict: "A"
   link: (scope, element, attributes) ->
-    options = scope.$eval(attributes.circuitSettings) #allow options to be passed in
+    options = scope.$eval(attributes.circuitSettings)
     jsPlumb.Defaults.Container = element
 
     # the definition of source endpoints (the small blue ones)
@@ -75,11 +75,9 @@ app.directive "circuitSettings", ($compile, $rootScope) ->
         [
           "Custom"
             cssClass: "component label"
-            attributes: 'connection-popover'
             location: 0.5
             create: (component)->
-              console.log(component)
-              $element = angular.element "<div data-connection='#{component.id}' connection-popover>Properties</div>"
+              $element = angular.element "<div id='label-#{component.id}' data-connection='#{component.id}' connection-popover>Properties</div>"
               $compile($element)($rootScope)
               return $element
         ]

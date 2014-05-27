@@ -16,5 +16,15 @@ app.directive "connectionPopover", ($compile, $rootScope) ->
     )
 
     element.on 'click', (event) ->
-      $connId = element.data('connection') 
-      console.log($('#' + $connId))
+      $this = $(this)
+      $source = $('#' + $this.data('sourceId'))
+      $target = $('#' + $this.data('targetId'))
+
+      if $source.hasClass('labelDisabled') || $target.hasClass('labelDisabled')
+        unless $source.hasClass('dragDisabled') || $target.hasClass('dragDisabled')
+          $source.removeClass('labelDisabled').draggable('enable')
+          $target.removeClass('labelDisabled').draggable('enable')
+      else 
+        $source.addClass('labelDisabled').draggable('disable')
+        $target.addClass('labelDisabled').draggable('disable')
+
