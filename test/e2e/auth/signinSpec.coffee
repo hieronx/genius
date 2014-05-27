@@ -19,4 +19,4 @@ describe 'GENius', ->
           element(findBy.id('password_confirmation')).sendKeys('password')
 
           element(findBy.id('modalSubmitButton')).click()
-    return
+    
