@@ -1,36 +1,27 @@
 class @Base
-  defer: hoodie?.defer?()
+  database: hoodie?.store
 
   @register: (app, name) ->
     name ?= @name || @toString().match(/function\s*(.*?)\(/)?[1]
     app.service name, @
 
   all: ->
-    hoodie.store.findAll(@type).done (items) =>
-      @defer.resolve items
-    @defer.promise()
+    @database.findAll(@type)
 
   find: (index) ->
-    hoodie.store.find(@type, index).done (item) =>
-      @defer.resolve item
-    @defer.promise()
+    @database.find(@type, index)
 
   where: (properties) ->
-    hoodie.store.findAll(@type).done (items) =>
-      @defer.resolve _.where(items, properties)
-    @defer.promise()
+    @database.findAll(@type)
 
   add: (attributes) ->
-    hoodie.store.add(@type, attributes).done (item) =>
-      @defer.resolve item
-    @defer.promise()
+    @database.add(@type, attributes)
+
+  update: (index, attributes) ->
+    @database.update(@type, index, attributes)
 
   destroy: (index) ->
-    hoodie.store.remove(@type, index).done (item) =>
-      @defer.resolve item
-    @defer.promise()
+    @database.remove(@type, index)
 
   size: ->
-    hoodie.store.findAll(@type).done (items) =>
-      @defer.resolve items.length
-    @defer.promise()
+    @database.findAll(@type)
