@@ -8,13 +8,15 @@ app.directive "connectionPopover", ($compile, $rootScope) ->
       trigger:'click',
       html : true,
       placement: 'bottom',
-      content: '<form class="form-horizontal" role="form">
+      content: '<form role="form">
                   <input type="text" class="form-control" placeholder="Propertie1">
                   <input type="text" class="form-control" placeholder="Propertie2">
                   <button type="submit" class="btn btn-block btn-primary">Save</button>
                 </form>'
     )
 
+    # Ensure that the bricks that are connected by this connection cannot be dragged when 
+    # a popover is active on the label
     element.on 'click', (event) ->
       $this = $(this)
       $source = $('#' + $this.data('sourceId'))
