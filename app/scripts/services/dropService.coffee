@@ -69,11 +69,9 @@ app.factory "dropService", ($compile, $rootScope, Brick) ->
       jsPlumb.draggable $canvasElement,
         # containment: $('#workspace')
         start: (event, ui) ->
-          console.log "Start"
           $(this).popover('disable')
         stop: (event, ui) ->
           setTimeout (=>
-            console.log "Stop"
             $(this).popover('enable')
 
             $canid = $(this).attr 'id'
@@ -85,7 +83,6 @@ app.factory "dropService", ($compile, $rootScope, Brick) ->
             }
 
             Brick.update(index, position).done (updatedObj) ->
-              console.log "Update"
           ), 0
       
       # Bricks cannot be dragged when a popover is active
