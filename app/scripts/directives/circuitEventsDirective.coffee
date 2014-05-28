@@ -18,5 +18,8 @@ app.directive "circuitEvents", ($compile, $rootScope) ->
    			return false
    		return true 
 
+    $('.brick-form').submit ->
+      console.log("YAY!")
+
 
 

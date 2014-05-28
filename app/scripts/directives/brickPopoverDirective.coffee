@@ -5,26 +5,18 @@ app.directive "brickPopover", ($compile, $rootScope) ->
   link: (scope, element, attributes) ->
     options = scope.$eval(attributes.brickPopover)
 
+    brickForm = angular.element '<form class="brick-form" role="form" update-brick>
+                  <input type="text" class="form-control" name="propertie1" placeholder="Propertie1">
+                  <input type="text" class="form-control" name="propertie2" placeholder="Propertie2">
+                  <input type="text" class="form-control" name="propertie3" placeholder="Propertie3">
+                  <button type="submit" class="btn btn-block btn-primary">Save</button>
+                </form>'
+    $compile(brickForm)($rootScope)
+
     element.popover(
       trigger:'click',
       html : true,
       placement: 'bottom',
       title: element.data('type') + ' brick'
-      content: '<form class="form-horizontal" role="form">
-                  <div class="form-group">
-                    <label for="Gene1" class="col-sm-2 control-label">Email</label>
-                    <div class="col-sm-10">
-                      <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
-                    </div>
-                    <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
-                    <div class="col-sm-10">
-                      <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                      <button type="submit" class="btn pull-right btn-primary">Save</button>
-                    </div>
-                  </div>
-                </form>'
+      content: brickForm
     )
