@@ -6,3 +6,8 @@ database:
   post:
     - grunt serve:
         background: true
+
+test:
+  override:
+    - grunt test
+    - npm test
