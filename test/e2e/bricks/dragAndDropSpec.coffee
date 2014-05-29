@@ -4,7 +4,9 @@ describe 'GENius', ->
 
   beforeEach ->
     browser.get('/');
+
     browser.driver.sleep(500)
+    browser.waitForAngular()
 
   it 'should be draggable and droppable', ->
     expect(element(findBy.id('brick-and')).getText()).toEqual('AND')
@@ -25,8 +27,8 @@ describe 'GENius', ->
 
     browser.driver.sleep(500)
 
-    element(findBy.css('.fa-times')).click()
+    # element(findBy.css('.fa-times')).click()
 
-    browser.driver.sleep(500)
+    # browser.driver.sleep(500)
 
     expect(element(findBy.css('.ui-draggable.brick-and'))).toNotEqual($brickElement)

@@ -4,8 +4,10 @@ describe 'GENius', ->
 
 	beforeEach ->
 		browser.get('/')
-		browser.driver.sleep(500)
 
+		browser.driver.sleep(500)
+		browser.waitForAngular()
+	
 	it 'should have an popover when ', ->
 		protractor.getInstance().actions().dragAndDrop(element(findBy.id('brick-and')), { x: -250, y:  150 }).perform()
 
