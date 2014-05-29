@@ -3,9 +3,10 @@ describe 'GENius', ->
   describe 'authentication', ->
 
     beforeEach ->
-      browser.ignoreSynchronization = true
       browser.get('/');
+
       browser.driver.sleep(500)
+      browser.waitForAngular()
 
     it 'should allow users to sign up', ->
       elementToFind = findBy.id('nav-dropdown')
