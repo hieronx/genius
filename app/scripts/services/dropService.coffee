@@ -50,8 +50,8 @@ app.factory "dropService", ($compile, $rootScope, Brick) ->
         jsPlumb.addEndpoint $canid, anchor: [1, 0.5, 0,  0], $rootScope.sourceEndPoint
 
       else if $canvasElement.hasClass("brick-or")
-        jsPlumb.addEndpoint $canid, anchor: [0, 0.25, -1, 0, 12, 0], $rootScope.targetEndPoint
-        jsPlumb.addEndpoint $canid, anchor: [0, 0.75, -1, 0, 12, 0], $rootScope.targetEndPoint
+        jsPlumb.addEndpoint $canid, anchor: [-0.02, 0.25, -1, 0, 12, 0], $rootScope.targetEndPoint
+        jsPlumb.addEndpoint $canid, anchor: [-0.02, 0.75, -1, 0, 12, 0], $rootScope.targetEndPoint
         jsPlumb.addEndpoint $canid, anchor: [1, 0.5,  0,  0, -8, 0], $rootScope.sourceEndPoint
 
       else if $canvasElement.hasClass("brick-input")
@@ -87,7 +87,7 @@ app.factory "dropService", ($compile, $rootScope, Brick) ->
             Brick.update(index, position).done (updatedObj) ->
               console.log updatedObj
           ), 0
-      
+
       # Bricks cannot be dragged when a popover is active
       $canvasElement.on 'click', ->
         $this = $(this)
