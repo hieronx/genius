@@ -3,7 +3,7 @@
 	[
 		{
 			"path": ".",
-      "folder_exclude_patterns": [".tmp", ".sass-cache", "node_modules", "db/data"]
+      "folder_exclude_patterns": [".tmp", ".sass-cache", "node_modules", "data", "app/bower_components"]
 		}
 	]
 }
