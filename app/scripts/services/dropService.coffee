@@ -6,6 +6,8 @@ app.factory "dropService", ($compile, $rootScope, Brick) ->
       $canvas = $('#workspace')
 
       $canvasElement = ui.draggable.clone()
+      $canvasElement.removeAttr('tooltip')
+
       $canvasElement.addClass "canvas-element"
       $canvasElement.draggable containment: "#workspace"
       $canvasElement.addClass("brick-jsplumb").attr "id", "brick-" + index
@@ -63,6 +65,7 @@ app.factory "dropService", ($compile, $rootScope, Brick) ->
         jsPlumb.addEndpoint $canid, anchor: [0, 0.8, -1, 0 ], $rootScope.targetEndPoint
         jsPlumb.addEndpoint $canid, anchor: [1, 0.5, 0, 0 ], $rootScope.sourceEndPoint
 
+      # Enable draggable behaviour and ensure a popover will not appear when dragged
       jsPlumb.draggable $canvasElement,
         # containment: $('#workspace')
         start: (event, ui) ->
@@ -84,12 +87,13 @@ app.factory "dropService", ($compile, $rootScope, Brick) ->
             Brick.update(index, position).done (updatedObj) ->
               console.log updatedObj
           ), 0
-
+      
+      # Bricks cannot be dragged when a popover is active
       $canvasElement.on 'click', ->
         $this = $(this)
         if $this.hasClass('dragDisabled')
-          $this.removeClass('dragDisabled')
-          $this.draggable('enable')
+          unless $this.hasClass('labelDisabled')
+            $this.removeClass('dragDisabled').draggable('enable')
         else
           $this.addClass('dragDisabled')
           $this.draggable('disable')

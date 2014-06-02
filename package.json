@@ -55,7 +55,7 @@
     "prestart": "npm install",
     "start": "http-server -p 8000",
     "pretest": "npm install",
-    "test": "grunt test",
+    "test": "npm run protractor",
     "test-single-run": "karma start test/karma.conf.js  --single-run",
     "preupdate-webdriver": "npm install",
     "update-webdriver": "webdriver-manager update",

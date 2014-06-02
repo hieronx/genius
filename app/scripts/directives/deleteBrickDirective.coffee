@@ -1,19 +1,27 @@
 app = angular.module("geniusApp")
 
 app.directive "deleteBrick", ($compile, $rootScope, Brick) ->
-  restrict: "A"
-  link: (scope, element, attributes) ->
-    options = scope.$eval(attributes.deleteBrick)
+	restrict: "A"
+	link: (scope, element, attributes) ->
+		options = scope.$eval(attributes.deleteBrick)
 
-    element.on "click", ->
-      $rootScope.elPar = element.parent()
-      $rootScope.brickId = scope.elPar.attr("id")
-      $canid = scope.brickId
+		# Delete a brick and all its elements, popovers and connections
+		element.on "click", ->
+			$elPar = element.parent()
+			$brickId = $elPar.attr("id")
+			$connLabel = $('.label.' + $brickId)
+			$sourceId = $connLabel.data('sourceId')
+			$targetId = $connLabel.data('targetId')
 
-      jsPlumb.detachAllConnections(scope.elPar)
-      jsPlumb.removeAllEndpoints(scope.elPar)
+			$elPar.popover('destroy')
+			$connLabel.popover('destroy')
+	
+			$('#' + $sourceId).removeClass('labelDisabled').draggable('enable')
+			$('#' + $targetId).removeClass('labelDisabled').draggable('enable')
+			
+			jsPlumb.detachAllConnections($elPar)
+			jsPlumb.removeAllEndpoints($elPar)
+			$elPar.remove()
 
-      $("#" + $canid).remove()
-
-      index = $canid.slice 6
-      Brick.destroy(index)
+			index = $brickId.slice 6
+			Brick.destroy(index)
