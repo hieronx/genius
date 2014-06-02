@@ -1,18 +1,18 @@
 <div class="panel panel-default">
   <div class="panel-body">
-    <div class="bricks-container">
+    <div class="bricks-container" collapse="collapse.gates">
       <h3>
         <a href="#">Gates</a>
       </h3>
       <div ng-include="'views/bricks/list_item.html'" ng-repeat="brick in gates" class="brick-container"></div>
     </div>
-    <div class="bricks-container">
+    <div class="bricks-container" collapse="collapse.private">
       <h3>
         <a href="#">Private</a>
       </h3>
       <div ng-include="'views/bricks/list_item.html'" ng-repeat="brick in private" class="brick-container"></div>
     </div>
-    <div class="bricks-container">
+    <div class="bricks-container" collapse="collapse.public">
       <h3>
         <a href="#">Public</a>
       </h3>
@@ -25,13 +25,13 @@
     <div class="input-group">
       <input type="text" class="form-control" placeholder="Search...">
       <div class="input-group-btn" data-toggle="buttons">
-        <a href="#" class="btn btn-default" tooltip="Gates" tooltip-append-to-body="true">
+        <a class="btn btn-default" tooltip="Gates" tooltip-append-to-body="true" ng-click="filter('gates')">
           <i class="fa fa-wrench"></i>
         </a>
-        <a href="#" class="btn btn-default" tooltip="Private" tooltip-append-to-body="true">
+        <a class="btn btn-default" tooltip="Private" tooltip-append-to-body="true" ng-click="filter('private')">
           <i class="fa fa-eye-slash"></i>
         </a>
-        <a href="#" class="btn btn-default" tooltip="Public" tooltip-append-to-body="true">
+        <a class="btn btn-default" tooltip="Public" tooltip-append-to-body="true" ng-click="filter('public')">
           <i class="fa fa-eye"></i>
         </a>
       </div>
