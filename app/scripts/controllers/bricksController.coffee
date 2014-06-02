@@ -3,7 +3,7 @@ app = angular.module("geniusApp")
 class BricksCtrl extends BaseCtrl
 
   @register app, 'BricksCtrl'
-  @inject "$scope", "$rootScope", "Brick", "dropService"
+  @inject "$scope", "$rootScope", "Brick", "dropService", "simulationService"
 
   initialize: ->
     @$scope.gates =
@@ -18,6 +18,9 @@ class BricksCtrl extends BaseCtrl
     @$scope.private = []
 
     @$scope.public = []
+
+    @$scope.run = =>
+      @simulationService.run()
 
     @$scope.loadStoredBricks = =>      
       @$rootScope.$on 'ngRepeatFinished', (ngRepeatFinishedEvent) =>

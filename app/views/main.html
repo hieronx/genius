@@ -7,7 +7,7 @@
         </div>
         <div class="navbar-text" ng-include="'views/bricks/title.html'"></div>
         <div class="navbar-right hidden-xs" ng-include="'views/users/nav.html'"></div>
-        <div class="navbar-right hidden-xs" ng-include="'views/bricks/nav.html'"></div>
+        <div class="navbar-right hidden-xs" ng-controller="BricksCtrl" ng-include="'views/bricks/nav.html'"></div>
       </div>
     </div>
     <div class="row" ng-include="'views/bricks/show.html'" ng-controller="BricksCtrl" onLoad="loadStoredBricks()"></div>
