@@ -30,3 +30,7 @@ class BricksCtrl extends BaseCtrl
                 top: brick.top
             
             @dropService.drop(brick.id, @$rootScope, ui, false)
+
+            unless typeof brick.connections is 'undefined'
+              for connection in brick.connections
+                jsPlumb.connect({ source: "brick-" + brick.id, target: "brick-" + connection }, @$rootScope.sourceEndPoint)
