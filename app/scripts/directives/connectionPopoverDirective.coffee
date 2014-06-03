@@ -23,7 +23,10 @@ app.directive "connectionPopover", ($compile, $rootScope) ->
       $target = $('#' + $this.data('targetId'))
 
       if $source.hasClass('labelDisabled') || $target.hasClass('labelDisabled')
-        unless $source.hasClass('dragDisabled') || $target.hasClass('dragDisabled')
+        if $source.hasClass('dragDisabled') || $target.hasClass('dragDisabled')
+          $source.removeClass('labelDisabled')
+          $target.removeClass('labelDisabled')
+        else
           $source.removeClass('labelDisabled').draggable('enable')
           $target.removeClass('labelDisabled').draggable('enable')
       else 
