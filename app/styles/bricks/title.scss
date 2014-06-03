@@ -1,0 +1,17 @@
+#main #mainLeft .navbar .navbar-text #title {
+  background-color: transparent;
+  border: none;
+  padding: 4px 8px;
+  margin: -4px;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  outline: none;
+  &:hover, &:focus {
+    border: 1px solid #ddd;
+    margin: -5px;
+  }
+  &:focus {
+    background-color: white;
+  }
+}

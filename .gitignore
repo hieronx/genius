@@ -7,3 +7,4 @@ app/bower_components
 npm-debug.log
 data
 genius.sublime-workspace
+*.ai
