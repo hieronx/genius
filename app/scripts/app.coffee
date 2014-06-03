@@ -5,6 +5,7 @@ angular.module("geniusApp", [
   "ngRoute"
   "ui.bootstrap"
   "underscore"
+  "highcharts-ng"
 ]).config ($routeProvider) ->
   $routeProvider.when("/",
     templateUrl: "views/main.html"

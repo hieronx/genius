@@ -1,4 +1,4 @@
-<div class="row" id="main">
+<div class="row" id="main" ng-controller="BricksCtrl">
   <div class="col-xs-12 col-sm-8 col-md-9" id="mainLeft">
     <div class="navbar navbar-default navbar-fixed-top">
       <div class="container-fluid">
@@ -7,17 +7,17 @@
         </div>
         <div class="navbar-text" ng-include="'views/bricks/title.html'"></div>
         <div class="navbar-right hidden-xs" ng-include="'views/users/nav.html'"></div>
-        <div class="navbar-right hidden-xs" ng-controller="BricksCtrl" ng-include="'views/bricks/nav.html'"></div>
+        <div class="navbar-right hidden-xs" ng-include="'views/bricks/nav.html'"></div>
       </div>
     </div>
-    <div class="row" ng-include="'views/bricks/show.html'" ng-controller="BricksCtrl" onLoad="loadStoredBricks()"></div>
+    <div class="row" ng-include="'views/bricks/show.html'" onLoad="loadStoredBricks()"></div>
   </div>
   <tabset class="hidden-xs col-sm-4 col-md-3" id="mainRight">
     <tab heading="Library">
-      <div id="library" ng-include="'views/bricks/library.html'" ng-controller="BricksCtrl"></div>
+      <div id="library" ng-include="'views/bricks/library.html'"></div>
     </tab>
     <tab heading="Visualisation">
-      <div id="visualisation" ng-controller="BricksCtrl" ng-include="'views/bricks/visualisation.html'"></div>
+      <div id="visualisation" ng-include="'views/bricks/visualisation.html'"></div>
     </tab>
   </div>
 </div>

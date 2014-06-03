@@ -21,17 +21,47 @@ class BricksCtrl extends BaseCtrl
 
     @$scope.run = =>
       @Brick.all().done (bricks) =>
+
         solution = @simulationService.run(bricks)
 
-        console.log solution
+        data = numeric.transpose(solution.y)
 
-        chartcfg =
+        console.log data
+
+        @$scope.chartConfig =
+          options:
+            chart:
+              type: "areaspline"
+
+          series: [
+            {
+              name: "S"
+              data: data[0]
+              id: "series-0"
+            },
+            {
+              name: "E"
+              data: data[1]
+              id: "series-1"
+            },
+            {
+              name: "C"
+              data: data[2]
+              id: "series-2"
+            },
+            {
+              name: "P"
+              data: data[3]
+              id: "series-3"
+            }
+          ]
+
+          title: "Simulation"
+
           loading: false
 
-        @$timeout =>
-          console.log chartcfg
-          @$scope.chartConfig = chartcfg
-        , 1
+          credits:
+            enabled: false
 
     @$scope.loadStoredBricks = =>      
       @$rootScope.$on 'ngRepeatFinished', (ngRepeatFinishedEvent) =>
