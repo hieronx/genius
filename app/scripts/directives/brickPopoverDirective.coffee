@@ -10,23 +10,158 @@ app.directive "brickPopover", ($compile, $rootScope, Brick) ->
 
     Brick.find($brickId).done (fetchedBrick) ->
       $brick = fetchedBrick
+    brickForm = null
+    if element.data('type') == 'AND'
+      brickForm = angular.element '<form class="brick-form form-horizontal" role="form">
+                                  <div class="form-group">
+                                    <label for="K1" class="col-sm-2 control-label">K1</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" id="K1" name="K1 (Complex binding)" placeholder="Complex binding"></div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="K2" class="col-sm-2 control-label">K2</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" id="K2" name="K2 (Catalytic rate)" placeholder="Catalytic rate"></div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="K3" class="col-sm-2 control-label">K3</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" id="K3" name="K3 (Complex division)" placeholder="Complex division"></div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="K4" class="col-sm-2 control-label">K4</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" id="K4" name="K4 (Reverse catalytic rate)" placeholder="Reverse catalytic rate"></div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="Enzym" class="col-sm-2 control-label">E</label>
+                                    <div class="col-sm-6"><input type="text" class="form-control" id="Enzym" name="Enzym" placeholder="Enzym"></div>
+                                    <div class="col-sm-4"><input type="text" class="form-control" id="Enzym-value" name="Enzym-value" placeholder="0"></div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="Substrate" class="col-sm-2 control-label">S</label>
+                                    <div class="col-sm-6"><input type="text" class="form-control" id="Substrate" name="Substrate" placeholder="Substrate"></div>
+                                    <div class="col-sm-4"><input type="text" class="form-control" id="Substrate-value" name="Substrate" placeholder="0"></div>
+                                  </div>
+                                  <button type="submit" class="submit-button btn btn-block btn-primary">Save</button>
+                                </form>'
+    else if element.data('type') == 'NOT'
+      brickForm = angular.element '<form class="brick-form form-horizontal" role="form">
+                                  <div class="form-group">
+                                    <label for="K1" class="col-sm-2 control-label">K1</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" id="K1" name="K1 (Complex binding)" placeholder="Complex binding"></div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="K2" class="col-sm-2 control-label">K2</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" id="K2" name="K2 (Catalytic rate)" placeholder="Catalytic rate"></div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="K3" class="col-sm-2 control-label">K3</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" id="K3" name="K3 (Complex division)" placeholder="Complex division"></div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="K4" class="col-sm-2 control-label">K4</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" id="K4" name="K4 (Reverse catalytic rate)" placeholder="Reverse catalytic rate"></div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="Enzym" class="col-sm-2 control-label">E</label>
+                                    <div class="col-sm-6"><input type="text" class="form-control" id="Enzym" name="Enzym" placeholder="Enzym"></div>
+                                    <div class="col-sm-4"><input type="text" class="form-control" id="Enzym-value" name="Enzym-value" placeholder="0"></div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="Substrate" class="col-sm-2 control-label">S</label>
+                                    <div class="col-sm-6"><input type="text" class="form-control" id="Substrate" name="Substrate" placeholder="Substrate"></div>
+                                    <div class="col-sm-4"><input type="text" class="form-control" id="Substrate-value" name="Substrate" placeholder="0"></div>
+                                  </div>
+                                  <button type="submit" class="submit-button btn btn-block btn-primary">Save</button>
+                                </form>'  
+    else if element.data('type') == 'OR' 
+      brickForm = angular.element '<form class="brick-form form-horizontal" role="form">
+                                  <div class="form-group">
+                                    <label for="K1" class="col-sm-2 control-label">K1</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" id="K1" name="K1 (Complex binding)" placeholder="Complex binding"></div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="K2" class="col-sm-2 control-label">K2</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" id="K2" name="K2 (Catalytic rate)" placeholder="Catalytic rate"></div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="K3" class="col-sm-2 control-label">K3</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" id="K3" name="K3 (Complex division)" placeholder="Complex division"></div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="K4" class="col-sm-2 control-label">K4</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" id="K4" name="K4 (Reverse catalytic rate)" placeholder="Reverse catalytic rate"></div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="Enzym" class="col-sm-2 control-label">E</label>
+                                    <div class="col-sm-6"><input type="text" class="form-control" id="Enzym" name="Enzym" placeholder="Enzym"></div>
+                                    <div class="col-sm-4"><input type="text" class="form-control" id="Enzym-value" name="Enzym-value" placeholder="0"></div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="Substrate" class="col-sm-2 control-label">S</label>
+                                    <div class="col-sm-6"><input type="text" class="form-control" id="Substrate" name="Substrate" placeholder="Substrate"></div>
+                                    <div class="col-sm-4"><input type="text" class="form-control" id="Substrate-value" name="Substrate" placeholder="0"></div>
+                                  </div>
+                                  <button type="submit" class="submit-button btn btn-block btn-primary">Save</button>
+                                </form>'
+    else if element.data('type') == 'INPUT'
+      brickForm = angular.element '<form class="brick-form form-horizontal" role="form">
+                                  <div class="form-group">
+                                    <label for="K1" class="col-sm-2 control-label">K1</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" id="K1" name="K1 (Complex binding)" placeholder="Complex binding"></div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="K2" class="col-sm-2 control-label">K2</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" id="K2" name="K2 (Catalytic rate)" placeholder="Catalytic rate"></div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="K3" class="col-sm-2 control-label">K3</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" id="K3" name="K3 (Complex division)" placeholder="Complex division"></div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="K4" class="col-sm-2 control-label">K4</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" id="K4" name="K4 (Reverse catalytic rate)" placeholder="Reverse catalytic rate"></div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="Enzym" class="col-sm-2 control-label">E</label>
+                                    <div class="col-sm-6"><input type="text" class="form-control" id="Enzym" name="Enzym" placeholder="Enzym"></div>
+                                    <div class="col-sm-4"><input type="text" class="form-control" id="Enzym-value" name="Enzym-value" placeholder="0"></div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="Substrate" class="col-sm-2 control-label">S</label>
+                                    <div class="col-sm-6"><input type="text" class="form-control" id="Substrate" name="Substrate" placeholder="Substrate"></div>
+                                    <div class="col-sm-4"><input type="text" class="form-control" id="Substrate-value" name="Substrate" placeholder="0"></div>
+                                  </div>
+                                  <button type="submit" class="submit-button btn btn-block btn-primary">Save</button>
+                                </form>'            
+    else if element.data('type') == 'OUTPUT' 
+      brickForm = angular.element '<form class="brick-form form-horizontal" role="form">
+                                  <div class="form-group">
+                                    <label for="K1" class="col-sm-2 control-label">K1</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" id="K1" name="K1 (Complex binding)" placeholder="Complex binding"></div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="K2" class="col-sm-2 control-label">K2</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" id="K2" name="K2 (Catalytic rate)" placeholder="Catalytic rate"></div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="K3" class="col-sm-2 control-label">K3</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" id="K3" name="K3 (Complex division)" placeholder="Complex division"></div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="K4" class="col-sm-2 control-label">K4</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" id="K4" name="K4 (Reverse catalytic rate)" placeholder="Reverse catalytic rate"></div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="Enzym" class="col-sm-2 control-label">E</label>
+                                    <div class="col-sm-6"><input type="text" class="form-control" id="Enzym" name="Enzym" placeholder="Enzym"></div>
+                                    <div class="col-sm-4"><input type="text" class="form-control" id="Enzym-value" name="Enzym-value" placeholder="0"></div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="Substrate" class="col-sm-2 control-label">S</label>
+                                    <div class="col-sm-6"><input type="text" class="form-control" id="Substrate" name="Substrate" placeholder="Substrate"></div>
+                                    <div class="col-sm-4"><input type="text" class="form-control" id="Substrate-value" name="Substrate" placeholder="0"></div>
+                                  </div>
+                                  <button type="submit" class="submit-button btn btn-block btn-primary">Save</button>
+                                </form>'
 
-    brickForm = angular.element '<form class="brick-form form-horizontal" role="form">
-                  <div class="form-group">
-                    <label for="K1"> K1 </label>
-                    <input type="text" id="K1" class="form-control" name="K1 (Complex binding)" placeholder="Complex binding">
-                  </div>
-                  <div class="form-group">
-                    <label for="K2">K2</label><input type="text" id="K2" class="form-control" name="K2 (Catalytic rate)" placeholder="Catalytic rate">
-                  </div>
-                  <div class="form-group">
-                    <label for="K3">K3</label><input type="text" id="K3" class="form-control" name="K3 (Complex division)" placeholder="Complex division">
-                  </div>
-                  <div class="form-group">
-                    <label for="K4">K4</label><input type="text" id="K4" class="form-control" name="K4 (Reverse catalytic rate)" placeholder="Reverse catalytic rate">
-                  </div>
-                  <button type="submit" class="submit-button btn btn-block btn-primary">Save</button>
-                </form>'
     brickForm.data('brickId', $brickId)
 
     # Ensure that stored data is displayed in the form
