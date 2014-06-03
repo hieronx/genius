@@ -106,7 +106,6 @@ app.factory "dropService", ($compile, $rootScope, Brick) ->
             $attributes[$(prop).attr('name')] = $(prop).val();
 
           Brick.update($brickId, $attributes).done (updatedBrick) ->
-            console.log updatedBrick
 
 
 
