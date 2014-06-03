@@ -77,10 +77,10 @@ app.factory "dropService", ($compile, $rootScope, Brick) ->
             $canid = $(this).attr 'id'
             index = $canid.slice 6
 
-            position = {
-            left: $(this).position().left
-            top: $(this).position().top
-            }
+            position =
+              left: $(this).position().left
+              top: $(this).position().top
+
             Brick.update(index, position)
           ), 0
 
