@@ -41,24 +41,24 @@ app.factory "dropService", ($compile, $rootScope, Brick) ->
       $compile(delBrick)($rootScope)
 
       if $canvasElement.hasClass("brick-and")
-        jsPlumb.addEndpoint($canid, anchor: [0, 0.2, -1, 0 ], $rootScope.targetEndPoint).addOverlay([ "Arrow", { width:10, height:10, id:"arrow" }]);
-        jsPlumb.addEndpoint($canid, anchor: [0, 0.8, -1, 0 ], $rootScope.targetEndPoint).addOverlay([ "Arrow", { width:10, height:10, id:"arrow" }]);
-        jsPlumb.addEndpoint($canid, anchor: [1, 0.5, 0, 0 ], $rootScope.sourceEndPoint).addOverlay([ "Arrow", { width:10, height:10, id:"arrow" }]);
+        jsPlumb.addEndpoint $canid, anchor: [0, 0.2, -1, 0, 8,  0], $rootScope.targetEndPoint
+        jsPlumb.addEndpoint $canid, anchor: [0, 0.8, -1, 0, 8,  0], $rootScope.targetEndPoint
+        jsPlumb.addEndpoint $canid, anchor: [1, 0.5, 0,  0, -8, 0], $rootScope.sourceEndPoint
 
       else if $canvasElement.hasClass("brick-not")
-        jsPlumb.addEndpoint $canid, anchor: [0, 0.5, -1, 0 ], $rootScope.targetEndPoint
-        jsPlumb.addEndpoint $canid, anchor: [1, 0.5, 0, 0, 7, 0 ], $rootScope.sourceEndPoint
+        jsPlumb.addEndpoint $canid, anchor: [0, 0.5, -1, 0, 8, 0], $rootScope.targetEndPoint
+        jsPlumb.addEndpoint $canid, anchor: [1, 0.5, 0,  0], $rootScope.sourceEndPoint
 
       else if $canvasElement.hasClass("brick-or")
-        jsPlumb.addEndpoint $canid, anchor: [0, 0.25, -1, 0, 10, 0 ], $rootScope.targetEndPoint
-        jsPlumb.addEndpoint $canid, anchor: [0, 0.75, -1, 0, 10, 0 ], $rootScope.targetEndPoint
-        jsPlumb.addEndpoint $canid, anchor: [1, 0.5, 0, 0, ], $rootScope.sourceEndPoint
+        jsPlumb.addEndpoint $canid, anchor: [-0.02, 0.25, -1, 0, 12, 0], $rootScope.targetEndPoint
+        jsPlumb.addEndpoint $canid, anchor: [-0.02, 0.75, -1, 0, 12, 0], $rootScope.targetEndPoint
+        jsPlumb.addEndpoint $canid, anchor: [1, 0.5,  0,  0, -8, 0], $rootScope.sourceEndPoint
 
       else if $canvasElement.hasClass("brick-input")
-        jsPlumb.addEndpoint $canid, anchor: [1, 0.5, 0, 0, -32, 0 ], $rootScope.sourceEndPoint
+        jsPlumb.addEndpoint $canid, anchor: [1, 0.5, 0, 0, -40, 0], $rootScope.sourceEndPoint
 
       else if $canvasElement.hasClass("brick-output")
-        jsPlumb.addEndpoint $canid, anchor: [0, 0.5, -1, 0, 25, 0 ], $rootScope.targetEndPoint
+        jsPlumb.addEndpoint $canid, anchor: [0, 0.5, -1, 0, 33, 0], $rootScope.targetEndPoint
 
       else
         jsPlumb.addEndpoint $canid, anchor: [0, 0.2, -1, 0 ], $rootScope.targetEndPoint
@@ -87,7 +87,7 @@ app.factory "dropService", ($compile, $rootScope, Brick) ->
             Brick.update(index, position).done (updatedObj) ->
               console.log updatedObj
           ), 0
-      
+
       # Bricks cannot be dragged when a popover is active
       $canvasElement.on 'click', ->
         $this = $(this)
@@ -95,5 +95,6 @@ app.factory "dropService", ($compile, $rootScope, Brick) ->
           unless $this.hasClass('labelDisabled')
             $this.removeClass('dragDisabled').draggable('enable')
         else
-          $this.addClass('dragDisabled').draggable('disable')
+          $this.addClass('dragDisabled')
+          $this.draggable('disable')
 

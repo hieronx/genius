@@ -1,0 +1,56 @@
+@import "colors.scss";
+
+body {
+  overflow: hidden;
+  #main {
+    position: absolute;
+    left: 15px;
+    right: 15px;
+    top: 0;
+    bottom: 0;
+    #mainLeft {
+      overflow: hidden;
+      height: 100%;
+      .navbar {
+        position: absolute;
+        border-bottom: none;
+        box-shadow: 0px 0px 3px $shadowColor;
+        .navbar-right > ul > li > a > i {
+          font-size: 1.4em;
+        }
+      }
+      .row {
+        position: absolute;
+        left: 15px;
+        right: 15px;
+        bottom: 0;
+        top: 50px;
+
+      }
+    }
+    #mainRight {
+      background-color: $bgColor;
+      box-shadow: 0px 0px 3px $shadowColor;
+      height: 100%;
+      .nav-tabs {
+        border-bottom: none;
+        margin-top: 9px;
+        position: relative;
+        z-index: 1;
+        a {
+          cursor: pointer;
+        }
+      }
+      .tab-content {
+        position: absolute;
+        left: 15px;
+        right: 15px;
+        bottom: 15px;
+        top: 50px;
+        .tab-pane {
+          height: 100%;
+        }
+      }
+    }
+  }
+}
