@@ -1,6 +1,6 @@
 #library {
   height: 100%;
-  .panel {
+  > .panel {
     position: absolute;
     top: 0;
     bottom: 27px;
@@ -9,28 +9,39 @@
     -webkit-border-top-left-radius: 0;
     -moz-border-radius-topleft: 0;
     border-top-left-radius: 0;
-    .panel-body {
+    > .panel-body {
       height: 100%;
-      .bricks-container {
+      .panel {
         overflow: hidden;
-        h3 {
-          border-bottom: 1px solid #999;
-          width: 100%;
-          text-align: center;
-          font-size: 0.7em;
-          height: 0.6em;
-          margin-bottom: 1em;
-          clear: both;
-          a {
-            padding: 0 5px;
-            color: #777;
-            background-color: white;
-            text-transform: uppercase;
+        border: none;
+        box-shadow: none;
+        .panel-heading {
+          background-color: transparent;
+          padding: 5px;
+          h4 {
+            border-bottom: 1px solid #999;
+            width: 100%;
+            text-align: center;
+            font-size: 0.7em;
+            height: 0.6em;
+            margin-bottom: 1em;
+            clear: both;
+            a {
+              padding: 0 5px;
+              color: #777;
+              background-color: white;
+              text-transform: uppercase;
+              cursor: pointer;
+            }
           }
         }
-        .brick-container {
-          float: left;
-          padding: 10px 5px;
+        .panel-body {
+          border: none;
+          padding: 5px;
+          .brick-container {
+            float: left;
+            padding: 10px 5px;
+          }
         }
       }
     }
