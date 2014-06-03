@@ -94,7 +94,7 @@ app.factory "dropService", ($compile, $rootScope, Brick) ->
         else
           $this.addClass('dragDisabled').draggable('disable')
 
-        # Handles form data when submitted and updates brick in database
+        # Handles form data when submitted and updates brick in the database
         $canvasElement.next().find('form').on 'submit', (event) ->
           event.preventDefault()
           
