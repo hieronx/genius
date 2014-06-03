@@ -9,7 +9,7 @@ describe 'GENius', ->
       browser.waitForAngular()
 
     it 'should be draggable and droppable', ->
-      expect(element(findBy.id('brick-and')).getText()).toEqual('AND')
+      expect(element(findBy.id('brick-and')).getAttribute('tooltip')).toEqual('AND')
 
       protractor.getInstance().actions().dragAndDrop(element(findBy.id('brick-and')), { x: -250, y:  150 }).perform();
 

@@ -14,38 +14,10 @@
   </div>
   <tabset class="hidden-xs col-sm-4 col-md-3" id="mainRight">
     <tab heading="Library">
-      <div id="library">
-        <div class="panel panel-default">
-          <div class="panel-body" ng-include="'views/bricks/library.html'" ng-controller="BricksCtrl"></div>
-        </div>
-        <form class="form-inline filters">
-          <div class="form-group">
-            <div class="input-group">
-              <input type="text" class="form-control" placeholder="Search...">
-              <div class="input-group-btn" data-toggle="buttons">
-                <a href="#" class="btn btn-default" tooltip="Gates" tooltip-append-to-body="true">
-                  <i class="fa fa-wrench"></i>
-                </a>
-                <a href="#" class="btn btn-default" tooltip="Private" tooltip-append-to-body="true">
-                  <i class="fa fa-eye-slash"></i>
-                </a>
-                <a href="#" class="btn btn-default" tooltip="Public" tooltip-append-to-body="true">
-                  <i class="fa fa-eye"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
+      <div id="library" ng-include="'views/bricks/library.html'" ng-controller="BricksCtrl"></div>
     </tab>
     <tab heading="Visualisation">
-      <div id="visualisation">
-        <div class="panel panel-default">
-          <div class="panel-body" ng-controller="BricksCtrl">
-             <highchart id="chart1" config="{{chartConfig}}" class="span9" ></highchart>
-          </div>
-        </div>
-      </div>
+      <div id="visualisation" ng-include="'views/bricks/visualisation.html'"></div>
     </tab>
   </div>
 </div>
