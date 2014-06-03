@@ -24,7 +24,7 @@ class BricksCtrl extends BaseCtrl
         @Brick.all().done (bricks) =>
           for brick in bricks
             ui =
-              draggable: $('.bricks-container div.brick.brick-and')
+              draggable: $('.bricks-container div.brick.' + brick.brick_type)
               position:
                 left: brick.left
                 top: brick.top

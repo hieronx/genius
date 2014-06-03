@@ -8,9 +8,25 @@ app.directive "isDroppable", (Brick, $compile, $rootScope, dropService) ->
       $canvas = $(this)
       $par = $canvas.parent()
 
-      brick =
-        type: 'gate-and'
+      if ui.draggable.hasClass("brick-and")
+        brick =
+          brick_type: 'brick-and'
+
+      else if ui.draggable.hasClass("brick-or")
+        brick =
+          brick_type: 'brick-or'
+
+      else if ui.draggable.hasClass("brick-not")
+        brick =
+          brick_type: 'brick-not'
+
+      else if ui.draggable.hasClass("brick-input")
+        brick =
+          brick_type: 'brick-input'
+
+      else if ui.draggable.hasClass("brick-output")
+        brick =
+          brick_type: 'brick-output'
 
       Brick.add(brick).done (newBrick) ->
-        console.log newBrick
         dropService.drop(newBrick.id, scope, ui, true)
