@@ -9,28 +9,20 @@ app.factory "simulationService", ($compile, $rootScope, Brick) ->
   C = 0
   P = 0
 
-  run: ->
-    Brick.all().done (bricks) ->
-      console.log bricks
+  run: (bricks) ->
+    f = (t, x) ->
+      [
+        - k[0] * x[1] * x[0] + k[1] * x[2]
+        - k[0] * x[1] * x[0] + k[1] * x[2] + k[2] * x[2]
+        k[0] * x[1] * x[0] - k[1] * x[2] - k[2] * x[2]
+        k[2] * x[2]
+      ]
 
-      # v0 = k1 * E * S
+    sol = numeric.dopri(0, 20, [
+      S
+      E
+      C
+      P
+    ], f, 1e-6, 2000)
 
-
-      f = (t, x) ->
-        [
-          - k[0] * x[1] * x[0] + k[1] * x[2]
-          - k[0] * x[1] * x[0] + k[1] * x[2] + k[2] * x[2]
-          k[0] * x[1] * x[0] - k[1] * x[2] - k[2] * x[2]
-          k[2] * x[2]
-        ]
-
-      sol = numeric.dopri(0, 20, [
-        S
-        E
-        C
-        P
-      ], f, 1e-6, 2000)
-
-      y = numeric.transpose(sol.y)
-      
-      console.log sol
+    return sol

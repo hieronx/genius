@@ -41,8 +41,8 @@
     <tab heading="Visualisation">
       <div id="visualisation">
         <div class="panel panel-default">
-          <div class="panel-body">
-
+          <div class="panel-body" ng-controller="BricksCtrl">
+             <highchart id="chart1" config="{{chartConfig}}" class="span9" ></highchart>
           </div>
         </div>
       </div>
