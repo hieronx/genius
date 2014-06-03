@@ -65,8 +65,6 @@ class BricksCtrl extends BaseCtrl
               for connection in brick.connections
                 jsPlumb.connect({ source: "brick-" + brick.id, target: "brick-" + connection }, @$rootScope.sourceEndPoint)
 
-            @dropService.drop(brick.id, @$rootScope, ui, false)
-
     @$scope.collapse =
       gates: false
       private: false
