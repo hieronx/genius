@@ -41,12 +41,9 @@ class BricksCtrl extends BaseCtrl
                 jsPlumb.connect( { source: $source, target: $target } )
 
     @$scope.collapse =
-      gates: false
+      gates: true
       private: false
       public: false
-
-    @$scope.filter = (type) =>
-      @$scope.collapse[type] = not @$scope.collapse[type]
 
     @$scope.new = =>
       # new brick

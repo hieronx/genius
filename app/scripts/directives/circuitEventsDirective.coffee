@@ -12,7 +12,7 @@ app.directive "circuitEvents", ($compile, $rootScope, Brick) ->
 
       $sourceEndId = info.connection.endpoints[0].id
       $targetEndId = info.connection.endpoints[1].id
-
+      
       $index = 1
       if jsPlumb.selectEndpoints(target: info.targetId).get(0).id is $targetEndId
         $index = 0

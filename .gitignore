@@ -6,4 +6,5 @@ app/bower_components
 .DS_Store
 npm-debug.log
 data
+genius.sublime-workspace
 *.ai
