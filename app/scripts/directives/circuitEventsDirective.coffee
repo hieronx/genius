@@ -9,6 +9,9 @@ app.directive "circuitEvents", ($compile, $rootScope, Brick) ->
     jsPlumb.bind "connection", (info, originalEvent) ->
       source = info.sourceId.slice 6
       target = info.targetId.slice 6
+      sourceEndpoints = jsPlumb.selectEndpoints(element: info.sourceId)
+      targetEndpoints = jsPlumb.selectEndpoints(element: info.targetId)
+
       Brick.update(source, { connections: [{ target: target }] })
 
       $label = $('#label-' + info.connection.id)

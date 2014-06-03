@@ -31,9 +31,9 @@ class BricksCtrl extends BaseCtrl
 
             @dropService.drop(brick.id, @$rootScope, ui, false)
 
-            unless typeof brick.connections is 'undefined'
-              for connection in brick.connections
-                jsPlumb.connect( { source: 'brick-' + brick.id, target: 'brick-' + connection.target }, @$rootScope)
+            # unless typeof brick.connections is 'undefined'
+            #   for connection in brick.connections
+            #     jsPlumb.connect( { source: 'brick-' + brick.id, target: 'brick-' + connection.target }, @$rootScope.connectionStyle)
 
     @$scope.collapse =
       gates: false

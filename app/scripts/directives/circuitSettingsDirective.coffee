@@ -7,20 +7,20 @@ app.directive "circuitSettings", ($compile, $rootScope) ->
     jsPlumb.Defaults.Container = element
 
     $rootScope.connectionStyle =
-      # connector: [
-      #   "Flowchart"
-      #   {
-      #     stub: [ 40, 60 ]
-      #     gap: 10
-      #     cornerRadius: 5
-      #     alwaysRespectStubs: true
-      #   }
-      # ]
+      connector: [
+        "Flowchart"
+        {
+          stub: [ 40, 60 ]
+          gap: 10
+          cornerRadius: 5
+          alwaysRespectStubs: true
+        }
+      ]
       # connectorStyle:
       #   lineWidth: 4
       #   strokeStyle: "#61B7CF"
       #   joinstyle: "round"
-      # outlineColor: "transparent"
+      #   outlineColor: "transparent"
 
       # hoverPaintStyle:
       #   fillStyle: "#216477"
@@ -82,7 +82,7 @@ app.directive "circuitSettings", ($compile, $rootScope) ->
         lineWidth: 4
         strokeStyle: "#61B7CF"
         joinstyle: "round"
-      outlineColor: "transparent"
+        outlineColor: "transparent"
 
       hoverPaintStyle:
         fillStyle: "#216477"
