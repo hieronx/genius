@@ -11,10 +11,20 @@ app.directive "brickPopover", ($compile, $rootScope, Brick) ->
     Brick.find($brickId).done (fetchedBrick) ->
       $brick = fetchedBrick
 
-    brickForm = angular.element '<form class="brick-form" role="form">
-                  <input type="text" class="form-control" name="propertie1" placeholder="Propertie1">
-                  <input type="text" class="form-control" name="propertie2" placeholder="Propertie2">
-                  <input type="text" class="form-control" name="propertie3" placeholder="Propertie3">
+    brickForm = angular.element '<form class="brick-form form-horizontal" role="form">
+                  <div class="form-group">
+                    <label for="K1"> K1 </label>
+                    <input type="text" id="K1" class="form-control" name="K1 (Complex binding)" placeholder="Complex binding">
+                  </div>
+                  <div class="form-group">
+                    <label for="K2">K2</label><input type="text" id="K2" class="form-control" name="K2 (Catalytic rate)" placeholder="Catalytic rate">
+                  </div>
+                  <div class="form-group">
+                    <label for="K3">K3</label><input type="text" id="K3" class="form-control" name="K3 (Complex division)" placeholder="Complex division">
+                  </div>
+                  <div class="form-group">
+                    <label for="K4">K4</label><input type="text" id="K4" class="form-control" name="K4 (Reverse catalytic rate)" placeholder="Reverse catalytic rate">
+                  </div>
                   <button type="submit" class="submit-button btn btn-block btn-primary">Save</button>
                 </form>'
     brickForm.data('brickId', $brickId)
