@@ -19,6 +19,22 @@ class BricksCtrl extends BaseCtrl
 
     @$scope.public = []
 
+    @$scope.chartConfig =
+      options:
+        chart:
+          type: "spline"
+
+      title: "Simulation"
+
+      xAxis:
+        labels:
+          enabled: false
+
+      loading: true
+
+      credits:
+        enabled: false
+
     @$scope.run = =>
       @Brick.all().done (bricks) =>
 
@@ -28,40 +44,30 @@ class BricksCtrl extends BaseCtrl
 
         console.log data
 
-        @$scope.chartConfig =
-          options:
-            chart:
-              type: "areaspline"
+        @$scope.chartConfig.series = [
+          {
+            name: "S"
+            data: data[0]
+            id: "series-0"
+          },
+          {
+            name: "E"
+            data: data[1]
+            id: "series-1"
+          },
+          {
+            name: "C"
+            data: data[2]
+            id: "series-2"
+          },
+          {
+            name: "P"
+            data: data[3]
+            id: "series-3"
+          }
+        ]
 
-          series: [
-            {
-              name: "S"
-              data: data[0]
-              id: "series-0"
-            },
-            {
-              name: "E"
-              data: data[1]
-              id: "series-1"
-            },
-            {
-              name: "C"
-              data: data[2]
-              id: "series-2"
-            },
-            {
-              name: "P"
-              data: data[3]
-              id: "series-3"
-            }
-          ]
-
-          title: "Simulation"
-
-          loading: false
-
-          credits:
-            enabled: false
+        @$scope.chartConfig.loading = false
 
     @$scope.loadStoredBricks = =>      
       @$rootScope.$on 'ngRepeatFinished', (ngRepeatFinishedEvent) =>
