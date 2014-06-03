@@ -9,8 +9,6 @@ app.directive "isDroppable", (Brick, $compile, $rootScope, dropService) ->
         $canid = ui.draggable.attr 'id'
         index = $canid.slice 6
 
-        console.log index
-
         dropService.drop(index, scope, ui, false)
 
       else
