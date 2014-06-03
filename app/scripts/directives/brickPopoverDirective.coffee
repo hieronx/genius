@@ -11,11 +11,11 @@ app.directive "brickPopover", ($compile, $rootScope, Brick) ->
     Brick.find($brickId).done (fetchedBrick) ->
       $brick = fetchedBrick
 
-    brickForm = angular.element '<form class="brick-form" role="form" update-brick>
+    brickForm = angular.element '<form class="brick-form" role="form">
                   <input type="text" class="form-control" name="propertie1" placeholder="Propertie1">
                   <input type="text" class="form-control" name="propertie2" placeholder="Propertie2">
                   <input type="text" class="form-control" name="propertie3" placeholder="Propertie3">
-                  <button type="submit" class="btn btn-block btn-primary">Save</button>
+                  <button type="submit" class="submit-button btn btn-block btn-primary">Save</button>
                 </form>'
     brickForm.data('brickId', $brickId)
 
@@ -29,9 +29,9 @@ app.directive "brickPopover", ($compile, $rootScope, Brick) ->
 
     # Activate the popover with settings
     element.popover(
-      trigger:'click',
-      html : true,
-      placement: 'bottom',
+      trigger:'click'
+      html : true
+      placement: 'bottom'
       title: element.data('type') + ' brick'
       content: brickForm
     )

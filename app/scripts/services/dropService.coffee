@@ -93,3 +93,20 @@ app.factory "dropService", ($compile, $rootScope, Brick) ->
             $this.removeClass('dragDisabled').draggable('enable')
         else
           $this.addClass('dragDisabled').draggable('disable')
+
+        # Handles form data when submitted and updates brick in database
+        $canvasElement.next().find('form').on 'submit', (event) ->
+          event.preventDefault()
+          
+          $this = $(this)
+          $brickId = $canvasElement.attr('id').slice 6
+          $attributes = {}
+
+          $this.find('input').each (key, prop) ->
+            $attributes[$(prop).attr('name')] = $(prop).val();
+
+          Brick.update($brickId, $attributes).done (updatedBrick) ->
+            console.log updatedBrick
+
+
+
