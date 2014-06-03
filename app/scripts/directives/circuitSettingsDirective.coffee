@@ -6,6 +6,17 @@ app.directive "circuitSettings", ($compile, $rootScope) ->
     options = scope.$eval(attributes.circuitSettings)
     jsPlumb.Defaults.Container = element
 
+    $rootScope.connectionStyle =
+      connector: [
+        "Flowchart"
+        {
+          stub: [ 40, 60 ]
+          gap: 10
+          cornerRadius: 5
+          alwaysRespectStubs: true
+        }
+      ]
+
     # the definition of source endpoints (the small blue ones)
     $rootScope.targetEndPoint =
       endpoint: "Dot"

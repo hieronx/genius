@@ -74,24 +74,26 @@ class BricksCtrl extends BaseCtrl
         @Brick.all().done (bricks) =>
           for brick in bricks
             ui =
-              draggable: $('.bricks-container div.brick.' + brick.brick_type)
+              draggable: $('.brick-container div.brick.' + brick.brick_type)
               position:
                 left: brick.left
                 top: brick.top
             
             @dropService.drop(brick.id, @$rootScope, ui, false)
 
+          for brick in bricks
             unless typeof brick.connections is 'undefined'
               for connection in brick.connections
-                jsPlumb.connect({ source: "brick-" + brick.id, target: "brick-" + connection }, @$rootScope.sourceEndPoint)
+                $sourceId = 'brick-' + brick.id
+                $source = jsPlumb.selectEndpoints(source: $sourceId).get(0)
+                $targetId = 'brick-' + connection.target
+                $target = jsPlumb.selectEndpoints(target: $targetId).get(connection.targetIndex)
+                jsPlumb.connect( { source: $source, target: $target } )
 
     @$scope.collapse =
-      gates: false
+      gates: true
       private: false
       public: false
-
-    @$scope.filter = (type) =>
-      @$scope.collapse[type] = not @$scope.collapse[type]
 
     @$scope.new = =>
       # new brick
