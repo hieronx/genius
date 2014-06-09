@@ -46,24 +46,14 @@ class BricksCtrl extends BaseCtrl
 
         @$scope.chartConfig.series = [
           {
-            name: "S"
+            name: "mRNA"
             data: data[0]
             id: "series-0"
           },
           {
-            name: "E"
+            name: "Protein"
             data: data[1]
             id: "series-1"
-          },
-          {
-            name: "C"
-            data: data[2]
-            id: "series-2"
-          },
-          {
-            name: "P"
-            data: data[3]
-            id: "series-3"
           }
         ]
 
