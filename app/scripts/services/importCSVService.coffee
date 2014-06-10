@@ -12,8 +12,7 @@ app.factory "importCSV", ($compile, $rootScope, $http, CSVToArray, Gene, AndProm
           $gene['k_2'] = cd[1]
           $gene['d_1'] = cd[2]
           $gene['d_2'] = cd[3]
-          Gene.add($gene).done (data) ->
-            console.log(data)
+          Gene.add($gene)
     )
 
   storeAndPromoters = ->
@@ -28,8 +27,7 @@ app.factory "importCSV", ($compile, $rootScope, $http, CSVToArray, Gene, AndProm
           $andProm['k_1'] = prom[2]
           $andProm['t_m'] = prom[3]
           $andProm['n'] = prom[4]
-          AndPromoter.add($andProm).done (data) ->
-            console.log(data)
+          AndPromoter.add($andProm)
     )
 
   storeNotPromoters = ->
@@ -43,13 +41,11 @@ app.factory "importCSV", ($compile, $rootScope, $http, CSVToArray, Gene, AndProm
           $notProm['k_1'] = prom[1]
           $notProm['k_m'] = prom[2]
           $notProm['n'] = prom[3]
-          NotPromoter.add($notProm).done (data) ->
-            console.log(data)
+          NotPromoter.add($notProm)
     )
 
   # Handle the importing of biobricks from the csv files
   storeBiobricks: ->
-    console.log "executed"
     Gene.all().done (data) ->
       if data.length is 0
         storeGenes()
