@@ -3,7 +3,7 @@ app = angular.module("geniusApp")
 class BricksCtrl extends BaseCtrl
 
   @register app, 'BricksCtrl'
-  @inject "$scope", "$rootScope", "Brick", "dropService", "_"
+  @inject "$scope", "$rootScope", "Brick", "dropService", "importCSV", "_"
 
   initialize: ->
     @$scope.gates =
@@ -20,6 +20,7 @@ class BricksCtrl extends BaseCtrl
     @$scope.public = []
 
     @$scope.loadStoredBricks = =>
+      @importCSV.storeBiobricks()
       @$rootScope.$on 'ngRepeatFinished', (ngRepeatFinishedEvent) =>
         @Brick.all().done (bricks) =>
           for brick in bricks
@@ -30,6 +31,7 @@ class BricksCtrl extends BaseCtrl
                 top: brick.top
 
             @dropService.drop(brick.id, @$rootScope, ui, false)
+
 
           for brick in bricks
             unless typeof brick.connections is 'undefined'
