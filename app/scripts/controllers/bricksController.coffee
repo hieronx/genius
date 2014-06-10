@@ -1,15 +1,13 @@
-app = angular.module("geniusApp")
 
 class BricksCtrl extends BaseCtrl
 
-  @register app, 'BricksCtrl'
-  @inject "$scope", "$rootScope", "Brick", "dropService", "_"
+  @register()
+  @inject "$scope", "$rootScope", "dropService", "_"
 
   initialize: ->
     @$scope.gates =
       [
         { type: 'AND' },
-        { type: 'OR' },
         { type: 'NOT' },
         { type: 'INPUT' },
         { type: 'OUTPUT' }
@@ -21,20 +19,20 @@ class BricksCtrl extends BaseCtrl
 
     @$scope.loadStoredBricks = =>
       @$rootScope.$on 'ngRepeatFinished', (ngRepeatFinishedEvent) =>
-        @Brick.all (bricks) =>
+        Brick.fetch (bricks) =>
           for brick in bricks
             ui =
-              draggable: $('.brick-container div.brick.' + brick.brick_type)
+              draggable: $('.brick-container div.brick.' + brick.get('brick_type'))
               position:
-                left: brick.left
-                top: brick.top
+                left: brick.get('left')
+                top: brick.get('top')
 
-            @dropService.drop(brick.id, @$rootScope, ui, false)
+            @dropService.drop(brick, @$rootScope, ui, false)
 
           for brick in bricks
-            unless typeof brick.connections is 'undefined'
-              for connection in brick.connections
-                $sourceId = 'brick-' + brick.id
+            if _.isArray(brick.get('connections'))
+              for connection in brick.get('connections')
+                $sourceId = 'brick-' + brick.id()
                 $source = jsPlumb.selectEndpoints(source: $sourceId).get(0)
                 $targetId = 'brick-' + connection.target
                 $target = jsPlumb.selectEndpoints(target: $targetId).get(connection.targetIndex)
