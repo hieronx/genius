@@ -16,10 +16,22 @@ app.directive "circuitEvents", ($compile, $rootScope, Brick) ->
       $index = 1
       if jsPlumb.selectEndpoints(target: info.targetId).get(0).id is $targetEndId
         $index = 0
-  
-      Brick.update(source, { connections: [{ target: target, sourceEndpoint: $sourceEndId, targetIndex: $index }] })
-  
-      Brick.update(target, { connections: [{ target: source, sourceEndpoint: $targetEndId }] })
+    
+      sourceBrick = Brick.find(source)
+      if sourceBrick.connections = 'undefined'
+        sourceBrick.connections = []
+      sourceConnections = sourceBrick.connections
+      sourceconnections.push { target: target, sourceEndpoint: $sourceEndId, targetIndex: $index }
+
+      Brick.update(source, { connections: sourceConnections })
+      
+      targetBrick = Brick.find(source)
+      if targetBrick.connections = 'undefined'
+        targetBrick.connections = []
+      targetConnections = targetBrick.connections
+      targetconnections.push { target: source, sourceEndpoint: $targetEndId }
+      
+      Brick.update(target, { connections: targetConnections })
 
       $label = $('#label-' + info.connection.id)
       $label.data('sourceId', info.connection.source.id)
