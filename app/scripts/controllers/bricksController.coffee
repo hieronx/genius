@@ -35,27 +35,32 @@ class BricksCtrl extends BaseCtrl
       credits:
         enabled: false
 
+    @$scope.isRunning = false
+
     @$scope.run = =>
+      @$scope.isRunning = true
+
       @Brick.all().done (bricks) =>
+        
+        @simulationService.run(bricks).then (solution) =>
+          data = numeric.transpose(solution.y)
 
-        solution = @simulationService.run(bricks)
+          console.log data
 
-        data = numeric.transpose(solution.y)
+          @$scope.chartConfig.series = [
+            {
+              name: "mRNA"
+              data: data[0]
+              id: "series-0"
+            },
+            {
+              name: "Protein"
+              data: data[1]
+              id: "series-1"
+            }
+          ]
 
-        console.log data
-
-        @$scope.chartConfig.series = [
-          {
-            name: "mRNA"
-            data: data[0]
-            id: "series-0"
-          },
-          {
-            name: "Protein"
-            data: data[1]
-            id: "series-1"
-          }
-        ]
+          @$scope.isRunning = false
 
         @$scope.chartConfig.loading = false
 
