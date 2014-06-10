@@ -31,7 +31,8 @@ app.directive "circuitEvents", ($compile, $rootScope, Brick) ->
       else
         sourceConnections = sourceBrick.connections
 
-      sourceConnections.push { target: target, sourceEndpoint: $sourceEndId, targetIndex: $index }
+      if sourceConnections.indexOf({ target: target, sourceEndpoint: $sourceEndId, targetIndex: $index }) < 0
+        sourceConnections.push { target: target, sourceEndpoint: $sourceEndId, targetIndex: $index }
 
       Brick.update(source, { connections: sourceConnections })
       
@@ -41,7 +42,9 @@ app.directive "circuitEvents", ($compile, $rootScope, Brick) ->
         targetConnections = []
       else
         targetConnections = targetBrick.connections
-      targetConnections.push { target: source, sourceEndpoint: $targetEndId }
+
+      if targetConnections.indexOf({ target: source, sourceEndpoint: $targetEndId }) < 0  
+        targetConnections.push { target: source, sourceEndpoint: $targetEndId }
       
       Brick.update(target, { connections: targetConnections })
 
