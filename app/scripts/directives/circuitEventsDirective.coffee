@@ -18,6 +18,8 @@ app.directive "circuitEvents", ($compile, $rootScope, Brick) ->
         $index = 0
   
       Brick.update(source, { connections: [{ target: target, sourceEndpoint: $sourceEndId, targetIndex: $index }] })
+  
+      Brick.update(target, { connections: [{ target: source, sourceEndpoint: $targetEndId }] })
 
       $label = $('#label-' + info.connection.id)
       $label.data('sourceId', info.connection.source.id)

@@ -20,7 +20,7 @@ app.factory "simulationService", ($compile, $rootScope) ->
   run: (bricks) ->
     for brick in bricks
       if brick.brick_type is 'brick-output'
-
+        console.log brick.connections
         f = (t, x) ->
           i = 0
           equations = []
@@ -73,7 +73,7 @@ app.factory "simulationService", ($compile, $rootScope) ->
           #       addEquations(connectedBrick.connections)
           addEquations = (brick, connections) ->
             unless typeof connections is 'undefined'
-              for connection in connections 
+              for connection in connections
                 j = 0
                 connectedBrick = bricks.filter((item) ->
                   item.id is connection.source
@@ -94,6 +94,7 @@ app.factory "simulationService", ($compile, $rootScope) ->
 
                 else if connectedBrick.brick_type is 'brick-not'
                   addEquations(connectedBrick, connectedBrick.connections)
+                  i += 2
                   if typeof x[i-1] is 'undefined'
                     input = 0
                   else
@@ -126,13 +127,14 @@ app.factory "simulationService", ($compile, $rootScope) ->
 
                 if typeof x[i+1] is 'undefined'
                   x[i+1] = 0
-                  
+
           addEquations(brick, brick.connections)
           console.log equations
           equations
 
         unless brick.connections is 'undefined'
           # TODO: brick.connections.length * 2 is wrong formula
+
           startValues = Array.apply(null, new Array(brick.connections.length * 2)).map(Number.prototype.valueOf,0)
 
           sol = numeric.dopri(0, 20, startValues, f, 1e-6, 2000)

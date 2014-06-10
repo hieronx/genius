@@ -78,7 +78,9 @@ class BricksCtrl extends BaseCtrl
                 $source = jsPlumb.selectEndpoints(source: $sourceId).get(0)
                 $targetId = 'brick-' + connection.target
                 $target = jsPlumb.selectEndpoints(target: $targetId).get(connection.targetIndex)
-                jsPlumb.connect( { source: $source, target: $target } )
+                
+                unless typeof connection.targetIndex is 'undefined'
+                  jsPlumb.connect( { source: $source, target: $target } )
 
     @$scope.collapse =
       gates: true
