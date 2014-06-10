@@ -1,6 +1,6 @@
 app = angular.module("geniusApp")
 
-app.factory "importCSV", ($compile, $rootScope, $http, CSVToArray, Gene, NotPromoter) ->
+app.factory "importCSV", ($compile, $rootScope, $http, CSVToArray, Gene, AndPromoter, NotPromoter) ->
   storeGenes = ->
     $url = "public/files/biobricks/cds.csv"
     $http.get($url).then((response) ->
@@ -15,20 +15,20 @@ app.factory "importCSV", ($compile, $rootScope, $http, CSVToArray, Gene, NotProm
           Gene.add($gene)
     )
 
-  # storeAndPromoters = ->
-  #   $url = 'public/files/biobricks/and.csv'
-  #   $http.get($url).then((response) ->
-  #     $arr = CSVToArray.execute response.data
-  #     for prom in $arr
-  #       $andProm = {}
-  #       if prom[0] isnt 'TF_1' && prom[0] isnt ''
-  #         $andProm['tf_1'] = prom[0]
-  #         $andProm['tf_2'] = prom[1]
-  #         $andProm['k_1'] = prom[2]
-  #         $andProm['t_m'] = prom[3]
-  #         $andProm['n'] = prom[4]
-  #         AndPromoter.add($andProm)
-  #   )
+  storeAndPromoters = ->
+    $url = 'public/files/biobricks/and.csv'
+    $http.get($url).then((response) ->
+      $arr = CSVToArray.execute response.data
+      for prom in $arr
+        $andProm = {}
+        if prom[0] isnt 'TF_1' && prom[0] isnt ''
+          $andProm['tf_1'] = prom[0]
+          $andProm['tf_2'] = prom[1]
+          $andProm['k_1'] = prom[2]
+          $andProm['t_m'] = prom[3]
+          $andProm['n'] = prom[4]
+          AndPromoter.add($andProm)
+    )
 
   storeNotPromoters = ->
     $url = 'public/files/biobricks/not.csv'
@@ -50,9 +50,9 @@ app.factory "importCSV", ($compile, $rootScope, $http, CSVToArray, Gene, NotProm
       if data.length is 0
         storeGenes()
 
-    # AndPromoter.all().done (data) ->
-    #   if data.length is 0
-    #     storeAndPromoters()
+    AndPromoter.all().done (data) ->
+      if data.length is 0
+        storeAndPromoters()
 
     NotPromoter.all().done (data) ->
       if data.length is 0
