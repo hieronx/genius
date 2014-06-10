@@ -9,8 +9,10 @@ app.directive "circuitEvents", ($compile, $rootScope, Brick) ->
     jsPlumb.bind "connection", (info, originalEvent) ->
       source = info.sourceId.slice 6
       target = info.targetId.slice 6
-      
-      # console.log info.connection
+
+      console.log $(info.connection.getOverlay().canvas).find('option').each (index, data) ->
+        if data.selected
+          console.log(data)
 
       $sourceEndId = info.connection.endpoints[0].id
       $targetEndId = info.connection.endpoints[1].id

@@ -14,12 +14,6 @@ app.directive "brickPopover", ($compile, $rootScope, Brick, popoverTypesService)
     brickForm = popoverTypesService.type($(element).data('type'))
     $(brickForm).data('brickId', $brickId)
 
-    # Ensure that stored data is displayed in the form
-    $(brickForm).find('input').each (key, input) ->     
-      $this = $(this)
-      $name = $this.attr('name') 
-      $this.val($brick[$name])
-
     $compile(brickForm)($rootScope)
 
     # Activate the popover with settings
