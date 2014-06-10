@@ -18,6 +18,7 @@ module.exports = function(config){
       'app/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
       'app/bower_components/underscore/underscore.js',
       'app/scripts/*.coffee',
+      'app/scripts/models/base.coffee',
       'app/scripts/**/*.coffee',
       'app/scripts/**/*.js',
       'test/unit/**/*Spec.coffee'
