@@ -9,6 +9,8 @@ app.directive "circuitEvents", ($compile, $rootScope, Brick) ->
     jsPlumb.bind "connection", (info, originalEvent) ->
       source = info.sourceId.slice 6
       target = info.targetId.slice 6
+      
+      # console.log info.connection
 
       $sourceEndId = info.connection.endpoints[0].id
       $targetEndId = info.connection.endpoints[1].id

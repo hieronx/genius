@@ -10,12 +10,12 @@ app.directive "brickPopover", ($compile, $rootScope, Brick, popoverTypesService)
 
     Brick.find($brickId).done (fetchedBrick) ->
       $brick = fetchedBrick
-    brickForm = popoverTypesService.type(element.data('type'))
 
-    brickForm.data('brickId', $brickId)
+    brickForm = popoverTypesService.type($(element).data('type'))
+    $(brickForm).data('brickId', $brickId)
 
     # Ensure that stored data is displayed in the form
-    brickForm.find('input').each (key, input) ->     
+    $(brickForm).find('input').each (key, input) ->     
       $this = $(this)
       $name = $this.attr('name') 
       $this.val($brick[$name])
