@@ -2,7 +2,7 @@
 class BricksCtrl extends BaseCtrl
 
   @register()
-  @inject "$scope", "$rootScope", "dropService", "_"
+  @inject "$scope", "$rootScope", "$timeout", "dropService", "importCSV", "simulationService", "_"
 
   initialize: ->
     @$scope.gates =
@@ -17,7 +17,48 @@ class BricksCtrl extends BaseCtrl
 
     @$scope.public = []
 
-    @$scope.loadStoredBricks = =>
+    @$scope.chartConfig =
+      options:
+        chart:
+          type: "spline"
+
+      title: "Simulation"
+
+      xAxis:
+        labels:
+          enabled: false
+
+      loading: true
+
+      credits:
+        enabled: false
+
+    @$scope.run = =>
+      @Brick.all().done (bricks) =>
+
+        solution = @simulationService.run(bricks)
+
+        data = numeric.transpose(solution.y)
+
+        console.log data
+
+        @$scope.chartConfig.series = [
+          {
+            name: "mRNA"
+            data: data[0]
+            id: "series-0"
+          },
+          {
+            name: "Protein"
+            data: data[1]
+            id: "series-1"
+          }
+        ]
+
+        @$scope.chartConfig.loading = false
+
+    @$scope.loadStoredBricks = =>      
+      @importCSV.storeBiobricks()
       @$rootScope.$on 'ngRepeatFinished', (ngRepeatFinishedEvent) =>
         Brick.fetch (bricks) =>
           for brick in bricks
@@ -48,9 +89,6 @@ class BricksCtrl extends BaseCtrl
 
     @$scope.copy = =>
       # copy brick
-
-    @$scope.run = =>
-      # run brick
 
     @$scope.export = =>
       # export brick
