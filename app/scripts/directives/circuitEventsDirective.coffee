@@ -17,19 +17,31 @@ app.directive "circuitEvents", ($compile, $rootScope, Brick) ->
       if jsPlumb.selectEndpoints(target: info.targetId).get(0).id is $targetEndId
         $index = 0
     
-      sourceBrick = Brick.find(source)
-      if sourceBrick.connections = 'undefined'
-        sourceBrick.connections = []
-      sourceConnections = sourceBrick.connections
-      sourceconnections.push { target: target, sourceEndpoint: $sourceEndId, targetIndex: $index }
+      sourceConnections = null
+      targetConnections = null 
+      sourceBrick = null
+      targetBrick = null
+
+      Brick.find(source).done (data) ->
+        sourceBrick = data
+      console.log sourceBrick
+      unless sourceBrick.connections?
+        console.log 'swag'
+        sourceConnections = []
+      else
+        sourceConnections = sourceBrick.connections
+
+      sourceConnections.push { target: target, sourceEndpoint: $sourceEndId, targetIndex: $index }
 
       Brick.update(source, { connections: sourceConnections })
       
-      targetBrick = Brick.find(source)
-      if targetBrick.connections = 'undefined'
-        targetBrick.connections = []
-      targetConnections = targetBrick.connections
-      targetconnections.push { target: source, sourceEndpoint: $targetEndId }
+      Brick.find(target).done (data) ->
+        targetBrick = data
+      unless targetBrick.connections?
+        targetConnections = []
+      else
+        targetConnections = targetBrick.connections
+      targetConnections.push { target: source, sourceEndpoint: $targetEndId }
       
       Brick.update(target, { connections: targetConnections })
 

@@ -72,7 +72,10 @@ app.factory "simulationService", ($compile, $rootScope, Brick) ->
 
           #       addEquations(connectedBrick.connections)
           addEquations = (brick) ->
-            connectedBrick = Brick.find(brick.id, targetIndex:'undefined') 
+            dbBrick = Brick.find(brick.id)
+            console.log dbBrick
+            #connectedBrick = Brick.find(brick.id)
+            
             j = 0
             filter (brick) ->
               brick.id 
