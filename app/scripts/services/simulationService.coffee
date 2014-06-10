@@ -33,20 +33,21 @@ app.factory "simulationService", ($compile, $rootScope) ->
                   item.id is connection.target
                 )[0]
 
+                if i is 0
+                  input = TF1
+                else if typeof x[i-1] is 'undefined'
+                  input = 0
+                else
+                  input = x[i-1]
+
+                if typeof x[i] is 'undefined'
+                  x[i] = 0
+
+                if typeof x[i+1] is 'undefined'
+                  x[i+1] = 0
+
                 if connectedBrick.brick_type is 'brick-not'
-                  if i is 0
-                    equations.push( ( k1 * Km^n ) / ( Km^n + TF1^n ) - gene1_d1 * x[i] )
-                    equations.push( gene1_k2 * x[i] - gene1_d2 * x[i+1] )
-
-                  else if x[i-1] is 0
-                    x[i] = 0
-                    x[i+1] = 0
-                    
-                    equations.push( ( k1 * Km^n ) / ( Km^n ) - gene1_d1 * x[i] )
-                    equations.push( gene1_k2 * x[i] - gene1_d2 * x[i+1] )
-
-                  else
-                    equations.push( ( k1 * Km^n ) / ( Km^n + x[i-1]^n ) - gene1_d1 * x[i] )
+                    equations.push( ( k1 * Km^n ) / ( Km^n + input^n ) - gene1_d1 * x[i] )
                     equations.push( gene1_k2 * x[i] - gene1_d2 * x[i+1] )
 
                 else if connectedBrick.brick_type is 'brick-and'
