@@ -31,7 +31,9 @@ app.factory "dropService", ($compile, $rootScope, Brick) ->
         left: $canvasElement.position().left
         top: $canvasElement.position().top
       }
-      Brick.update(index, position)
+
+      brick = Brick.find(index)
+      #brick.update(index, position)
 
       $canid = "brick-" + index
       $canvasElement.draggable("destroy")
@@ -99,7 +101,7 @@ app.factory "dropService", ($compile, $rootScope, Brick) ->
         # Handles form data when submitted and updates brick in the database
         $canvasElement.next().find('form').on 'submit', (event) ->
           event.preventDefault()
-          
+
           $this = $(this)
           $brickId = $canvasElement.attr('id').slice 6
           $attributes = {}

@@ -21,7 +21,7 @@ class BricksCtrl extends BaseCtrl
 
     @$scope.loadStoredBricks = =>
       @$rootScope.$on 'ngRepeatFinished', (ngRepeatFinishedEvent) =>
-        @Brick.all().done (bricks) =>
+        @Brick.all (bricks) =>
           for brick in bricks
             ui =
               draggable: $('.brick-container div.brick.' + brick.brick_type)
