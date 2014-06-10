@@ -3,7 +3,7 @@ app = angular.module("geniusApp")
 class BricksCtrl extends BaseCtrl
 
   @register app, 'BricksCtrl'
-  @inject "$scope", "$rootScope", "Brick", "dropService", "importCSV", "_"
+  @inject "$scope", "$rootScope", "$timeout", "Brick", "dropService", "importCSV", "simulationService", "_"
 
   initialize: ->
     @$scope.gates =
@@ -19,7 +19,47 @@ class BricksCtrl extends BaseCtrl
 
     @$scope.public = []
 
-    @$scope.loadStoredBricks = =>
+    @$scope.chartConfig =
+      options:
+        chart:
+          type: "spline"
+
+      title: "Simulation"
+
+      xAxis:
+        labels:
+          enabled: false
+
+      loading: true
+
+      credits:
+        enabled: false
+
+    @$scope.run = =>
+      @Brick.all().done (bricks) =>
+
+        solution = @simulationService.run(bricks)
+
+        data = numeric.transpose(solution.y)
+
+        console.log data
+
+        @$scope.chartConfig.series = [
+          {
+            name: "mRNA"
+            data: data[0]
+            id: "series-0"
+          },
+          {
+            name: "Protein"
+            data: data[1]
+            id: "series-1"
+          }
+        ]
+
+        @$scope.chartConfig.loading = false
+
+    @$scope.loadStoredBricks = =>      
       @importCSV.storeBiobricks()
       @$rootScope.$on 'ngRepeatFinished', (ngRepeatFinishedEvent) =>
         @Brick.all().done (bricks) =>
@@ -29,7 +69,7 @@ class BricksCtrl extends BaseCtrl
               position:
                 left: brick.left
                 top: brick.top
-
+            
             @dropService.drop(brick.id, @$rootScope, ui, false)
 
 
@@ -52,9 +92,6 @@ class BricksCtrl extends BaseCtrl
 
     @$scope.copy = =>
       # copy brick
-
-    @$scope.run = =>
-      # run brick
 
     @$scope.export = =>
       # export brick
