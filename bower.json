@@ -16,7 +16,8 @@
     "jsPlumb": "1.6.1",
     "angular-bootstrap": "0.11.0",
     "fontawesome": "4.1.0",
-    "underscore": "1.6.0"
+    "underscore": "1.6.0",
+    "highcharts-ng": "latest"
   },
   "devDependencies": {
     "angular-mocks": "1.2.15",
