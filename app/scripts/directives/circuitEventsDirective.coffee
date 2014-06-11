@@ -26,12 +26,11 @@ app.directive "circuitEvents", ($compile, $rootScope, Brick) ->
         sourceBrick = data
       console.log sourceBrick
       unless sourceBrick.connections?
-        console.log 'swag'
         sourceConnections = []
       else
         sourceConnections = sourceBrick.connections
 
-      if sourceConnections.indexOf({ target: target, sourceEndpoint: $sourceEndId, targetIndex: $index }) < 0
+      if connectionsIndexOf(sourceConnections, { target: target, sourceEndpoint: $sourceEndId, targetIndex: $index }) < 0
         sourceConnections.push { target: target, sourceEndpoint: $sourceEndId, targetIndex: $index }
 
       Brick.update(source, { connections: sourceConnections })
@@ -58,3 +57,10 @@ app.directive "circuitEvents", ($compile, $rootScope, Brick) ->
       if info.sourceId is info.targetId
         return false
       return true
+
+    connectionIndexOf (connections, connection) ->
+      i = 0
+      for connectionsearch in connections
+        if(connectionsearch.target == )
+        i += 1
+      return -1;
