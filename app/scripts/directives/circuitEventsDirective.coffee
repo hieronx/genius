@@ -26,26 +26,39 @@ app.directive "circuitEvents", ($compile, $rootScope, Brick) ->
 
         if jsPlumb.selectEndpoints(target: info.targetId).get(0).id is $targetEndId then $index = 0 else $index = 1
 
-        $elemConnections = jsPlumb.getConnections(target: info.targetId)
         unless $isPresent
           updateSourceConnection(info, $source, $target, $sourceEndId, $index,)
           updateTargetConnection(info, $source, $target, $targetEndId)
         addLabelInformation(info)
 
-    # Any brick or gate cannot create a connection to itselfn
+    # Any brick or gate cannot create a connection to itself
     jsPlumb.bind "beforeDrop", (info) ->
+
+      # Set the variable that decides if a connection should be updated
       $elemConnections = jsPlumb.getConnections(target: info.targetId)
       $isPresent = _.contains($elemConnections, info.connection)
 
+      # Ensure brick cannot connect to itself
       if info.sourceId is info.targetId
         return false
       return true
+
+    # Connections cannot be disconnected from a sourcepoint
+    jsPlumb.bind "beforeDetach", (connection) ->
+      console.log "BEFOREDET"
 
     jsPlumb.bind "connectionDetached", (info, originalEvent) ->
       console.log "DETACHED"
 
     jsPlumb.bind "connectionMoved", (info, originalEvent) ->
-      console.log "MOVED"
+      $source = info.sourceId.slice 6
+      $target = info.targetId.slice 6
+
+      $sourceEndId = info.connection.endpoints[0].id
+      $targetEndId = info.connection.endpoints[1].id
+
+      if jsPlumb.selectEndpoints(target: info.targetId).get(0).id is $targetEndId then $index = 0 else $index = 1
+
 
 
     # Update the connections for the source
@@ -78,7 +91,7 @@ app.directive "circuitEvents", ($compile, $rootScope, Brick) ->
       $label.addClass(info.connection.source.id).addClass(info.connection.target.id)
 
     # Check if a connection is present in an array
-    connectionContained = (connections, connection) ->
+    getConnectionByCondition = (connections, connection) ->
       if connection.type is 'forward'
         connections.filter (conn) ->
           return conn.target is connection.target and conn.sourceEndpoint is connection.sourceEndpoint and conn.targetIndex is connection.targetIndex
