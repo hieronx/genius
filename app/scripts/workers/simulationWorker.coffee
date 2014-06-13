@@ -37,6 +37,8 @@ addEventListener 'message', (e) =>
           else if brick.brick_type is 'brick-and'
             # For every input of brick-and
             for i in [0..1] by 1 
+              null
+
           # Current brick is of type not
           else
             # Connected brick is of type brick-input
@@ -51,7 +53,7 @@ addEventListener 'message', (e) =>
               i += 2
               x[i] = 0
               x[i + 1] = 0 
-              queue.enqueue(connectedBrick))
+             #queue.enqueue(connectedBrick))
               input = x[temp + 3]
               equations.push( ( k1 * Km^n ) / ( Km^n + input^n ) - gene1_d1 * x[temp] )
               equations.push( gene1_k2 * x[temp] - gene1_d2 * x[temp + 1] )
