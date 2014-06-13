@@ -1,13 +1,13 @@
 <div class="panel panel-default">
   <div class="panel-body">
     <accordion close-others="multipleAtATime">
-      <accordion-group heading="Gates" is-open="collapse.gates">
+      <accordion-group id="gates" heading="Gates" is-open="collapse.gates">
         <div ng-include="'views/bricks/list_item.html'" ng-repeat="brick in gates | filter:search" class="brick-container"></div>
       </accordion-group>
-      <accordion-group heading="Private" is-open="collapse.private">
+      <accordion-group id="private" heading="Private" is-open="collapse.private">
         <div ng-include="'views/bricks/list_item.html'" ng-repeat="brick in private | filter:search" class="brick-container"></div>
       </accordion-group>
-      <accordion-group heading="Public" is-open="collapse.public">
+      <accordion-group id="public" heading="Public" is-open="collapse.public">
         <div ng-include="'views/bricks/list_item.html'" ng-repeat="brick in public | filter:search" class="brick-container"></div>
       </accordion-group>
     </accordion>

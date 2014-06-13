@@ -40,6 +40,7 @@ ActiveRecord.Attributes =
       if @newRecord()
         hoodie.store.add(@type(), @attributes).done (@attributes) =>
           @isSaving = false
+          @constructor.add @
           callback?.apply(@, arguments)
       else
         @update @attributes, =>

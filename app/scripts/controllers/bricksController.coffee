@@ -33,16 +33,14 @@ class BricksCtrl extends BaseCtrl
       credits:
         enabled: false
 
-    @$scope.isSaving = false
-
     @$scope.save = =>
-      @$scope.isSaving = true
       @$scope.currentBrick.save =>
-        @$scope.isSaving = false
 
     Brick.all (bricks) =>
-      if bricks.length > 0
-        @$scope.currentBrick = Brick.last()
+      @$scope.private = bricks
+
+      if Brick.size() > 0
+        @$scope.currentBrick = Brick.first()
       else
         @$scope.currentBrick = new Brick
           title: "New Biobrick ##{Brick.size() + 1}"
@@ -75,28 +73,25 @@ class BricksCtrl extends BaseCtrl
     @$scope.loadStoredBricks = =>
       @importCSV.storeBiobricks()
       @$rootScope.$on 'ngRepeatFinished', (ngRepeatFinishedEvent) =>
-        Brick.all (bricks) =>
-          for brick in bricks
-            ui =
-              draggable: $('.brick-container div.brick.' + brick.get('brick_type'))
-              position:
-                left: brick.get('left')
-                top: brick.get('top')
+        @$scope.currentBrick.positions.each (position) =>
+          ui =
+            draggable: $('.brick-container div.brick.' + brick.get('brick_type'))
+            position:
+              left: brick.get('left')
+              top: brick.get('top')
 
-            @dropService.drop(brick, @$rootScope, ui, false)
+          @dropService.drop(brick, @$rootScope, ui, false)
 
-          for brick in bricks
-            if _.isArray(brick.get('connections'))
-              for connection in brick.get('connections')
-                $sourceId = 'brick-' + brick.id()
-                $source = jsPlumb.selectEndpoints(source: $sourceId).get(0)
-                $targetId = 'brick-' + connection.target
-                $target = jsPlumb.selectEndpoints(target: $targetId).get(connection.targetIndex)
-                jsPlumb.connect( { source: $source, target: $target } )
+        @$scope.currentBrick.connections.each (connection) =>
+          $sourceId = 'brick-' + connection.position_from.id()
+          $source = jsPlumb.selectEndpoints(source: $sourceId).get(0)
+          $targetId = 'brick-' + connection.position_to.id()
+          $target = jsPlumb.selectEndpoints(target: $targetId).get(connection.targetIndex)
+          jsPlumb.connect( { source: $source, target: $target } )
 
     @$scope.collapse =
       gates: true
-      private: false
+      private: true
       public: false
 
     @$scope.new = =>
@@ -109,3 +104,11 @@ class BricksCtrl extends BaseCtrl
 
     @$scope.export = =>
       # export brick
+
+    @$scope.setCurrentBrick = (brick) =>
+      @$scope.currentBrick = brick
+
+    @$scope.destroyBrick = (brick) =>
+      if confirm("Are you sure you want to remove this brick?")
+        brick.destroy()
+        @$scope.setCurrentBrick Brick.first()

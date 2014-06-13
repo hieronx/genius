@@ -3,11 +3,11 @@ ActiveRecord.Collections =
 
   ClassMethods:
     initialize: ->
-      @collection = []
+      @collection = {}
 
     add: (model) ->
-      unless _.contains(@collection, model)
-        @collection.push model
+      unless not model? or model.newRecord() or @find(model.id())?
+        @collection[model.id()] = model
         @trigger "add", model
       @
 
@@ -18,14 +18,8 @@ ActiveRecord.Collections =
       @
 
     remove: (model) ->
-      i = 0
-      for m in @collection
-        if m is model
-          index = i
-          break
-        i++
-      if index?
-        @collection.splice index, 1
+      if @collection[model.id()]?
+        delete @collection[model.id()]
         @trigger "remove", model
         true
       else
@@ -49,5 +43,5 @@ ActiveRecord.Collections =
 _.each _.without(_.keys(_), 'VERSION', 'find', 'all', 'extend', 'include'), (method) ->
   ActiveRecord.Collections.ClassMethods[method] = ->
     args = [].slice.call(arguments);
-    args.unshift(@collection);
+    args.unshift(_.values(@collection));
     _[method].apply(_, args);
