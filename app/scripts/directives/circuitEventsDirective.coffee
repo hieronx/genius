@@ -31,13 +31,11 @@ app.directive "circuitEvents", ($compile, $rootScope, Brick) ->
       else
         sourceConnections = []
 
-      console.log sourceConnections
-      console.log { target: target, sourceEndpoint: $sourceEndId, targetIndex: $index, type: 'forward' }
-
       $conn = { target: target, sourceEndpoint: $sourceEndId, targetIndex: $index, type: 'forward' }
-      console.log sourceConnections.indexOf($conn)
+      console.log connectionContained(sourceConnections, $conn)
 
-      if sourceConnections.indexOf({ target: target, sourceEndpoint: $sourceEndId, targetIndex: $index, type: 'forward' }) < 0
+      if connectionContained(sourceConnections, $conn).length < 1
+        console.log "YAY"
         sourceConnections.push { target: target, sourceEndpoint: $sourceEndId, targetIndex: $index, type: 'forward' }
 
       Brick.update(source, { connections: sourceConnections })
@@ -45,15 +43,15 @@ app.directive "circuitEvents", ($compile, $rootScope, Brick) ->
       Brick.find(target).done (data) ->
         targetBrick = data
 
-      unless targetBrick.connections?
-        targetConnections = []
-      else
-        targetConnections = targetBrick.connections
+      # unless targetBrick.connections?
+      #   targetConnections = []
+      # else
+      #   targetConnections = targetBrick.connections
 
-      if targetConnections.indexOf({ target: source, sourceEndpoint: $targetEndId }) < 0  
-        targetConnections.push { target: source, sourceEndpoint: $targetEndId, type: 'backward' }
+      # if targetConnections.indexOf({ target: source, sourceEndpoint: $targetEndId }) < 0  
+      #   targetConnections.push { target: source, sourceEndpoint: $targetEndId, type: 'backward' }
       
-      Brick.update(target, { connections: targetConnections })
+      # Brick.update(target, { connections: targetConnections })
 
       $label = $('#label-' + info.connection.id)
       $label.data('sourceId', info.connection.source.id)
@@ -66,9 +64,14 @@ app.directive "circuitEvents", ($compile, $rootScope, Brick) ->
         return false
       return true
 
-    connectionIndexOf (connections, connection) ->
-      i = 0
-      for connectionsearch in connections
-        if(connectionsearch.target == )
-        i += 1
-      return -1;
+    connectionContained = (connections, connection) ->
+      console.log connection
+      if connection.type is 'forward'
+        connections.filter (conn) ->
+          return conn.target is connection.target and conn.sourceEndpoint is connection.sourceEndpoint and conn.targetIndex is connection.targetIndex
+      else
+        connections.filter (conn) ->
+          return conn.target is connection.target and conn.sourceEndpoint is connection.sourceEndpoint
+
+
+
