@@ -4,6 +4,7 @@ app.directive "circuitEvents", ($compile, $rootScope, Brick) ->
   restrict: "A"
   link: (scope, element, attributes) ->
     options = scope.$eval(attributes.circuitEvents)
+    $isPresent = false
 
     # Ensure connections are updated in the database
     jsPlumb.bind "connection", (info, originalEvent) ->
@@ -25,15 +26,27 @@ app.directive "circuitEvents", ($compile, $rootScope, Brick) ->
 
         if jsPlumb.selectEndpoints(target: info.targetId).get(0).id is $targetEndId then $index = 0 else $index = 1
 
-        updateSourceConnection(info, $source, $target, $sourceEndId, $index,)
-        updateTargetConnection(info, $source, $target, $targetEndId)
+        $elemConnections = jsPlumb.getConnections(target: info.targetId)
+        unless $isPresent
+          updateSourceConnection(info, $source, $target, $sourceEndId, $index,)
+          updateTargetConnection(info, $source, $target, $targetEndId)
         addLabelInformation(info)
 
     # Any brick or gate cannot create a connection to itselfn
     jsPlumb.bind "beforeDrop", (info) ->
+      $elemConnections = jsPlumb.getConnections(target: info.targetId)
+      $isPresent = _.contains($elemConnections, info.connection)
+
       if info.sourceId is info.targetId
         return false
       return true
+
+    jsPlumb.bind "connectionDetached", (info, originalEvent) ->
+      console.log "DETACHED"
+
+    jsPlumb.bind "connectionMoved", (info, originalEvent) ->
+      console.log "MOVED"
+
 
     # Update the connections for the source
     updateSourceConnection = (info, source, target, $sourceEndId, $index) ->
