@@ -58,9 +58,9 @@ app.directive "circuitEvents", ($compile, $rootScope, Brick) ->
         return false
       return true
 
-    connectionIndexOf (connections, connection) ->
-      i = 0
-      for connectionsearch in connections
-        if(connectionsearch.target == )
-        i += 1
-      return -1;
+    # connectionIndexOf (connections, connection) ->
+    #   i = 0
+    #   for connectionsearch in connections
+    #     if(connectionsearch.target == )
+    #     i += 1
+    #   return -1;
