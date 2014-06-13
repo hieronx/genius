@@ -23,6 +23,7 @@ addEventListener 'message', (e) =>
       console.log brick.connections
       f = (t, x) ->
         i = 0
+        queue = new PriorityQueue(comparator: (a, b) -> b.comp - a.comp)
         equations = []
         addEquations = (brick) ->  
           # connectedBrick = Brick.where(filter) ->
@@ -31,12 +32,12 @@ addEventListener 'message', (e) =>
           filter (brick) ->
             brick.id 
           # If current brick is of type and
-          if brick.brick_type is 'brick-and'
+          if brick.brick_type is 'brick-output'
+            addEquations(connectedBrick)
+          else if brick.brick_type is 'brick-and'
             # For every input of brick-and
             for i in [0..1] by 1 
           # Current brick is of type not
-          else if brick.brick_type is 'brick-output'
-            addEquations(connectedBrick)
           else
             # Connected brick is of type brick-input
             if connectedBrick.brick_type is 'brick-input'
@@ -50,7 +51,7 @@ addEventListener 'message', (e) =>
               i += 2
               x[i] = 0
               x[i + 1] = 0 
-              addEquations(connectedBrick)
+              queue.enqueue(connectedBrick))
               input = x[temp + 3]
               equations.push( ( k1 * Km^n ) / ( Km^n + input^n ) - gene1_d1 * x[temp] )
               equations.push( gene1_k2 * x[temp] - gene1_d2 * x[temp + 1] )
