@@ -35,6 +35,11 @@ class BricksCtrl extends BaseCtrl
 
     @$scope.isSaving = false
 
+    @$scope.save = =>
+      @$scope.isSaving = true
+      @$scope.currentBrick.save =>
+        @$scope.isSaving = false
+
     Brick.all (bricks) =>
       if bricks.length > 0
         @$scope.currentBrick = Brick.last()
@@ -42,11 +47,6 @@ class BricksCtrl extends BaseCtrl
         @$scope.currentBrick = new Brick
           title: "New Biobrick ##{Brick.size() + 1}"
         @$scope.save()
-
-    @$scope.save = =>
-      @$scope.isSaving = true
-      @$scope.currentBrick.save =>
-        @$scope.isSaving = false
 
     @$scope.run = =>
       Brick.all (bricks) =>
