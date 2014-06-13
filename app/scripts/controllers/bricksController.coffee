@@ -33,16 +33,20 @@ class BricksCtrl extends BaseCtrl
       credits:
         enabled: false
 
+    @$scope.isSaving = false
+
     Brick.all (bricks) =>
       if bricks.length > 0
         @$scope.currentBrick = Brick.last()
       else
         @$scope.currentBrick = new Brick
           title: "New Biobrick ##{Brick.size() + 1}"
-        @$scope.currentBrick.save()
+        @$scope.save()
 
-    @$scope.saveTitle = =>
-      console.log arguments
+    @$scope.save = =>
+      @$scope.isSaving = true
+      @$scope.currentBrick.save =>
+        @$scope.isSaving = false
 
     @$scope.run = =>
       Brick.all (bricks) =>

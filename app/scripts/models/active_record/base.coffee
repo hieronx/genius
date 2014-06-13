@@ -10,9 +10,13 @@ class ActiveRecord.Base
     @extend @,   module.ClassMethods
     @extend @::, module.InstanceMethods
 
-  @register: ->
+  @boot: (args...) ->
+    for initializer in @initializers || []
+      initializer.apply @, args
+
     @name = /(\w+)\(/.exec(@toString())[1]
     window[@name] = @
+
     app = angular.module("geniusApp")
     app.factory @name, @
 

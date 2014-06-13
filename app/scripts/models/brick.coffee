@@ -1,6 +1,6 @@
 
 class Brick extends ActiveRecord.Base
-  @register()
+  @boot()
 
   @hasMany 'Position'
   @hasMany 'Connection'

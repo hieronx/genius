@@ -2,7 +2,8 @@
 ActiveRecord.Collections =
 
   ClassMethods:
-    collection: []
+    initialize: ->
+      @collection = []
 
     add: (model) ->
       unless _.contains(@collection, model)

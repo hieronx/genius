@@ -1,6 +1,6 @@
 
 class Position extends ActiveRecord.Base
-  @register()
+  @boot()
 
   @belongsTo 'Brick'
   @hasMany 'Connection'

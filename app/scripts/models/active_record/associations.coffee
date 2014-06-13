@@ -4,30 +4,30 @@ ActiveRecord.Associations =
   ClassMethods:
 
     belongsTo: (className, options = {}) ->
-      @::associations ||= {}
-      @::associations.belongsTo ||= []
-      @::associations.belongsTo.push [className, options]
+      ((@::associations ||= {}).belongsTo ||= []).push _.extend({
+        className: className
+        key: "#{className.toLowerCase()}"
+        foreign_key: "#{className.toLowerCase()}_id"
+        foreign_object: "#{className.toLowerCase()}"
+      }, options)
 
     hasMany: (className, options = {}) ->
-      @::associations ||= {}
-      @::associations.hasMany ||= []
-      @::associations.hasMany.push [className, options]
+      ((@::associations ||= {}).hasMany ||= []).push _.extend({
+        className: className
+        key: "#{className.toLowerCase()}s"
+        foreign_key: "#{@type()}_id"
+        foreign_object: "#{className.toLowerCase()}s"
+      }, options)
 
   InstanceMethods:
 
     initialize: ->
       _.each @associations, (associations, method) =>
         _.each associations, (association) =>
-          @[method].apply @, association
+          @["_#{method}"].call @, association
 
-    belongsTo: (className, options = {}) ->
-      # set options with defaults
-      model = window[className]
-      options = _.extend {
-        key: @model.type()
-        foreign_key: "#{@model.type()}_id"
-        foreign_object: @model.type()
-      }, options
+    _belongsTo: (options = {}) ->
+      model = window[options.className]
 
       # set initial object
       @[options.key] = null
@@ -46,39 +46,41 @@ ActiveRecord.Associations =
       @on "change:#{options.foreign_key}", =>
         @[options.key] = model.find @get(options.foreign_key)
 
-    hasMany: (className, options = {}) ->
-      # set options with defaults
-      model = window[className]
-      options = _.extend {
-        key: "#{model.type()}s"
-        foreign_key: "#{@type()}_id"
-        foreign_object: "#{model.type()}s"
-      }, options
+    _hasMany: (options = {}) ->
+      model = window[options.className]
+
+      # prepare has may collection
+      @[options.key] =
+        collection: []
+        all: -> @collection
+        find: (id) -> @detect (m) -> m.id() == id
+        new: (attributes) =>
+          attributes[options.foreign_key] ||= @id()
+          new model(attributes)
+      _.each _.omit(ActiveRecord.Collections.ClassMethods, 'all', 'find', 'new', 'type'), (method, name) =>
+        @[options.key][name] = method
 
       # set initial objects
-      @[options.key] = model.clone()
-      if @has(options.foreign_object)
-        _.each @get(options.foreign_object), (object) =>
-          if object.length == 1 and object.id?
-            instance = model.find(object.id)
-          else
-            instance = new model(object)
-          @[options.key].add instance
+      if @has(options.foreign_object) and _.isArray(@get(options.foreign_object))
+        _.each @get(options.foreign_object), (attributes) =>
+          @[options.key].add @_attributesToObject(attributes)
       model.each (instance) =>
         if instance.has(options.foreign_key) and instance.get(options.foreign_key) == @id()
           @[options.key].add instance
 
       # update objects on change
       @on "change:#{options.foreign_object}", =>
-        _.each @get(options.foreign_object), (object) =>
-          if object.length == 1 and object.id?
-            instance = model.find(object.id)
-          else
-            instance = new model(object)
-          @[options.key].add instance
+        _.each @get(options.foreign_object), (attributes) =>
+          @[options.key].add @_attributesToObject(attributes)
       model.on 'add', (instance) =>
         if instance.has(options.foreign_key) and instance.get(options.foreign_key) == @id()
           @[options.key].add instance
       model.on 'remove', (instance) =>
         if instance.has(options.foreign_key) and instance.get(options.foreign_key) == @id()
           @[options.key].remove instance
+
+    _attributesToObject: (attributes) ->
+      if attributes.length == 1 and attributes.id?
+        model.find(attributes.id)
+      else
+        new model(attributes)
