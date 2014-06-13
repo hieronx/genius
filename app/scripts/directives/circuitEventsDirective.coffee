@@ -25,14 +25,20 @@ app.directive "circuitEvents", ($compile, $rootScope, Brick) ->
       Brick.find(source).done (data) ->
         sourceBrick = data
       console.log sourceBrick
-      unless sourceBrick.connections?
-        console.log 'swag'
-        sourceConnections = []
-      else
+
+      if sourceBrick.connections?
         sourceConnections = sourceBrick.connections
+      else
+        sourceConnections = []
+
+      console.log sourceConnections
+      console.log { target: target, sourceEndpoint: $sourceEndId, targetIndex: $index, type: 'forward' }
+
+      $conn = { target: target, sourceEndpoint: $sourceEndId, targetIndex: $index, type: 'forward' }
+      console.log sourceConnections.indexOf($conn)
 
       if sourceConnections.indexOf({ target: target, sourceEndpoint: $sourceEndId, targetIndex: $index }) < 0
-        sourceConnections.push { target: target, sourceEndpoint: $sourceEndId, targetIndex: $index }
+        sourceConnections.push { target: target, sourceEndpoint: $sourceEndId, targetIndex: $index, type: 'forward' }
 
       Brick.update(source, { connections: sourceConnections })
       
@@ -44,7 +50,7 @@ app.directive "circuitEvents", ($compile, $rootScope, Brick) ->
         targetConnections = targetBrick.connections
 
       if targetConnections.indexOf({ target: source, sourceEndpoint: $targetEndId }) < 0  
-        targetConnections.push { target: source, sourceEndpoint: $targetEndId }
+        targetConnections.push { target: source, sourceEndpoint: $targetEndId, type: 'backward' }
       
       Brick.update(target, { connections: targetConnections })
 
