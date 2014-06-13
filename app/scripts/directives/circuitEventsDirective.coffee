@@ -10,62 +10,53 @@ app.directive "circuitEvents", ($compile, $rootScope, Brick) ->
       source = info.sourceId.slice 6
       target = info.targetId.slice 6
 
-      $sourceEndId = info.connection.endpoints[0].id
-      $targetEndId = info.connection.endpoints[1].id
-      
-      $index = 1
-      if jsPlumb.selectEndpoints(target: info.targetId).get(0).id is $targetEndId
-        $index = 0
-    
-      sourceConnections = null
-      targetConnections = null 
-      sourceBrick = null
-      targetBrick = null
-
       Brick.find(source).done (data) ->
-        sourceBrick = data
-      console.log sourceBrick
+        console.log data
 
-      if sourceBrick.connections?
-        sourceConnections = sourceBrick.connections
-      else
-        sourceConnections = []
-
-      $conn = { target: target, sourceEndpoint: $sourceEndId, targetIndex: $index, type: 'forward' }
-      console.log connectionContained(sourceConnections, $conn)
-
-      if connectionContained(sourceConnections, $conn).length < 1
-        console.log "YAY"
-        sourceConnections.push { target: target, sourceEndpoint: $sourceEndId, targetIndex: $index, type: 'forward' }
-
-      Brick.update(source, { connections: sourceConnections })
-      
       Brick.find(target).done (data) ->
-        targetBrick = data
+        console.log data
 
-      # unless targetBrick.connections?
-      #   targetConnections = []
-      # else
-      #   targetConnections = targetBrick.connections
+      if originalEvent
+        source = info.sourceId.slice 6
+        target = info.targetId.slice 6
 
-      # if targetConnections.indexOf({ target: source, sourceEndpoint: $targetEndId }) < 0  
-      #   targetConnections.push { target: source, sourceEndpoint: $targetEndId, type: 'backward' }
+        $sourceEndId = info.connection.endpoints[0].id
+        $targetEndId = info.connection.endpoints[1].id
+        
+        if jsPlumb.selectEndpoints(target: info.targetId).get(0).id is $targetEndId then $index = 0 else $index = 1
       
-      # Brick.update(target, { connections: targetConnections })
+        sourceConnections = targetConnections = sourceBrick = targetBrick = null
 
-      $label = $('#label-' + info.connection.id)
-      $label.data('sourceId', info.connection.source.id)
-      $label.data('targetId', info.connection.target.id)
-      $label.addClass(info.connection.source.id).addClass(info.connection.target.id)
+        Brick.find(source).done (data) ->
+          sourceBrick = data
 
-    # Any brick or gate cannot create a connection to itself
+        console.log sourceBrick
+
+        if sourceBrick.connections? then sourceConnections = sourceBrick.connections else sourceConnections = []
+        sourceConnections.push { target: target, sourceEndpoint: $sourceEndId, targetIndex: $index, type: 'forward' }
+        Brick.update(source, { connections: sourceConnections })
+        
+        Brick.find(target).done (data) ->
+          targetBrick = data
+        console.log targetBrick
+
+        if targetBrick.connections? then targetConnections = targetBrick.connections else targetConnections = []
+        targetConnections.push { target: source, sourceEndpoint: $targetEndId, type: 'backward' }
+        Brick.update(target, { connections: targetConnections })
+
+        $label = $('#label-' + info.connection.id)
+        $label.data('sourceId', info.connection.source.id)
+        $label.data('targetId', info.connection.target.id)
+        $label.addClass(info.connection.source.id).addClass(info.connection.target.id)
+
+    # Any brick or gate cannot create a connection to itselfn
     jsPlumb.bind "beforeDrop", (info) ->
       if info.sourceId is info.targetId
         return false
       return true
 
+    # Check if a connection is present in an array
     connectionContained = (connections, connection) ->
-      console.log connection
       if connection.type is 'forward'
         connections.filter (conn) ->
           return conn.target is connection.target and conn.sourceEndpoint is connection.sourceEndpoint and conn.targetIndex is connection.targetIndex
