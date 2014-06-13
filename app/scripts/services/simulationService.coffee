@@ -9,8 +9,8 @@ app.factory "simulationService", ($compile, $rootScope) ->
   gene1_d1 = 0.0240
   gene1_d2 = 0.8466
   gene2_k2 = 4.6337
-  gene2_d1 = 0.0205 
-  gene2_d2 = 0.8627 
+  gene2_d1 = 0.0205
+  gene2_d2 = 0.8627
   Km = 224.0227
   n = 1
 
@@ -27,7 +27,7 @@ app.factory "simulationService", ($compile, $rootScope) ->
           equations = []
 
           addEquations = (connections) ->
-            unless typeof connections is 'undefined'
+            if connections?
               for connection in connections
                 connectedBrick = bricks.filter((item) ->
                   item.id is connection.target
@@ -35,16 +35,13 @@ app.factory "simulationService", ($compile, $rootScope) ->
 
                 if i is 0
                   input = TF1
-                else if typeof x[i-1] is 'undefined'
+                else if !x[i-1]?
                   input = 0
                 else
                   input = x[i-1]
 
-                if typeof x[i] is 'undefined'
-                  x[i] = 0
-
-                if typeof x[i+1] is 'undefined'
-                  x[i+1] = 0
+                x[i] ||= 0
+                x[i+1] ||= 0
 
                 if connectedBrick.brick_type is 'brick-not'
                     equations.push( ( k1 * Km^n ) / ( Km^n + input^n ) - gene1_d1 * x[i] )
@@ -58,7 +55,7 @@ app.factory "simulationService", ($compile, $rootScope) ->
                   else if x[i-1] is 0
                     x[i] = 0
                     x[i+1] = 0
-                    
+
                     equations.push( ( k1 * (TF1 * TF2)^n ) / ( Km^n + (TF1 * TF2)^n ) - gene1_d1 * x[i] )
                     equations.push( gene2_k2 * x[i-1] - gene2_d2 * x[i+1] )
 
@@ -75,7 +72,7 @@ app.factory "simulationService", ($compile, $rootScope) ->
 
           equations
 
-        unless brick.connections is 'undefined'
+        if brick.connections?
           # TODO: brick.connections.length * 2 is wrong formula
           startValues = Array.apply(null, new Array(brick.connections.length * 2)).map(Number.prototype.valueOf,0)
 

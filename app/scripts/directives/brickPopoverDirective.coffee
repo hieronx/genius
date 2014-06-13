@@ -6,7 +6,7 @@ app.directive "brickPopover", ($compile, $rootScope, popoverTypesService) ->
     options = scope.$eval(attributes.brickPopover)
 
     $brickId = $(element).attr('id').slice 6
-    $brick = Brick.find((m) -> m.id() == $brickId)
+    $brick = Brick.find($brickId)
 
     brickForm = popoverTypesService.type(element.data('type'))
     brickForm.data('brickId', $brickId)

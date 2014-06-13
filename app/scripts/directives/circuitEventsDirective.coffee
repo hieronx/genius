@@ -8,9 +8,9 @@ app.directive "circuitEvents", ($compile, $rootScope) ->
     # Add information to label to ensure correct dragging behaviour
     jsPlumb.bind "connection", (info, originalEvent) ->
       sourceId = info.sourceId.slice 6
-      source = Brick.find((m) -> m.id() == sourceId)
+      source = Brick.find(sourceId)
       targetId = info.targetId.slice 6
-      target = Brick.find((m) -> m.id() == targetId)
+      target = Brick.find(targetId)
 
       $sourceEndId = info.connection.endpoints[0].id
       $targetEndId = info.connection.endpoints[1].id

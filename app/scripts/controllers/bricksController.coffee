@@ -33,8 +33,19 @@ class BricksCtrl extends BaseCtrl
       credits:
         enabled: false
 
+    Brick.all (bricks) =>
+      if bricks.length > 0
+        @$scope.currentBrick = Brick.last()
+      else
+        @$scope.currentBrick = new Brick
+          title: "New Biobrick ##{Brick.size() + 1}"
+        @$scope.currentBrick.save()
+
+    @$scope.saveTitle = =>
+      console.log arguments
+
     @$scope.run = =>
-      @Brick.all().done (bricks) =>
+      Brick.all (bricks) =>
 
         solution = @simulationService.run(bricks)
 
@@ -57,10 +68,10 @@ class BricksCtrl extends BaseCtrl
 
         @$scope.chartConfig.loading = false
 
-    @$scope.loadStoredBricks = =>      
+    @$scope.loadStoredBricks = =>
       @importCSV.storeBiobricks()
       @$rootScope.$on 'ngRepeatFinished', (ngRepeatFinishedEvent) =>
-        Brick.fetch (bricks) =>
+        Brick.all (bricks) =>
           for brick in bricks
             ui =
               draggable: $('.brick-container div.brick.' + brick.get('brick_type'))
@@ -85,7 +96,9 @@ class BricksCtrl extends BaseCtrl
       public: false
 
     @$scope.new = =>
-      # new brick
+      @$scope.currentBrick = new Brick
+        title: "New Biobrick ##{Brick.size() + 1}"
+      @$scope.currentBrick.save()
 
     @$scope.copy = =>
       # copy brick

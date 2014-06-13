@@ -69,7 +69,7 @@ app.factory "dropService", ($compile, $rootScope) ->
 
               $canid = $(this).id()
               index = $canid.slice 6
-              brick = Brick.find((m) -> m.id() == index)
+              brick = Brick.find(index)
 
               brick.set 'left', $(this).position().left
               brick.set 'top', $(this).position().top
@@ -95,7 +95,7 @@ app.factory "dropService", ($compile, $rootScope) ->
 
             $this = $(this)
             $brickId = $canvasElement.attr('id').slice 6
-            brick = Brick.find((m) -> m.id() == $brickId)
+            brick = Brick.find($brickId)
 
             $this.find('input').each (key, prop) ->
               brick.set $(prop).attr('name'), $(prop).val()

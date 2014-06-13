@@ -1,6 +1,7 @@
-<span contenteditable="true" id="title">Unnamed biobrick project</span>
-<em class="text-muted hidden-xs state">-
-  <span class="saved">saved</span>
-  <span class="saving hidden">saving...</span>
-  <span class="error hidden">not saved</span>
+<input type="text" name="title" id="title" ng-model="currentBrick.attributes.title" value="{{ currentBrick.attributes.title }}" />
+<em class="text-muted hidden-xs state">
+  -
+  <span class="saved" ng-class="{ 'hidden': currentBrick.isSaving }">saved</span>
+  <span class="saving" ng-class="{ 'hidden': !currentBrick.isSaving }">saving...</span>
+  <span>{{ currentBrick.isSaving }}</span>
 </em>
