@@ -24,53 +24,6 @@ addEventListener 'message', (e) =>
       f = (t, x) ->
         i = 0
         equations = []
-
-        # Version input first
-        # addEquations = (connections) ->
-
-        #   unless typeof connections is 'undefined'
-        #     for connection in connections
-        #       connectedBrick = bricks.filter((item) ->
-        #         item.id is connection.target
-        #       )[0]
-
-        #       if i is 0
-        #         input = TF1
-        #       else if typeof x[i-1] is 'undefined'
-        #         input = 0
-        #       else
-        #         input = x[i-1]
-
-        #       if typeof x[i] is 'undefined'
-        #         x[i] = 0
-
-        #       if typeof x[i+1] is 'undefined'
-        #         x[i+1] = 0
-
-        #       if connectedBrick.brick_type is 'brick-not'
-        #           equations.push( ( k1 * Km^n ) / ( Km^n + input^n ) - gene1_d1 * x[i] )
-        #           equations.push( gene1_k2 * x[i] - gene1_d2 * x[i+1] )
-
-        #       else if connectedBrick.brick_type is 'brick-and'
-        #         if i is 0
-        #           equations.push( ( k1 * (TF1 * TF2)^n ) / ( Km^n + (TF1 * TF2)^n ) - gene1_d1 * x[i] )
-        #           equations.push( gene2_k2 * x[i] - gene2_d2 * x[i+1] )
-
-        #         else if x[i-1] is 0
-        #           x[i] = 0
-        #           x[i+1] = 0
-                  
-        #           equations.push( ( k1 * (TF1 * TF2)^n ) / ( Km^n + (TF1 * TF2)^n ) - gene1_d1 * x[i] )
-        #           equations.push( gene2_k2 * x[i-1] - gene2_d2 * x[i+1] )
-
-        #         else
-        #           # Todo
-        #           equations.push( ( k1 * Km^n ) / ( Km^n + x[i-1]^n ) - gene2_d1 * x[i] )
-        #           equations.push( gene2_k2 * x[i] - gene2_d2 * x[i+1] )
-
-        #       i += 2
-
-        #       addEquations(connectedBrick.connections)
         addEquations = (brick) ->  
           # connectedBrick = Brick.where(filter) ->
           #   item.id is connection.source
