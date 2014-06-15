@@ -23,65 +23,88 @@ addEventListener 'message', (e) =>
       console.log brick.connections
       f = (t, x) ->
         i = 0
+        tempQueue = new PriorityQueue(comparator: (a, b) -> b.comp - a.comp)
         queue = new PriorityQueue(comparator: (a, b) -> b.comp - a.comp)
-        equations = []
-        addEquations = (brick) ->  
-          # connectedBrick = Brick.where(filter) ->
-          #   item.id is connection.source
-          # )[j]
-          filter (brick) ->
-            brick.id 
-          # If current brick is of type and
-          if brick.brick_type is 'brick-output'
-            addEquations(connectedBrick)
-          else if brick.brick_type is 'brick-and'
+
+        # Define structure of simulations
+        tempBrick = brick.connected # placeholder
+        tempQueue.queue tempbrick 
+        while tempQueue.length > 0
+          tempBrick = tempQueue.dequeue()
+          queue.queue { brick: tempBrick, comp: i }
+          i += 2
+          if brick.brick_type is 'brick-and'
             # For every input of brick-and
-            for i in [0..1] by 1 
-              null
+            for j in [0..1] by 1 
+              tempQueue.queue { brick: tempBrick.connected[j], comp: i + j } # placeholder
 
           # Current brick is of type not
-          else
-            # Connected brick is of type brick-input
-            if connectedBrick.brick_type is 'brick-input'
-              # Input is transcription factor of brick-input
-              input = TF1
-              equations.push( ( k1 * Km^n ) / ( Km^n + input^n ) - gene1_d1 * x[i] )
-              equations.push( gene1_k2 * x[i] - gene1_d2 * x[i+1] )
-            # Connected brick is of type brick-not
-            else if connectedBrick.brick_type is 'brick-not'
-              temp = i
-              i += 2
-              x[i] = 0
-              x[i + 1] = 0 
-             #queue.enqueue(connectedBrick))
-              input = x[temp + 3]
-              equations.push( ( k1 * Km^n ) / ( Km^n + input^n ) - gene1_d1 * x[temp] )
-              equations.push( gene1_k2 * x[temp] - gene1_d2 * x[temp + 1] )
+          else if brick.brick_type is 'brick-not'
+            tempQueue.queue { brick: tempBrick.connected, comp: i } # placeholder
+          # If brick is not of type not or and, it is an input and this is where the loop should end
 
-            else if connectedBrick.brick_type is 'brick-and'
-              temp = i
-              i += 2
-              x[i] = 0
-              x[i + 1] = 0 
-              addEquations(connectedBrick)
-              temp2 = i
-              i += 2
-              x[i] = 0
-              x[i + 1] = 0 
-              addEquations(connectedBrick)
-              input2 = x[temp + 3]
-              equations.push( ( k1 * (TF1 * TF2)^n ) / ( Km^n + (TF1 * TF2)^n ) - gene1_d1 * x[i] )
-              equations.push( gene2_k2 * x[i] - gene2_d2 * x[i+1] )
+        equations = []
+        while queue.length > 0
+          
 
-            j += 1
-            i += 2
-            if typeof x[i] is 'undefined'
-              x[i] = 0
 
-            if typeof x[i+1] is 'undefined'
-              x[i+1] = 0
+        # addEquations = (brick) ->  
+        #   # connectedBrick = Brick.where(filter) ->
+        #   #   item.id is connection.source
+        #   # )[j]
+        #   filter (brick) ->
+        #     brick.id 
+        #   # If current brick is of type and
+        #   if brick.brick_type is 'brick-output'
+        #     addEquations(connectedBrick)
+        #   else if brick.brick_type is 'brick-and'
+        #     # For every input of brick-and
+        #     for j in [0..1] by 1 
+        #       null
 
-        addEquations(brick)
+        #   # Current brick is of type not
+        #   else
+        #     # Connected brick is of type brick-input
+        #     if connectedBrick.brick_type is 'brick-input'
+        #       # Input is transcription factor of brick-input
+        #       input = TF1
+        #       equations.push( ( k1 * Km^n ) / ( Km^n + input^n ) - gene1_d1 * x[i] )
+        #       equations.push( gene1_k2 * x[i] - gene1_d2 * x[i+1] )
+        #     # Connected brick is of type brick-not
+        #     else if connectedBrick.brick_type is 'brick-not'
+        #       temp = i
+        #       i += 2
+        #       x[i] = 0
+        #       x[i + 1] = 0 
+        #      #queue.enqueue(connectedBrick))
+        #       input = x[temp + 3]
+        #       equations.push( ( k1 * Km^n ) / ( Km^n + input^n ) - gene1_d1 * x[temp] )
+        #       equations.push( gene1_k2 * x[temp] - gene1_d2 * x[temp + 1] )
+
+        #     else if connectedBrick.brick_type is 'brick-and'
+        #       temp = i
+        #       i += 2
+        #       x[i] = 0
+        #       x[i + 1] = 0 
+        #       addEquations(connectedBrick)
+        #       temp2 = i
+        #       i += 2
+        #       x[i] = 0
+        #       x[i + 1] = 0 
+        #       addEquations(connectedBrick)
+        #       input2 = x[temp + 3]
+        #       equations.push( ( k1 * (TF1 * TF2)^n ) / ( Km^n + (TF1 * TF2)^n ) - gene1_d1 * x[i] )
+        #       equations.push( gene2_k2 * x[i] - gene2_d2 * x[i+1] )
+
+        #     j += 1
+        #     i += 2
+        #     if typeof x[i] is 'undefined'
+        #       x[i] = 0
+
+        #     if typeof x[i+1] is 'undefined'
+        #       x[i+1] = 0
+
+        # addEquations(brick)
         console.log equations
         equations
 
