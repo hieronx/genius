@@ -24,28 +24,28 @@ addEventListener 'message', (e) =>
       console.log brick.connections
       f = (t, x) ->
         i = 0
-        tempQueue = new PriorityQueue(comparator: (a, b) -> b.comp - a.comp)
+        tempQueue = new PriorityQueue()
         queue = new PriorityQueue(comparator: (a, b) -> b.comp - a.comp)
-
-        # Define structure of simulations
-        tempBrick = brick.connected # placeholder
-        tempQueue.queue tempbrick 
+        list = new Array(101)
+        # Define structure of simulations 
+        tempQueue.queue { brick: brick.connected, output: -1  } # placeholder
         while tempQueue.length > 0
           tempBrick = tempQueue.dequeue()
-          queue.queue { brick: tempBrick, comp: i }
-          i += 2
-          if brick.brick_type is 'brick-and'
+          list[i] = tempBrick.output
+
+          if tempBrick.brick.brick_type is 'brick-and'
             # For every input of brick-and
-            for j in [0..1] by 1 
-              tempQueue.queue { brick: tempBrick.connected[j], comp: i + j } # placeholder
-
+            queue.queue { brick: tempBrick.brick, comp: i, output: tempBrick.output }
+            for j in [0..1] by 1
+              tempQueue.queue { brick: tempBrick.connected[j], output: i }  # placeholder
           # Current brick is of type not
-          else if brick.brick_type is 'brick-not'
-            tempQueue.queue { brick: tempBrick.connected, comp: i } # placeholder
+          else if tempBrick.brick.brick_type is 'brick-not'
+            queue.queue { brick: tempBrick.brick, comp: i, output: tempBrick.output }
+            tempQueue.queue { brick: tempBrick.connected, output: i } # placeholder
           # If brick is not of type not or and, it is an input and this is where the loop should end
-
+          i += 2
         equations = []
-        index = 0 # array index
+        startIndex = queue.dequeue().output # array index
         while queue.length > 0 
           # connectedBrick = Brick.where(filter) ->
           #   item.id is connection.source
@@ -57,6 +57,7 @@ addEventListener 'message', (e) =>
 
           equationBrick = queue.dequeue()
           # Check whether array element is defined
+          index = startIndex - equationBrick.comp
           if typeof x[index] is 'undefined'
               x[index] = 0
 
@@ -65,18 +66,20 @@ addEventListener 'message', (e) =>
 
           # All k variables have to come from predefined gene k variables
           if equationBrick.brick_type is 'brick-and'
-            equations.push( ( k1 * (x[index-1] * x[index-3])^n ) / ( Km^n + (x[index-1] * x[index-3])^n ) - gene1_d1 * x[index] )
+            input1 = startIndex - list.indexOf(equationBrick.comp)
+            input2 = startIndex - list.lastIndexOf(equationBrick.comp)
+            equations.push( ( k1 * (x[input1 + 1] * x[input2 + 1])^n ) / ( Km^n + (x[input1 + 1] * x[input2 + 1])^n ) - gene1_d1 * x[index] )
             equations.push( gene2_k2 * x[index] - gene2_d2 * x[index+1] )
 
-          else if equationBrick.brick_type is 'brick-not' 
-            equations.push( ( k1 * Km^n ) / ( Km^n + x[index-1]^n ) - gene1_d1 * x[index] )
+          else if equationBrick.brick_type is 'brick-not'
+            input1 = startIndex - list.indexOf(equationBrick.comp) 
+            equations.push( ( k1 * Km^n ) / ( Km^n + x[input1 + 1]^n ) - gene1_d1 * x[index] )
             equations.push( gene1_k2 * x[index] - gene1_d2 * x[index+1] )
 
           else if equationBrick.brick_type is 'brick-input'
             equations.push( Math.random() * 30 ) # placeholder, TF have to come from input
             equations.push( Math.random() * 30 ) # placeholder, TF have to come from input
 
-          index += 2
           console.log equations
 
         equations
