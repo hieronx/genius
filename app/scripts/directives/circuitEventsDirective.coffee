@@ -8,14 +8,6 @@ app.directive "circuitEvents", ($compile, $rootScope, Brick) ->
 
     # Ensure connections are updated in the database
     jsPlumb.bind "connection", (info, originalEvent) ->
-      # source = info.sourceId.slice 6
-      # target = info.targetId.slice 6
-
-      # Brick.find(source).done (data) ->
-      #   console.log data
-
-      # Brick.find(target).done (data) ->
-      #   console.log data
 
       if originalEvent
         $source = info.sourceId.slice 6
@@ -27,7 +19,6 @@ app.directive "circuitEvents", ($compile, $rootScope, Brick) ->
         if jsPlumb.selectEndpoints(target: info.targetId).get(0).id is $targetEndId then $index = 0 else $index = 1
 
         unless $isPresent
-          console.log "AETAETWEMOVED"
           updateSourceConnection(info, $source, $target, $sourceEndId, $index,)
           updateTargetConnection(info, $source, $target, $targetEndId)
         addLabelInformation(info)
@@ -45,7 +36,31 @@ app.directive "circuitEvents", ($compile, $rootScope, Brick) ->
       return true
 
     jsPlumb.bind "connectionDetached", (info, originalEvent) ->
-      console.log "DETACHED"
+      $source = info.sourceId.slice 6
+      $target = info.targetId.slice 6
+
+      $sourceEndId = info.connection.endpoints[0].id
+      $targetEndId = info.connection.endpoints[1].id
+
+      if jsPlumb.selectEndpoints(target: info.targetId).get(0).id is $targetEndId then $index = 0 else $index = 1
+
+      sourceConnections = sourceBrick = null
+
+      Brick.find($source).done (data) ->
+        sourceBrick = data
+
+      if sourceBrick.connections? then sourceConnections = sourceBrick.connections else sourceConnections = []
+      sourceConnections = removeConnectionByCondition(sourceConnections, { target: $target, sourceEndpoint: $sourceEndId, targetIndex: $index, type: 'forward'} )
+      Brick.update($source, { connections: sourceConnections })
+
+      targetConnections = targetBrick = null
+
+      Brick.find($target).done (data) ->
+        targetBrick = data
+      
+      if targetBrick.connections? then targetConnections = targetBrick.connections else targetConnections = []
+      targetConnections = removeConnectionByCondition(targetConnections, { target: $source, sourceEndpoint: $targetEndId, type: 'backward'})
+      Brick.update($target, { connections: targetConnections })
 
     jsPlumb.bind "connectionMoved", (info, originalEvent) ->
       $source = info.newSourceId.slice 6
@@ -55,7 +70,6 @@ app.directive "circuitEvents", ($compile, $rootScope, Brick) ->
       $sourceEndId = info.connection.endpoints[0].id
       $oldTargetEndId = info.originalTargetEndpoint.id
       $newTargetEndId = info.connection.endpoints[1].id
-
 
       if jsPlumb.selectEndpoints(target: info.newTargetId).get(0).id is $newTargetEndId then $index = 0 else $index = 1
       if jsPlumb.selectEndpoints(target: info.originalTargetId).get(0).id is $oldTargetEndId then $oldIndex = 0 else $oldIndex = 1
