@@ -43,22 +43,18 @@ app.directive "circuitEvents", ($compile, $rootScope, Brick) ->
         return false
       return true
 
-    # Connections cannot be disconnected from a sourcepoint
-    jsPlumb.bind "beforeDetach", (connection) ->
-      console.log "BEFOREDET"
-
     jsPlumb.bind "connectionDetached", (info, originalEvent) ->
       console.log "DETACHED"
 
     jsPlumb.bind "connectionMoved", (info, originalEvent) ->
-      $source = info.sourceId.slice 6
-      $target = info.targetId.slice 6
+      console.log info
+      $source = info.newSourceId.slice 6
+      $target = info.newTargetId.slice 6
 
       $sourceEndId = info.connection.endpoints[0].id
       $targetEndId = info.connection.endpoints[1].id
 
       if jsPlumb.selectEndpoints(target: info.targetId).get(0).id is $targetEndId then $index = 0 else $index = 1
-
 
 
     # Update the connections for the source
