@@ -9,7 +9,6 @@
   background-repeat: no-repeat;
   background-color: white;
   box-shadow: 0 0 2px gray;
-  overflow: hidden;
   position: relative;
   &:hover {
     i.delete-brick {
@@ -84,4 +83,7 @@
     top: 0;
     display: none;
   }
+}
+#workspace .brick:hover .close {
+  display: none !important;
 }

@@ -9,8 +9,8 @@ app.directive "deleteBrick", ($compile, $rootScope) ->
     element.on "click", ->
       $elPar = element.parent()
       $brickId = $elPar.attr("id")
-      brick = Brick.find($brickId)
-      brick.destroy()
+      Brick.find $brickId, (brick) =>
+        brick.destroy()
 
       $connLabel = $('.label.' + $brickId)
       $sourceId = $connLabel.data('sourceId')

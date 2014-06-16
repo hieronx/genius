@@ -5,14 +5,11 @@ app.directive "isDroppable", ($compile, $rootScope, dropService) ->
   link: (scope, element, attributes) ->
     options = scope.$eval(attributes.isDroppable) #allow options to be passed in
     element.droppable drop: (event, ui) ->
-      console.log $rootScope.currentBrick
       position = $rootScope.currentBrick.positions.new()
 
       if ui.draggable.hasClass 'canvas-element'
         $canid = ui.draggable.attr 'id'
         index = $canid.slice 6
-
-        console.log index
 
         dropService.drop(index, scope, ui, false)
 

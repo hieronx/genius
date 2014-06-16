@@ -34,13 +34,13 @@ class BricksCtrl extends BaseCtrl
         enabled: false
 
     @$scope.save = =>
-      @$scope.currentBrick.save =>
+      @$scope.currentBrick.save()
 
     Brick.all (bricks) =>
       @$scope.private = bricks
 
       if Brick.size() > 0
-        @$scope.currentBrick = Brick.first()
+        @$rootScope.currentBrick = Brick.first()
       else
         @$rootScope.currentBrick = new Brick
           title: "New Biobrick ##{Brick.size() + 1}"
@@ -99,7 +99,7 @@ class BricksCtrl extends BaseCtrl
           $source = jsPlumb.selectEndpoints(source: $sourceId).get(0)
           $targetId = 'brick-' + connection.get('position_to_id')
           $target = jsPlumb.selectEndpoints(target: $targetId).get(connection.get('targetIndex'))
-          
+
           jsPlumb.connect( { source: $source, target: $target } )
 
     @$scope.collapse =

@@ -67,14 +67,13 @@ app.factory "dropService", ($compile, $rootScope) ->
             setTimeout (=>
               $(this).popover('enable')
 
-              $canid = $(this).id()
+              $canid = $(this).attr('id')
               index = $canid.slice 6
-              brick = Brick.find(index)
+              Brick.find index, (brick) =>
+                brick.set 'left', $(this).position().left
+                brick.set 'top', $(this).position().top
 
-              brick.set 'left', $(this).position().left
-              brick.set 'top', $(this).position().top
-
-              brick.save()
+                brick.save()
             ), 0
 
         # Bricks cannot be dragged when a popover is active
