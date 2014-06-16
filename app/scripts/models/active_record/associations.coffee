@@ -34,7 +34,8 @@ ActiveRecord.Associations =
       if @has(options.foreign_object)
         @[options.key] = new model @get(options.foreign_object)
       else if @has(options.foreign_key)
-        @[options.key] = model.find @get(options.foreign_key)
+        model.find @get(options.foreign_key), (instance) =>
+          @[options.key] = instance if instance?
 
       # update object on change
       @on "change:#{options.foreign_object}", =>
@@ -44,26 +45,29 @@ ActiveRecord.Associations =
         else
           @[options.key] = new model @get(options.foreign_object)
       @on "change:#{options.foreign_key}", =>
-        @[options.key] = model.find @get(options.foreign_key)
+        model.find @get(options.foreign_key), (instance) =>
+          @[options.key] = instance if instance?
 
     _hasMany: (options = {}) ->
       model = window[options.className]
 
       # prepare has may collection
       @[options.key] =
-        collection: []
+        collection: {}
         all: -> @collection
         find: (id) -> @detect (m) -> m.id() == id
-        new: (attributes = []) =>
+        new: (attributes = {}) =>
           attributes[options.foreign_key] ||= @id()
           new model(attributes)
+      _.each ActiveRecord.Callbacks.ClassMethods, (method, name) =>
+        @[options.key][name] = method
       _.each _.omit(ActiveRecord.Collections.ClassMethods, 'all', 'find', 'new', 'type'), (method, name) =>
         @[options.key][name] = method
 
       # set initial objects
       if @has(options.foreign_object) and _.isArray(@get(options.foreign_object))
         _.each @get(options.foreign_object), (attributes) =>
-          @[options.key].add @_attributesToObject(attributes)
+          @[options.key].add @_attributesToObject(attributes, model)
       model.each (instance) =>
         if instance.has(options.foreign_key) and instance.get(options.foreign_key) == @id()
           @[options.key].add instance
@@ -71,7 +75,7 @@ ActiveRecord.Associations =
       # update objects on change
       @on "change:#{options.foreign_object}", =>
         _.each @get(options.foreign_object), (attributes) =>
-          @[options.key].add @_attributesToObject(attributes)
+          @[options.key].add @_attributesToObject(attributes, model)
       model.on 'add', (instance) =>
         if instance.has(options.foreign_key) and instance.get(options.foreign_key) == @id()
           @[options.key].add instance
@@ -79,7 +83,7 @@ ActiveRecord.Associations =
         if instance.has(options.foreign_key) and instance.get(options.foreign_key) == @id()
           @[options.key].remove instance
 
-    _attributesToObject: (attributes) ->
+    _attributesToObject: (attributes, model) ->
       if attributes.length == 1 and attributes.id?
         model.find(attributes.id)
       else

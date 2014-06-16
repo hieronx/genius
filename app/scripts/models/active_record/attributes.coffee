@@ -4,7 +4,7 @@ ActiveRecord.Attributes =
   InstanceMethods:
 
     initialize: (attributes) ->
-      @attributes = []
+      @attributes = {}
       _.each attributes, (value, key) =>
         @set key, value
       @isSaving = false

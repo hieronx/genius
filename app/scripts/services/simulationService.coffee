@@ -17,9 +17,9 @@ app.factory "simulationService", ($compile, $rootScope) ->
   mRNA = 0
   Protein = 0
 
-  run: (bricks) ->
-    for brick in bricks
-      if brick.brick_type is 'brick-input'
+  run: (brick) ->
+    brick.positions.each (position) ->
+      if position.get('gate') is 'brick-input'
 
         f = (t, x) ->
           i = 0
@@ -43,11 +43,11 @@ app.factory "simulationService", ($compile, $rootScope) ->
                 x[i] ||= 0
                 x[i+1] ||= 0
 
-                if connectedBrick.brick_type is 'brick-not'
+                if connectedBrick.brick_type is 'not'
                     equations.push( ( k1 * Km^n ) / ( Km^n + input^n ) - gene1_d1 * x[i] )
                     equations.push( gene1_k2 * x[i] - gene1_d2 * x[i+1] )
 
-                else if connectedBrick.brick_type is 'brick-and'
+                else if connectedBrick.brick_type is 'and'
                   if i is 0
                     equations.push( ( k1 * (TF1 * TF2)^n ) / ( Km^n + (TF1 * TF2)^n ) - gene1_d1 * x[i] )
                     equations.push( gene2_k2 * x[i] - gene2_d2 * x[i+1] )

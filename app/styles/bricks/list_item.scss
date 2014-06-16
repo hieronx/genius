@@ -11,17 +11,17 @@
   box-shadow: 0 0 2px gray;
   position: relative;
   &:hover {
-    i.delete-brick {
+    i.delete-position {
       display: block;
     }
-    i.brick-popover {
+    i.position-popover {
       display: block;
     }
     .close {
       display: block;
     }
   }
-  &.brick-and {
+  &.and {
     background-image: url('../images/gates/AND.svg');
     box-shadow: none;
     padding: 0;
@@ -30,34 +30,25 @@
       display: none !important;
     }
   }
-  &.brick-not {
+  &.not {
     background-image: url('../images/gates/NOT.svg');
     box-shadow: none;
     padding: 0;
     background-color: transparent;
-    .close {
-      display: none !important;
-    }
   }
-  &.brick-input {
+  &.input {
     background-image: url('../images/gates/INPUT.svg');
     box-shadow: none;
     padding: 0;
     background-color: transparent;
-    .close {
-      display: none !important;
-    }
   }
-  &.brick-output {
+  &.output {
     background-image: url('../images/gates/OUTPUT.svg');
     box-shadow: none;
     padding: 0;
     background-color: transparent;
-    .close {
-      display: none !important;
-    }
   }
-  i.delete-brick {
+  i.delete-position {
     display: none;
     z-index: 1000;
     color: #999;
@@ -67,7 +58,7 @@
     right: -10px;
     cursor: pointer;
   }
-  i.brick-popover {
+  i.position-popover {
     display: none;
     z-index: 1000;
     color: black;
@@ -83,7 +74,4 @@
     top: 0;
     display: none;
   }
-}
-#workspace .brick:hover .close {
-  display: none !important;
 }

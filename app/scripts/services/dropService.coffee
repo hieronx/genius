@@ -10,7 +10,7 @@ app.factory "dropService", ($compile, $rootScope) ->
 
       $canvasElement.addClass "canvas-element"
       $canvasElement.draggable containment: "#workspace"
-      $canvasElement.addClass("brick-jsplumb").attr "id", "brick-" + position.id()
+      $canvasElement.addClass("brick-jsplumb").attr "id", position.id()
       $canvasElement.attr('brick-popover', "")
       $compile($canvasElement)($rootScope)
       $canvas.append $canvasElement
@@ -31,32 +31,32 @@ app.factory "dropService", ($compile, $rootScope) ->
       position.set 'top', $canvasElement.position().top
 
       position.save =>
-        $canid = "brick-" + position.id()
+        pid = position.id()
         $canvasElement.draggable("destroy")
 
-        delBrick = angular.element '<i class="fa fa-times delete-brick" delete-brick></i>'
+        delBrick = angular.element '<i class="fa fa-times delete-position" delete-position></i>'
         $canvasElement.append delBrick
         $compile(delBrick)($rootScope)
 
-        if $canvasElement.hasClass("brick-and")
-          jsPlumb.addEndpoint $canid, anchor: [0, 0.2, -1, 0, 8,  0], $rootScope.targetEndPoint
-          jsPlumb.addEndpoint $canid, anchor: [0, 0.8, -1, 0, 8,  0], $rootScope.targetEndPoint
-          jsPlumb.addEndpoint $canid, anchor: [1, 0.5, 1,  0, -8, 0], $rootScope.sourceEndPoint
+        if $canvasElement.hasClass("and")
+          jsPlumb.addEndpoint pid, anchor: [0, 0.2, -1, 0, 8,  0], $rootScope.targetEndPoint
+          jsPlumb.addEndpoint pid, anchor: [0, 0.8, -1, 0, 8,  0], $rootScope.targetEndPoint
+          jsPlumb.addEndpoint pid, anchor: [1, 0.5, 1,  0, -8, 0], $rootScope.sourceEndPoint
 
-        else if $canvasElement.hasClass("brick-not")
-          jsPlumb.addEndpoint $canid, anchor: [0, 0.5, -1, 0, 8, 0], $rootScope.targetEndPoint
-          jsPlumb.addEndpoint $canid, anchor: [1, 0.5, 1,  0], $rootScope.sourceEndPoint
+        else if $canvasElement.hasClass("not")
+          jsPlumb.addEndpoint pid, anchor: [0, 0.5, -1, 0, 8, 0], $rootScope.targetEndPoint
+          jsPlumb.addEndpoint pid, anchor: [1, 0.5, 1,  0], $rootScope.sourceEndPoint
 
-        else if $canvasElement.hasClass("brick-input")
-          jsPlumb.addEndpoint $canid, anchor: [1, 0.5, 1, 0, -40, 0], $rootScope.sourceEndPoint
+        else if $canvasElement.hasClass("input")
+          jsPlumb.addEndpoint pid, anchor: [1, 0.5, 1, 0, -40, 0], $rootScope.sourceEndPoint
 
-        else if $canvasElement.hasClass("brick-output")
-          jsPlumb.addEndpoint $canid, anchor: [0, 0.5, -1, 0, 33, 0], $rootScope.targetEndPoint
+        else if $canvasElement.hasClass("output")
+          jsPlumb.addEndpoint pid, anchor: [0, 0.5, -1, 0, 33, 0], $rootScope.targetEndPoint
 
         else
-          jsPlumb.addEndpoint $canid, anchor: [0, 0.2, -1, 0 ], $rootScope.targetEndPoint
-          jsPlumb.addEndpoint $canid, anchor: [0, 0.8, -1, 0 ], $rootScope.targetEndPoint
-          jsPlumb.addEndpoint $canid, anchor: [1, 0.5, 1, 0 ], $rootScope.sourceEndPoint
+          jsPlumb.addEndpoint pid, anchor: [0, 0.2, -1, 0 ], $rootScope.targetEndPoint
+          jsPlumb.addEndpoint pid, anchor: [0, 0.8, -1, 0 ], $rootScope.targetEndPoint
+          jsPlumb.addEndpoint pid, anchor: [1, 0.5, 1, 0 ], $rootScope.sourceEndPoint
 
         # Enable draggable behaviour and ensure a popover will not appear when dragged
         jsPlumb.draggable $canvasElement,
@@ -67,13 +67,12 @@ app.factory "dropService", ($compile, $rootScope) ->
             setTimeout (=>
               $(this).popover('enable')
 
-              $canid = $(this).attr('id')
-              index = $canid.slice 6
-              Brick.find index, (brick) =>
-                brick.set 'left', $(this).position().left
-                brick.set 'top', $(this).position().top
-
-                brick.save()
+              pid = $(this).attr('id')
+              Position.find pid, (position) =>
+                #position ||= Position.collection[pid] # why the hell is this necessary?
+                position.set 'left', $(this).position().left
+                position.set 'top', $(this).position().top
+                position.save()
             ), 0
 
         # Bricks cannot be dragged when a popover is active
@@ -92,14 +91,9 @@ app.factory "dropService", ($compile, $rootScope) ->
           $canvasElement.next().find('form').on 'submit', (event) ->
             event.preventDefault()
 
-            $this = $(this)
-            $brickId = $canvasElement.attr('id').slice 6
-            brick = Brick.find($brickId)
+            pid = $canvasElement.attr('id')
+            Position.find pid, (position) =>
 
-            $this.find('input').each (key, prop) ->
-              brick.set $(prop).attr('name'), $(prop).val()
-
-            brick.save()
-
-
-
+              $(this).find('input').each (key, prop) ->
+                position.set $(prop).attr('name'), $(prop).val()
+              position.save()

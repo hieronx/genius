@@ -1,4 +1,3 @@
-<div id="brick-{{brick.type.toLowerCase()}}" class="brick brick-{{brick.type.toLowerCase()}}" tooltip="{{brick.type}}" is-draggable="{helper: 'clone'}" data-type="{{brick.type | uppercase}}" ng-click="setCurrentBrick(brick)">
-  <span class="close" ng-click="destroyBrick(brick)">&times;</span>
+<div class="brick" is-draggable="{helper: 'clone'}" ng-click="setCurrentBrick(brick)">
   {{ brick.attributes.title }}
 </div>

@@ -46,16 +46,16 @@ app.factory "importCSV", ($compile, $rootScope, $http, CSVToArray) ->
 
   # Handle the importing of biobricks from the csv files
   storeBiobricks: ->
-    Gene.all (data) ->
-      if data.length is 0
+    Gene.all ->
+      if Gene.size() is 0
         storeGenes()
 
-    AndPromoter.all (data) ->
-      if data.length is 0
+    AndPromoter.all ->
+      if AndPromoter.size() is 0
         storeAndPromoters()
 
-    NotPromoter.all (data) ->
-      if data.length is 0
+    NotPromoter.all ->
+      if NotPromoter.size() is 0
         storeNotPromoters()
 
 

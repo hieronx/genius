@@ -1,18 +1,18 @@
 app = angular.module("geniusApp")
 
-app.directive "deleteBrick", ($compile, $rootScope) ->
+app.directive "deletePosition", ($compile, $rootScope) ->
   restrict: "A"
   link: (scope, element, attributes) ->
-    options = scope.$eval(attributes.deleteBrick)
+    options = scope.$eval(attributes.deletePosition)
 
-    # Delete a brick and all its elements, popovers and connections
+    # Delete a position and all its elements, popovers and connections
     element.on "click", ->
       $elPar = element.parent()
-      $brickId = $elPar.attr("id")
-      Brick.find $brickId, (brick) =>
-        brick.destroy()
+      pid = $elPar.attr("id")
+      Position.find pid, (position) =>
+        position.destroy()
 
-      $connLabel = $('.label.' + $brickId)
+      $connLabel = $('.label.' + pid)
       $sourceId = $connLabel.data('sourceId')
       $targetId = $connLabel.data('targetId')
 
