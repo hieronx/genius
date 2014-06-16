@@ -94,6 +94,3 @@ app.directive "circuitEvents", ($compile, $rootScope, Brick) ->
       else
         connections.filter (conn) ->
           return conn.target is connection.target and conn.sourceEndpoint is connection.sourceEndpoint
-
-
-
