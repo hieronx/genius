@@ -42,7 +42,7 @@ class BricksCtrl extends BaseCtrl
       if Brick.size() > 0
         @$scope.currentBrick = Brick.first()
       else
-        @$scope.currentBrick = new Brick
+        @$rootScope.currentBrick = new Brick
           title: "New Biobrick ##{Brick.size() + 1}"
         @$scope.save()
 
@@ -75,6 +75,7 @@ class BricksCtrl extends BaseCtrl
       @$rootScope.$on 'ngRepeatFinished', (ngRepeatFinishedEvent) =>
         @$scope.currentBrick.positions.each (position) =>
           ui =
+<<<<<<< Updated upstream
             draggable: $('.brick-container div.brick.' + brick.get('brick_type'))
             position:
               left: brick.get('left')
@@ -87,6 +88,20 @@ class BricksCtrl extends BaseCtrl
           $source = jsPlumb.selectEndpoints(source: $sourceId).get(0)
           $targetId = 'brick-' + connection.position_to.id()
           $target = jsPlumb.selectEndpoints(target: $targetId).get(connection.targetIndex)
+=======
+            draggable: $('.brick-container div.brick.' + position.get('gate_type'))
+            position:
+              left: position.get('left')
+              top: position.get('top')
+
+          @dropService.drop(position, @$rootScope, ui, false)
+
+        @$scope.currentBrick.connections.each (connection) =>
+          $sourceId = 'brick-' + connection.get('position_from_id')
+          $source = jsPlumb.selectEndpoints(source: $sourceId).get(0)
+          $targetId = 'brick-' + connection.get('position_to_id')
+          $target = jsPlumb.selectEndpoints(target: $targetId).get(connection.get('targetIndex'))
+>>>>>>> Stashed changes
           jsPlumb.connect( { source: $source, target: $target } )
 
     @$scope.collapse =

@@ -1,7 +1,7 @@
 app = angular.module("geniusApp")
 
 app.factory "dropService", ($compile, $rootScope) ->
-  drop: (brick, elementScope, ui, newElement) ->
+  drop: (position, elementScope, ui, newElement) ->
     unless ui.draggable.hasClass("canvas-element")
       $canvas = $('#workspace')
 
@@ -10,7 +10,7 @@ app.factory "dropService", ($compile, $rootScope) ->
 
       $canvasElement.addClass "canvas-element"
       $canvasElement.draggable containment: "#workspace"
-      $canvasElement.addClass("brick-jsplumb").attr "id", "brick-" + brick.id()
+      $canvasElement.addClass("brick-jsplumb").attr "id", "brick-" + position.id()
       $canvasElement.attr('brick-popover', "")
       $compile($canvasElement)($rootScope)
       $canvas.append $canvasElement
@@ -27,11 +27,11 @@ app.factory "dropService", ($compile, $rootScope) ->
           top: (ui.position.top)
           position: "absolute"
 
-      brick.set 'left', $canvasElement.position().left
-      brick.set 'top', $canvasElement.position().top
+      position.set 'left', $canvasElement.position().left
+      position.set 'top', $canvasElement.position().top
 
-      brick.save =>
-        $canid = "brick-" + brick.id()
+      position.save =>
+        $canid = "brick-" + position.id()
         $canvasElement.draggable("destroy")
 
         delBrick = angular.element '<i class="fa fa-times delete-brick" delete-brick></i>'

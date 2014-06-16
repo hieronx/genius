@@ -54,7 +54,7 @@ ActiveRecord.Associations =
         collection: []
         all: -> @collection
         find: (id) -> @detect (m) -> m.id() == id
-        new: (attributes) =>
+        new: (attributes = []) =>
           attributes[options.foreign_key] ||= @id()
           new model(attributes)
       _.each _.omit(ActiveRecord.Collections.ClassMethods, 'all', 'find', 'new', 'type'), (method, name) =>
