@@ -42,8 +42,6 @@ class BricksCtrl extends BaseCtrl
 
         data = numeric.transpose(solution.y)
 
-        console.log data
-
         @$scope.chartConfig.series = [
           {
             name: "mRNA"
@@ -94,4 +92,19 @@ class BricksCtrl extends BaseCtrl
       # copy brick
 
     @$scope.export = =>
-      # export brick
+      doc = document.implementation.createDocument(null, "sbml", null)
+
+      model = doc.createElement("model")
+      listOfParameters = doc.createElement("listOfParameters")
+
+      k1 = doc.createElement('parameter')
+      k1.setAttribute('name', 'k1')
+      k1.setAttribute('value', 1)
+      listOfParameters.appendChild(k1)
+
+      model.appendChild(listOfParameters)
+      doc.documentElement.appendChild(model)
+
+      xml = new XMLSerializer().serializeToString(doc)
+      blob = new Blob [xml], { type: "attachment/xml;charset=utf-8;" }
+      saveAs(blob, "sample.sbml")
