@@ -1,6 +1,3 @@
-app = angular.module("geniusApp")
 
-class AndPromoter extends Base
-
-  @register app, 'AndPromoter'
-  type: 'andpromoter'
+class AndPromoter extends ActiveRecord.Base
+  @boot()

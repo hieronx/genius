@@ -9,8 +9,8 @@ app.factory "simulationService", ($compile, $rootScope, Brick) ->
   gene1_d1 = 0.0240
   gene1_d2 = 0.8466
   gene2_k2 = 4.6337
-  gene2_d1 = 0.0205 
-  gene2_d2 = 0.8627 
+  gene2_d1 = 0.0205
+  gene2_d2 = 0.8627
   Km = 224.0227
   n = 1
 

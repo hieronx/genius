@@ -1,15 +1,13 @@
-app = angular.module("geniusApp")
 
 class BricksCtrl extends BaseCtrl
 
-  @register app, 'BricksCtrl'
-  @inject "$scope", "$rootScope", "$timeout", "Brick", "dropService", "importCSV", "simulationService", "_"
+  @register()
+  @inject "$scope", "$rootScope", "$timeout", "dropService", "importCSV", "simulationService", "_"
 
   initialize: ->
     @$scope.gates =
       [
         { type: 'AND' },
-        { type: 'OR' },
         { type: 'NOT' },
         { type: 'INPUT' },
         { type: 'OUTPUT' }
@@ -36,6 +34,20 @@ class BricksCtrl extends BaseCtrl
         enabled: false
 
     @$scope.isRunning = false
+
+    @$scope.save = =>
+      @$rootScope.currentBrick.save()
+
+    Position.all()
+    Brick.all (bricks) =>
+      @$scope.private = bricks
+
+      if Brick.size() > 0
+        @$rootScope.currentBrick = Brick.first()
+      else
+        @$rootScope.currentBrick = new Brick
+          title: "New Biobrick ##{Brick.size() + 1}"
+        @$scope.save()
 
     @$scope.run = =>
       @$scope.isRunning = true
@@ -64,41 +76,68 @@ class BricksCtrl extends BaseCtrl
 
         @$scope.chartConfig.loading = false
 
-    @$scope.loadStoredBricks = =>      
+    @$scope.loadStoredBricks = =>
       @importCSV.storeBiobricks()
       @$rootScope.$on 'ngRepeatFinished', (ngRepeatFinishedEvent) =>
-        @Brick.all().done (bricks) =>
-          for brick in bricks
-            ui =
-              draggable: $('.brick-container div.brick.' + brick.brick_type)
-              position:
-                left: brick.left
-                top: brick.top
-            
-            @dropService.drop(brick.id, @$rootScope, ui, false)
+        @$scope.fillWorkspace()
 
+    @$scope.fillWorkspace = =>
+      @$rootScope.currentBrick.positions.each (position) =>
+        ui =
+          draggable: $('.brick-container div.brick.' + position.get('gate'))
+          position:
+            left: position.get('left')
+            top: position.get('top')
 
-          for brick in bricks
-            unless typeof brick.connections is 'undefined'
-              for connection in brick.connections
-                $sourceId = 'brick-' + brick.id
-                $source = jsPlumb.selectEndpoints(source: $sourceId).get(0)
-                $targetId = 'brick-' + connection.target
-                $target = jsPlumb.selectEndpoints(target: $targetId).get(connection.targetIndex)
-                
-                unless typeof connection.targetIndex is 'undefined'
-                  jsPlumb.connect( { source: $source, target: $target } )
+        @dropService.drop(position, @$rootScope, ui, false)
+
+      @$rootScope.currentBrick.connections.each (connection) =>
+        $sourceId = connection.position_from.id()
+        $source = jsPlumb.selectEndpoints(source: $sourceId).get(0)
+        $targetId = connection.position_to.id()
+        $target = jsPlumb.selectEndpoints(target: $targetId).get(connection.targetIndex)
+          draggable: $('.brick-container div.brick.' + position.get('gate'))
+          position:
+            left: position.get('left')
+            top: position.get('top')
+
+        @dropService.drop(position, @$rootScope, ui, false)
+
+      @$scope.currentBrick.connections.each (connection) =>
+        $sourceId = connection.get('position_from_id')
+        $source = jsPlumb.selectEndpoints(source: $sourceId).get(0)
+        $targetId = connection.get('position_to_id')
+        $target = jsPlumb.selectEndpoints(target: $targetId).get(connection.get('targetIndex'))
+
+        jsPlumb.connect( { source: $source, target: $target } )
+
+    @$scope.clearWorkspace = =>
+      jsPlumb.reset()
+      $("#workspace").empty()
 
     @$scope.collapse =
       gates: true
-      private: false
+      private: true
       public: false
 
     @$scope.new = =>
-      # new brick
+      brick = new Brick
+        title: "New Biobrick ##{Brick.size() + 1}"
+      brick.save()
+      @$scope.setCurrentBrick brick
+
+    @$scope.destroy = =>
+      if confirm("Are you sure you want to remove this brick?")
+        @$rootScope.currentBrick.destroy()
+        @$scope.setCurrentBrick Brick.first()
 
     @$scope.copy = =>
       # copy brick
 
     @$scope.export = =>
       # export brick
+
+    @$scope.setCurrentBrick = (brick) =>
+      @$scope.clearWorkspace()
+      @$rootScope.currentBrick = brick
+      @$scope.fillWorkspace()

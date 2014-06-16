@@ -1,8 +1,9 @@
 app = angular.module("geniusApp")
 
-app.factory "popoverTypesService", ($compile, $rootScope, Brick) ->
-  type: (brickType) ->
-    if brickType == 'AND'
+app.factory "popoverTypesService", ($compile, $rootScope) ->
+  type: (gate) ->
+    gate = gate.toUpperCase()
+    if gate == 'AND'
       return angular.element '<dl class="dl-horizontal">
                                 <dt>K1 Tfactor</dt>
                                   <dd>Example k1</dd>
@@ -23,7 +24,7 @@ app.factory "popoverTypesService", ($compile, $rootScope, Brick) ->
                                 <dt>N</dt>
                                   <dd>Example n</dd>
                               </dl>'
-    else if brickType == 'NOT'
+    else if gate == 'NOT'
       return angular.element '<dl class="dl-horizontal">
                                 <dt>K1 Tfactor</dt>
                                   <dd>Example k1</dd>
@@ -38,7 +39,7 @@ app.factory "popoverTypesService", ($compile, $rootScope, Brick) ->
                                 <dt>N</dt>
                                   <dd>Example n</dd>
                               </dl>'
-    else if brickType == 'INPUT'
+    else if gate == 'INPUT'
       return angular.element '<select class="form-control">
                                 <option selected disabled></option>
                                 <option value="Gene A">Gene A</option>
@@ -51,8 +52,8 @@ app.factory "popoverTypesService", ($compile, $rootScope, Brick) ->
                                 <option value="Gene H">Gene H</option>
                                 <option value="Gene I">Gene I</option>
                                 <option value="Gene J">Gene J</option>
-                              </select>'            
-    else if brickType == 'OUTPUT' 
+                              </select>'
+    else if gate == 'OUTPUT'
       return angular.element '<dl class="dl-horizontal">
                                 <dt>Protein</dt>
                                   <dd>Ex. protein</dd>
