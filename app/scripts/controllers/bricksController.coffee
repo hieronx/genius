@@ -75,8 +75,6 @@ class BricksCtrl extends BaseCtrl
       @$rootScope.$on 'ngRepeatFinished', (ngRepeatFinishedEvent) =>
         @$scope.currentBrick.positions.each (position) =>
           ui =
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
             draggable: $('.brick-container div.brick.' + brick.get('brick_type'))
             position:
               left: brick.get('left')
@@ -89,9 +87,6 @@ class BricksCtrl extends BaseCtrl
           $source = jsPlumb.selectEndpoints(source: $sourceId).get(0)
           $targetId = 'brick-' + connection.position_to.id()
           $target = jsPlumb.selectEndpoints(target: $targetId).get(connection.targetIndex)
-=======
-=======
->>>>>>> Stashed changes
             draggable: $('.brick-container div.brick.' + position.get('gate_type'))
             position:
               left: position.get('left')
@@ -104,10 +99,7 @@ class BricksCtrl extends BaseCtrl
           $source = jsPlumb.selectEndpoints(source: $sourceId).get(0)
           $targetId = 'brick-' + connection.get('position_to_id')
           $target = jsPlumb.selectEndpoints(target: $targetId).get(connection.get('targetIndex'))
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+          
           jsPlumb.connect( { source: $source, target: $target } )
 
     @$scope.collapse =
