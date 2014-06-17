@@ -75,19 +75,6 @@ class BricksCtrl extends BaseCtrl
 
         @dropService.drop(position, @$rootScope, ui, false)
 
-      # @$rootScope.currentBrick.connections.each (connection) =>
-      #   $sourceId = connection.position_from.id()
-      #   $source = jsPlumb.selectEndpoints(source: $sourceId).get(0)
-      #   $targetId = connection.position_to.id()
-      #   $target = jsPlumb.selectEndpoints(target: $targetId).get(connection.targetIndex)
-      #     draggable: $('.brick-container div.brick.' + position.get('gate'))
-      #     position:
-      #       left: position.get('left')
-      #       top: position.get('top')
-
-      #   @dropService.drop(position, @$rootScope, ui, false)
-      # console.log @$rootScope.currentBrick.connections.collection
-
       @$rootScope.currentBrick.connections.each (connection) =>
         $sourceId = connection.get('position_from_id')
         $source = jsPlumb.selectEndpoints(source: $sourceId).get(0)
@@ -111,8 +98,6 @@ class BricksCtrl extends BaseCtrl
       solution = @simulationService.run(@$rootScope.currentBrick)
 
       data = numeric.transpose(solution.y)
-
-      console.log data
 
       @$scope.chartConfig.series = [
         {
