@@ -1,4 +1,4 @@
-app = angular.module("geniusApp")
+app = angular.module('geniusApp')
 
 class BricksCtrl extends BaseCtrl
 
@@ -90,12 +90,42 @@ class BricksCtrl extends BaseCtrl
 
     @$scope.copy = =>
       # copy brick
+    
+    formatXml = (xml) ->
+      formatted = ""
+      reg = /(>)(<)(\/*)/g
+      xml = xml.replace(reg, "$1\r\n$2$3")
+      pad = 0
+      jQuery.each xml.split("\r\n"), (index, node) ->
+        indent = 0
+        if node.match(/.+<\/\w[^>]*>$/)
+          indent = 0
+        else if node.match(/^<\/\w/)
+          pad -= 1  unless pad is 0
+        else if node.match(/^<\w[^>]*[^\/]>.*$/)
+          indent = 1
+        else
+          indent = 0
+        padding = ""
+        i = 0
+
+        while i < pad
+          padding += "  "
+          i++
+        formatted += padding + node + "\r\n"
+        pad += indent
+        return
+
+      formatted
 
     @$scope.export = =>
-      doc = document.implementation.createDocument(null, "sbml", null)
+      # creating the document
+      xmlDeclaration = '<?xml version="1.0" encoding="UTF-8"?>'
+      doc = document.implementation.createDocument('http://www.sbml.org/sbml/level1', 'sbml', null)
+      model = doc.createElement('model')
 
-      model = doc.createElement("model")
-      listOfParameters = doc.createElement("listOfParameters")
+      # adding list of parameters
+      listOfParameters = doc.createElement('listOfParameters')
 
       k1 = doc.createElement('parameter')
       k1.setAttribute('name', 'k1')
@@ -103,8 +133,13 @@ class BricksCtrl extends BaseCtrl
       listOfParameters.appendChild(k1)
 
       model.appendChild(listOfParameters)
+      model.setAttribute('name', 'gene_network_model')
+
+      # save and export document
       doc.documentElement.appendChild(model)
 
-      xml = new XMLSerializer().serializeToString(doc)
-      blob = new Blob [xml], { type: "attachment/xml;charset=utf-8;" }
-      saveAs(blob, "sample.sbml")
+      xml = xmlDeclaration + new XMLSerializer().serializeToString(doc)
+      console.log formatXml(xml)
+
+      blob = new Blob [formatXml(xml)], { type: 'attachment/xml;charset=utf-8;' }
+      saveAs(blob, 'sample.sbml')
