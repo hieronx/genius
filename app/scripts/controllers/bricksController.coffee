@@ -59,7 +59,8 @@ class BricksCtrl extends BaseCtrl
       @$rootScope.currentBrick.save()
 
     @$scope.clearWorkspace = =>
-      jsPlumb.reset()
+      jsPlumb.detachAllConnections()
+      jsPlumb.removeAllEndpoints()
       $("#workspace").empty()
 
     @$scope.fillWorkspace = =>
