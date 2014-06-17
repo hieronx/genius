@@ -8,6 +8,14 @@ app.factory "connectionService", ($compile, $rootScope, Brick) ->
       _.filter(position.outgoing_connections.collection, (conn) ->
         conn.attributes.position_to_id is pos_to_id and conn.attributes.endpoint_index is end_index)[0].destroy()
 
+  # Ability to remove all connections for a position from the database
+  removeAllConnections: (pos_from_id) ->
+    Position.find pos_from_id, (position) ->
+      _.each position.outgoing_connections.collection, (conn) ->
+        conn.destroy()
+      _.each position.incoming_connections.collection, (conn) ->
+        conn.destroy()
+
   # Ability to create a new connection and store it in the database
   createConnection: (info, pos_from_id, pos_to_id, end_index) ->
     Position.find pos_from_id, (position) ->
