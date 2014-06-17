@@ -44,7 +44,7 @@ ActiveRecord.Collections =
 
     type: -> @name.toLowerCase()
 
-_.each _.without(_.keys(_), 'VERSION', 'find', 'all', 'extend', 'include'), (method) ->
+_.each ['forEach', 'each', 'map', 'collect', 'reduce', 'foldl', 'inject', 'reduceRight', 'foldr', 'detect', 'filter', 'select', 'reject', 'every', 'some', 'any', 'contains', 'invoke', 'max', 'min', 'toArray', 'size', 'first', 'head', 'take', 'initial', 'rest', 'tail', 'drop', 'last', 'without', 'difference', 'indexOf', 'shuffle', 'lastIndexOf', 'isEmpty', 'chain', 'sample'], (method) ->
   ActiveRecord.Collections.ClassMethods[method] = ->
     args = [].slice.call(arguments);
     args.unshift(_.values(@collection));
