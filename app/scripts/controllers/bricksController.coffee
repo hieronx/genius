@@ -44,17 +44,28 @@ class BricksCtrl extends BaseCtrl
       @$scope.private = bricks
       @importCSV.storeBiobricks()
       @$rootScope.$on 'ngRepeatFinished', (ngRepeatFinishedEvent) =>
-        if Config.has('current_brick_id')
-          Brick.find Config.get('current_brick_id'), (brick) =>
-            @$scope.setCurrentBrick brick
-        else
-          if Brick.size() > 0
-            @$scope.setCurrentBrick Brick.first()
-          else
-            brick = new Brick
-              title: "New Biobrick ##{Brick.size() + 1}"
-            brick.save =>
+        unless @$rootScope.currentBrick?
+          if Config.has('current_brick_id')
+            Brick.find Config.get('current_brick_id'), (brick) =>
               @$scope.setCurrentBrick brick
+          else
+            if Brick.size() > 0
+              @$scope.setCurrentBrick Brick.first()
+            else
+              brick = new Brick
+                title: "New Biobrick ##{Brick.size() + 1}"
+              brick.save =>
+                @$scope.setCurrentBrick brick
+
+    @$scope.flash = (type, message) =>
+      error = $("<div class=\"alert alert-#{type}\" style=\"display: none\">#{message}</div>")
+      error.append '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'
+      $("#alerts").append error
+      error.slideDown()
+      setTimeout (=>
+        error.slideUp =>
+          error.remove()
+      ), 5000
 
     @$scope.save = =>
       @$rootScope.currentBrick.save()
@@ -94,26 +105,29 @@ class BricksCtrl extends BaseCtrl
         @$scope.setCurrentBrick Brick.first()
 
     @$scope.run = =>
-      solution = @simulationService.run(@$rootScope.currentBrick)
+      try
+        solution = @simulationService.run(@$rootScope.currentBrick)
 
-      data = numeric.transpose(solution.y)
+        data = numeric.transpose(solution.y)
 
-      console.log data
+        console.log data
 
-      @$scope.chartConfig.series = [
-        {
-          name: "mRNA"
-          data: data[0]
-          id: "series-0"
-        },
-        {
-          name: "Protein"
-          data: data[1]
-          id: "series-1"
-        }
-      ]
+        @$scope.chartConfig.series = [
+          {
+            name: "mRNA"
+            data: data[0]
+            id: "series-0"
+          },
+          {
+            name: "Protein"
+            data: data[1]
+            id: "series-1"
+          }
+        ]
 
-      @$scope.chartConfig.loading = false
+        @$scope.chartConfig.loading = false
+      catch error
+        @$scope.flash 'danger', 'Simulation failed! Your brick is invalid.'
 
     @$scope.export = =>
       # export brick
