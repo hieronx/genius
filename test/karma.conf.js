@@ -19,7 +19,11 @@ module.exports = function(config){
       'app/bower_components/underscore/underscore.js',
       'app/bower_components/highcharts-ng/dist/highcharts-ng.js',
       'app/scripts/*.coffee',
-      'app/scripts/models/base.coffee',
+      'app/scripts/models/active_record/callbacks.coffee',
+      'app/scripts/models/active_record/collections.coffee',
+      'app/scripts/models/active_record/attributes.coffee',
+      'app/scripts/models/active_record/associations.coffee',
+      'app/scripts/models/active_record/base.coffee',
       'app/scripts/**/*.coffee',
       'app/scripts/**/*.js',
       'test/unit/**/*Spec.coffee'

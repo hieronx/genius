@@ -1,7 +1,9 @@
 {
   "name": "genius",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "hoodie-plugin-global-share": "~2.0.0"
+  },
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-autoprefixer": "~0.4.0",
@@ -67,7 +69,8 @@
     "plugins": [
       "hoodie-plugin-appconfig",
       "hoodie-plugin-email",
-      "hoodie-plugin-users"
+      "hoodie-plugin-users",
+      "hoodie-plugin-global-share"
     ]
   }
 }

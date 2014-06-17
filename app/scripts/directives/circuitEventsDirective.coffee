@@ -1,23 +1,25 @@
 app = angular.module("geniusApp")
 
-app.directive "circuitEvents", ($compile, $rootScope, Brick) ->
+app.directive "circuitEvents", ($compile, $rootScope) ->
   restrict: "A"
   link: (scope, element, attributes) ->
     options = scope.$eval(attributes.circuitEvents)
 
     # Add information to label to ensure correct dragging behaviour
     jsPlumb.bind "connection", (info, originalEvent) ->
-      source = info.sourceId.slice 6
-      target = info.targetId.slice 6
+      sourceId = info.sourceId
+      targetId = info.targetId
 
       $sourceEndId = info.connection.endpoints[0].id
       $targetEndId = info.connection.endpoints[1].id
-      
+
       $index = 1
       if jsPlumb.selectEndpoints(target: info.targetId).get(0).id is $targetEndId
         $index = 0
-  
-      Brick.update(source, { connections: [{ target: target, sourceEndpoint: $sourceEndId, targetIndex: $index }] })
+
+      Position.find sourceId, (source) =>
+        source.set 'connections', [{ target: targetId, sourceEndpoint: $sourceEndId, targetIndex: $index }]
+        source.save()
 
       $label = $('#label-' + info.connection.id)
       $label.data('sourceId', info.connection.source.id)
