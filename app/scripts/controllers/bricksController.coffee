@@ -17,6 +17,11 @@ class BricksCtrl extends BaseCtrl
 
     @$scope.public = []
 
+    @$scope.collapse =
+      gates: true
+      private: true
+      public: false
+
     @$scope.chartConfig =
       options:
         chart:
@@ -33,48 +38,25 @@ class BricksCtrl extends BaseCtrl
       credits:
         enabled: false
 
-    @$scope.save = =>
-      @$rootScope.currentBrick.save()
-
     Position.all()
     Brick.all (bricks) =>
       @$scope.private = bricks
-
-      if Brick.size() > 0
-        @$rootScope.currentBrick = Brick.first()
-      else
-        @$rootScope.currentBrick = new Brick
-          title: "New Biobrick ##{Brick.size() + 1}"
-        @$scope.save()
-
-    @$scope.run = =>
-      Brick.all (bricks) =>
-
-        solution = @simulationService.run(bricks)
-
-        data = numeric.transpose(solution.y)
-
-        console.log data
-
-        @$scope.chartConfig.series = [
-          {
-            name: "mRNA"
-            data: data[0]
-            id: "series-0"
-          },
-          {
-            name: "Protein"
-            data: data[1]
-            id: "series-1"
-          }
-        ]
-
-        @$scope.chartConfig.loading = false
-
-    @$scope.loadStoredBricks = =>
       @importCSV.storeBiobricks()
       @$rootScope.$on 'ngRepeatFinished', (ngRepeatFinishedEvent) =>
-        @$scope.fillWorkspace()
+        if Brick.size() > 0
+          @$scope.setCurrentBrick Brick.first()
+        else
+          brick = new Brick
+            title: "New Biobrick ##{Brick.size() + 1}"
+          brick.save =>
+            @$scope.setCurrentBrick brick
+
+    @$scope.save = =>
+      @$rootScope.currentBrick.save()
+
+    @$scope.clearWorkspace = =>
+      jsPlumb.reset()
+      $("#workspace").empty()
 
     @$scope.fillWorkspace = =>
       @$rootScope.currentBrick.positions.each (position) =>
@@ -106,15 +88,6 @@ class BricksCtrl extends BaseCtrl
 
         jsPlumb.connect( { source: $source, target: $target } )
 
-    @$scope.clearWorkspace = =>
-      jsPlumb.reset()
-      $("#workspace").empty()
-
-    @$scope.collapse =
-      gates: true
-      private: true
-      public: false
-
     @$scope.new = =>
       brick = new Brick
         title: "New Biobrick ##{Brick.size() + 1}"
@@ -126,8 +99,27 @@ class BricksCtrl extends BaseCtrl
         @$rootScope.currentBrick.destroy()
         @$scope.setCurrentBrick Brick.first()
 
-    @$scope.copy = =>
-      # copy brick
+    @$scope.run = =>
+      solution = @simulationService.run(@$rootScope.currentBrick)
+
+      data = numeric.transpose(solution.y)
+
+      console.log data
+
+      @$scope.chartConfig.series = [
+        {
+          name: "mRNA"
+          data: data[0]
+          id: "series-0"
+        },
+        {
+          name: "Protein"
+          data: data[1]
+          id: "series-1"
+        }
+      ]
+
+      @$scope.chartConfig.loading = false
 
     @$scope.export = =>
       # export brick

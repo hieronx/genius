@@ -26,8 +26,9 @@ ActiveRecord.Attributes =
         callback?.apply(@, arguments)
 
     update: (attributes, callback) ->
-      hoodie.store.update(@type(), @id(), attributes).done =>
-        callback?.apply(@, arguments)
+      _.each attributes, (value, key) =>
+        @set key, value
+      @save(callback)
 
     id: ->
       @attributes[@idAttribute]
@@ -43,9 +44,15 @@ ActiveRecord.Attributes =
           @constructor.add @
           callback?.apply(@, arguments)
       else
-        @update @attributes, =>
+        hoodie.store.update(@type(), @id(), @attributes).done (@attributes) =>
           @isSaving = false
           callback?.apply(@, arguments)
       @
 
     type: -> @constructor.name.toLowerCase()
+
+_.each ['keys', 'values', 'pairs', 'invert', 'pick', 'omit'], (method) ->
+  ActiveRecord.Attributes.InstanceMethods[method] = ->
+    args = [].slice.call(arguments);
+    args.unshift(@attributes);
+    _[method].apply(_, args);
