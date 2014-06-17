@@ -88,9 +88,11 @@ app.directive "circuitSettings", ($compile, $rootScope) ->
             cssClass: "component label"
             location: 0.5
             create: (component)->
-              $element = angular.element "<div id='label-#{component.id}' data-connection='#{component.id}' connection-popover>Properties</div>"
-              $compile($element)($rootScope)
-              return $element
+              # Input of connection overlays
+              $element = angular.element("<select><option selected disabled></option><option value='Gene A'>Gene A</option> <option value='Gene B'>Gene B</option><option value='Gene C'>Gene C</option><option value='Gene D'>Gene D</option><option value='Gene E'>Gene E</option><option value='Gene F'>Gene F</option><option value='Gene G'>Gene G</option><option value='Gene H'>Gene H</option><option value='Gene I'>Gene I</option><option value='Gene J'>Gene J</option></select>");
+              $element.id = "label-" + component.id + " data-connection=" + component.id
+              $compile($element)($rootScope);
+              return $element;
         ]
         [
           "Arrow"

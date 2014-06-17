@@ -1,15 +1,13 @@
-app = angular.module("geniusApp")
 
 class BricksCtrl extends BaseCtrl
 
-  @register app, 'BricksCtrl'
-  @inject "$scope", "$rootScope", "$timeout", "Brick", "dropService", "importCSV", "simulationService", "_"
+  @register()
+  @inject "$scope", "$rootScope", "$timeout", "dropService", "importCSV", "simulationService", "_"
 
   initialize: ->
     @$scope.gates =
       [
         { type: 'AND' },
-        { type: 'OR' },
         { type: 'NOT' },
         { type: 'INPUT' },
         { type: 'OUTPUT' }
@@ -18,6 +16,11 @@ class BricksCtrl extends BaseCtrl
     @$scope.private = []
 
     @$scope.public = []
+
+    @$scope.collapse =
+      gates: true
+      private: true
+      public: false
 
     @$scope.chartConfig =
       options:
@@ -35,70 +38,87 @@ class BricksCtrl extends BaseCtrl
       credits:
         enabled: false
 
-    @$scope.isRunning = false
-
-    @$scope.run = =>
-      @$scope.isRunning = true
-
-      @Brick.all().done (bricks) =>
-        
-        @simulationService.run(bricks).then (solution) =>
-          data = numeric.transpose(solution.y)
-
-          console.log data
-
-          @$scope.chartConfig.series = [
-            {
-              name: "mRNA"
-              data: data[0]
-              id: "series-0"
-            },
-            {
-              name: "Protein"
-              data: data[1]
-              id: "series-1"
-            }
-          ]
-
-          @$scope.isRunning = false
-
-        @$scope.chartConfig.loading = false
-
-    @$scope.loadStoredBricks = =>      
+    Position.all()
+    Connection.all()
+    Brick.all (bricks) =>
+      @$scope.private = bricks
       @importCSV.storeBiobricks()
       @$rootScope.$on 'ngRepeatFinished', (ngRepeatFinishedEvent) =>
-        @Brick.all().done (bricks) =>
-          for brick in bricks
-            ui =
-              draggable: $('.brick-container div.brick.' + brick.brick_type)
-              position:
-                left: brick.left
-                top: brick.top
-            
-            @dropService.drop(brick.id, @$rootScope, ui, false)
+        unless @$rootScope.currentBrick?
+          if Config.has('current_brick_id')
+            Brick.find Config.get('current_brick_id'), (brick) =>
+              @$scope.setCurrentBrick brick
+          else
+            if Brick.size() > 0
+              @$scope.setCurrentBrick Brick.first()
+            else
+              brick = new Brick
+                title: "New Biobrick ##{Brick.size() + 1}"
+              brick.save =>
+                @$scope.setCurrentBrick brick
 
+    @$scope.save = =>
+      @$rootScope.currentBrick.save()
 
-          for brick in bricks
-            unless typeof brick.connections is 'undefined'
-              for connection in brick.connections
-                $sourceId = 'brick-' + brick.id
-                $source = jsPlumb.selectEndpoints(source: $sourceId).get(0)
-                $targetId = 'brick-' + connection.target
-                $target = jsPlumb.selectEndpoints(target: $targetId).get(connection.targetIndex)
-                
-                unless typeof connection.targetIndex is 'undefined'
-                  jsPlumb.connect( { source: $source, target: $target } )
+    @$scope.clearWorkspace = =>
+      jsPlumb.detachEveryConnection()
+      jsPlumb.deleteEveryEndpoint()
+      $("#workspace").empty()
 
-    @$scope.collapse =
-      gates: true
-      private: false
-      public: false
+    @$scope.fillWorkspace = =>
+      @$rootScope.currentBrick.positions.each (position) =>
+        ui =
+          draggable: $('.brick-container div.brick.' + position.get('gate'))
+          position:
+            left: position.get('left')
+            top: position.get('top')
+
+        @dropService.drop(position, @$rootScope, ui, false)
+
+      @$rootScope.currentBrick.connections.each (connection) =>
+        $sourceId = connection.get('position_from_id')
+        $source = jsPlumb.selectEndpoints(source: $sourceId).get(0)
+        $targetId = connection.get('position_to_id')
+        $target = jsPlumb.selectEndpoints(target: $targetId).get(connection.get('endpoint_index'))
+
+        jsPlumb.connect( { source: $source, target: $target } )
 
     @$scope.new = =>
-      # new brick
+      brick = new Brick
+        title: "New Biobrick ##{Brick.size() + 1}"
+      brick.save()
+      @$scope.setCurrentBrick brick
 
-    @$scope.copy = =>
-      # copy brick
+    @$scope.destroy = =>
+      if confirm("Are you sure you want to remove this brick?")
+        @$rootScope.currentBrick.destroy()
+        @$scope.setCurrentBrick Brick.first()
+
+    @$scope.run = =>
+      solution = @simulationService.run(@$rootScope.currentBrick)
+
+      data = numeric.transpose(solution.y)
+
+      @$scope.chartConfig.series = [
+        {
+          name: "mRNA"
+          data: data[0]
+          id: "series-0"
+        },
+        {
+          name: "Protein"
+          data: data[1]
+          id: "series-1"
+        }
+      ]
+
+      @$scope.chartConfig.loading = false
 
     @$scope.export = =>
       # export brick
+
+    @$scope.setCurrentBrick = (brick) =>
+      @$scope.clearWorkspace()
+      @$rootScope.currentBrick = brick
+      Config.set 'current_brick_id', brick.id()
+      @$scope.fillWorkspace()

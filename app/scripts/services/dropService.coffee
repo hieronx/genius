@@ -1,7 +1,7 @@
 app = angular.module("geniusApp")
 
-app.factory "dropService", ($compile, $rootScope, Brick) ->
-  drop: (index, elementScope, ui, newElement) ->
+app.factory "dropService", ($compile, $rootScope) ->
+  drop: (position, elementScope, ui, newElement) ->
 
     # Switch from detachable to not detachable mode or the other way around
     setDetachable = ($endpoint, type) ->
@@ -19,7 +19,7 @@ app.factory "dropService", ($compile, $rootScope, Brick) ->
 
       $canvasElement.addClass "canvas-element"
       $canvasElement.draggable containment: "#workspace"
-      $canvasElement.addClass("brick-jsplumb").attr "id", "brick-" + index
+      $canvasElement.addClass("brick-jsplumb").attr "id", position.id()
       $canvasElement.attr('brick-popover', "")
       $compile($canvasElement)($rootScope)
       $canvas.append $canvasElement
@@ -36,100 +36,86 @@ app.factory "dropService", ($compile, $rootScope, Brick) ->
           top: (ui.position.top)
           position: "absolute"
 
-      position = {
-        left: $canvasElement.position().left
-        top: $canvasElement.position().top
-      }
-      Brick.update(index, position)
+      position.set 'left', $canvasElement.position().left
+      position.set 'top', $canvasElement.position().top
 
-      $canid = "brick-" + index
-      $canvasElement.draggable("destroy")
+      position.save =>
+        pid = position.id()
+        $canvasElement.draggable("destroy")
 
-      delBrick = angular.element '<i class="fa fa-times delete-brick" delete-brick></i>'
-      $canvasElement.append delBrick
-      $compile(delBrick)($rootScope)
+        delBrick = angular.element '<i class="fa fa-times delete-position" delete-position></i>'
+        $canvasElement.append delBrick
+        $compile(delBrick)($rootScope)
 
-      if $canvasElement.hasClass("brick-and")
-        $endpoint = jsPlumb.addEndpoint $canid, anchor: [0, 0.2, -1, 0, 8,  0], $rootScope.targetEndPoint
-        setDetachable($endpoint, 'target')
-        $endpoint = jsPlumb.addEndpoint $canid, anchor: [0, 0.8, -1, 0, 8,  0], $rootScope.targetEndPoint
-        setDetachable($endpoint, 'target')
-        $endpoint = jsPlumb.addEndpoint $canid, anchor: [1, 0.5, 1,  0, -8, 0], $rootScope.sourceEndPoint
-        setDetachable($endpoint, 'source')
-
-      else if $canvasElement.hasClass("brick-not")
-        $endpoint = jsPlumb.addEndpoint $canid, anchor: [0, 0.5, -1, 0, 8, 0], $rootScope.targetEndPoint
-        setDetachable($endpoint, 'target')
-        $endpoint = jsPlumb.addEndpoint $canid, anchor: [1, 0.5, 1,  0], $rootScope.sourceEndPoint
-        setDetachable($endpoint, 'source')
-
-      else if $canvasElement.hasClass("brick-or")
-        $endpoint = jsPlumb.addEndpoint $canid, anchor: [-0.02, 0.25, -1, 0, 12, 0], $rootScope.targetEndPoint
-        setDetachable($endpoint, 'target')
-        $endpoint = jsPlumb.addEndpoint $canid, anchor: [-0.02, 0.75, -1, 0, 12, 0], $rootScope.targetEndPoint
-        setDetachable($endpoint, 'target')
-        $endpoint = jsPlumb.addEndpoint $canid, anchor: [1, 0.5,  1,  0, -8, 0], $rootScope.sourceEndPoint
-        setDetachable($endpoint, 'source')
-
-      else if $canvasElement.hasClass("brick-input")
-        $endpoint = jsPlumb.addEndpoint $canid, { anchor: [1, 0.5, 1, 0, -40, 0] }, $rootScope.sourceEndPoint
-        setDetachable($endpoint, 'source')
-
-      else if $canvasElement.hasClass("brick-output")
-        $endpoint = jsPlumb.addEndpoint $canid, anchor: [0, 0.5, -1, 0, 33, 0], $rootScope.targetEndPoint
-        setDetachable($endpoint, 'target')
-
-      else
-        $endpoint = jsPlumb.addEndpoint $canid, anchor: [0, 0.2, -1, 0 ], $rootScope.targetEndPoint
-        setDetachable($endpoint, 'target')
-        $endpoint = jsPlumb.addEndpoint $canid, anchor: [0, 0.8, -1, 0 ], $rootScope.targetEndPoint
-        setDetachable($endpoint, 'target')
-        $endpoint = jsPlumb.addEndpoint $canid, anchor: [1, 0.5, 1, 0 ], $rootScope.sourceEndPoint
-        setDetachable($endpoint, 'source')
-
-      # Enable draggable behaviour and ensure a popover will not appear when dragged
-      jsPlumb.draggable $canvasElement,
-        # containment: $('#workspace')
-        start: (event, ui) ->
-          $(this).popover('disable')
-        stop: (event, ui) ->
-          setTimeout (=>
-            $(this).popover('enable')
-
-            $canid = $(this).attr 'id'
-            index = $canid.slice 6
-
-            position =
-              left: $(this).position().left
-              top: $(this).position().top
-
-            Brick.update(index, position)
-          ), 0
-
-      # Bricks cannot be dragged when a popover is active
-      $canvasElement.on 'click', ->
-        $this = $(this)
-        if $this.hasClass('dragDisabled')
-          if $this.hasClass('labelDisabled')
-            $this.removeClass('dragDisabled')
-          else
-            $this.removeClass('dragDisabled').draggable('enable')
+        if $canvasElement.hasClass("and")
+          $endpoint = jsPlumb.addEndpoint pid, anchor: [0, 0.2, -1, 0, 8,  0], $rootScope.targetEndPoint
+          setDetachable($endpoint, 'target')
+          $endpoint = jsPlumb.addEndpoint pid, anchor: [0, 0.8, -1, 0, 8,  0], $rootScope.targetEndPoint
+          setDetachable($endpoint, 'target')
+          $endpoint = jsPlumb.addEndpoint pid, anchor: [1, 0.5, 1,  0, -8, 0], $rootScope.sourceEndPoint
+          setDetachable($endpoint, 'source')
+        else if $canvasElement.hasClass("not")
+          $endpoint = jsPlumb.addEndpoint pid, anchor: [0, 0.5, -1, 0, 8, 0], $rootScope.targetEndPoint
+          setDetachable($endpoint, 'target')
+          $endpoint = jsPlumb.addEndpoint pid, anchor: [1, 0.5, 1,  0], $rootScope.sourceEndPoint
+          setDetachable($endpoint, 'source')
+        else if $canvasElement.hasClass("or")
+          $endpoint = jsPlumb.addEndpoint pid, anchor: [-0.02, 0.25, -1, 0, 12, 0], $rootScope.targetEndPoint
+          setDetachable($endpoint, 'target')
+          $endpoint = jsPlumb.addEndpoint pid, anchor: [-0.02, 0.75, -1, 0, 12, 0], $rootScope.targetEndPoint
+          setDetachable($endpoint, 'target')
+          $endpoint = jsPlumb.addEndpoint pid, anchor: [1, 0.5,  1,  0, -8, 0], $rootScope.sourceEndPoint
+          setDetachable($endpoint, 'source')
+        else if $canvasElement.hasClass("input")
+          $endpoint = jsPlumb.addEndpoint pid, { anchor: [1, 0.5, 1, 0, -40, 0] }, $rootScope.sourceEndPoint
+          setDetachable($endpoint, 'source')
+        else if $canvasElement.hasClass("output")
+          $endpoint = jsPlumb.addEndpoint pid, anchor: [0, 0.5, -1, 0, 33, 0], $rootScope.targetEndPoint
+          setDetachable($endpoint, 'target')
         else
-          $this.addClass('dragDisabled')
-          $this.draggable('disable')
+          $endpoint = jsPlumb.addEndpoint pid, anchor: [0, 0.2, -1, 0 ], $rootScope.targetEndPoint
+          setDetachable($endpoint, 'target')
+          $endpoint = jsPlumb.addEndpoint pid, anchor: [0, 0.8, -1, 0 ], $rootScope.targetEndPoint
+          setDetachable($endpoint, 'target')
+          $endpoint = jsPlumb.addEndpoint pid, anchor: [1, 0.5, 1, 0 ], $rootScope.sourceEndPoint
+          setDetachable($endpoint, 'source')
 
-        # Handles form data when submitted and updates brick in the database
-        $canvasElement.next().find('form').on 'submit', (event) ->
-          event.preventDefault()
-          
+        # Enable draggable behaviour and ensure a popover will not appear when dragged
+        jsPlumb.draggable $canvasElement,
+          # containment: $('#workspace')
+          start: (event, ui) ->
+            $(this).popover('disable')
+          stop: (event, ui) ->
+            setTimeout (=>
+              $(this).popover('enable')
+
+              pid = $(this).attr('id')
+              Position.find pid, (position) =>
+                #position ||= Position.collection[pid] # why the hell is this necessary?
+                position.set 'left', $(this).position().left
+                position.set 'top', $(this).position().top
+                position.save()
+            ), 0
+
+        # Bricks cannot be dragged when a popover is active
+        $canvasElement.on 'click', ->
           $this = $(this)
-          $brickId = $canvasElement.attr('id').slice 6
-          $attributes = {}
+          if $this.hasClass('dragDisabled')
+            if $this.hasClass('labelDisabled')
+              $this.removeClass('dragDisabled')
+            else
+              $this.removeClass('dragDisabled').draggable('enable')
+          else
+            $this.addClass('dragDisabled')
+            $this.draggable('disable')
 
-          $this.find('input').each (key, prop) ->
-            $attributes[$(prop).attr('name')] = $(prop).val();
+          # Handles form data when submitted and updates brick in the database
+          $canvasElement.next().find('form').on 'submit', (event) ->
+            event.preventDefault()
 
-          Brick.update($brickId, $attributes).done (updatedBrick) ->
+            pid = $canvasElement.attr('id')
+            Position.find pid, (position) =>
 
-
-
+              $(this).find('input').each (key, prop) ->
+                position.set $(prop).attr('name'), $(prop).val()
+              position.save()

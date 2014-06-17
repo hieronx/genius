@@ -1,6 +1,1 @@
-<span contenteditable="true" id="title">Unnamed biobrick project</span>
-<em class="text-muted hidden-xs state">-
-  <span class="saved">saved</span>
-  <span class="saving hidden">saving...</span>
-  <span class="error hidden">not saved</span>
-</em>
+<input type="text" name="title" id="title" ng-model="currentBrick.attributes.title" ng-blur="save()" value="{{ currentBrick.attributes.title }}" />
