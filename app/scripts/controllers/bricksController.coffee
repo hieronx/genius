@@ -44,24 +44,25 @@ class BricksCtrl extends BaseCtrl
       @$scope.private = bricks
       @importCSV.storeBiobricks()
       @$rootScope.$on 'ngRepeatFinished', (ngRepeatFinishedEvent) =>
-        if Config.has('current_brick_id')
-          Brick.find Config.get('current_brick_id'), (brick) =>
-            @$scope.setCurrentBrick brick
-        else
-          if Brick.size() > 0
-            @$scope.setCurrentBrick Brick.first()
-          else
-            brick = new Brick
-              title: "New Biobrick ##{Brick.size() + 1}"
-            brick.save =>
+        unless @$rootScope.currentBrick?
+          if Config.has('current_brick_id')
+            Brick.find Config.get('current_brick_id'), (brick) =>
               @$scope.setCurrentBrick brick
+          else
+            if Brick.size() > 0
+              @$scope.setCurrentBrick Brick.first()
+            else
+              brick = new Brick
+                title: "New Biobrick ##{Brick.size() + 1}"
+              brick.save =>
+                @$scope.setCurrentBrick brick
 
     @$scope.save = =>
       @$rootScope.currentBrick.save()
 
     @$scope.clearWorkspace = =>
       jsPlumb.detachEveryConnection()
-      jsPlumb.removeAllEndpoints()
+      jsPlumb.deleteEveryEndpoint()
       $("#workspace").empty()
 
     @$scope.fillWorkspace = =>

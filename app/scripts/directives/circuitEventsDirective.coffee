@@ -29,10 +29,10 @@ app.directive "circuitEvents", ($compile, $rootScope, connectionService) ->
 
     # Update the database when a connection is detatached
     jsPlumb.bind "connectionDetached", (info, originalEvent) ->
-      # if originalEvent
-      if jsPlumb.selectEndpoints(target: info.targetId).get(0).id is info.targetEndpoint.id then $endpointIndex = 0 else $endpointIndex = 1
+      if originalEvent
+        if jsPlumb.selectEndpoints(target: info.targetId).get(0).id is info.targetEndpoint.id then $endpointIndex = 0 else $endpointIndex = 1
 
-      connectionService.removeConnection(info, info.sourceId, info.targetId, $endpointIndex)
+        connectionService.removeConnection(info, info.sourceId, info.targetId, $endpointIndex)
 
     # Update the database when a connection is moved
     jsPlumb.bind "connectionMoved", (info, originalEvent) ->
