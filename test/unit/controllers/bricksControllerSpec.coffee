@@ -9,5 +9,5 @@ describe 'BricksCtrl', ->
     controller = $controller 'BricksCtrl',
       $scope: scope
 
-  it "should have a list of 5 gates", ->
-    expect(scope.gates.length).toBe 5
+  it "should have a list of 4 gates", ->
+    expect(scope.gates.length).toBe 4

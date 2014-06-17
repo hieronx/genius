@@ -3,36 +3,52 @@
   width: 80px;
   border-radius: 5px;
   cursor: pointer;
-  line-height: 60px;
+  padding: 6px 10px;
   text-align: center;
-  color: transparent;
-  text-transform: uppercase;
-  font-size: 14px;
+  font-size: 13px;
   background-repeat: no-repeat;
+  background-color: white;
+  box-shadow: 0 0 2px gray;
+  position: relative;
   &:hover {
-     i.delete-brick {
+    i.delete-position {
       display: block;
     }
-     i.brick-popover {
+    i.position-popover {
       display: block;
-     }
+    }
+    .close {
+      display: block;
+    }
   }
-  &.brick-and {
+  &.and {
     background-image: url('../images/gates/AND.svg');
+    box-shadow: none;
+    padding: 0;
+    background-color: transparent;
+    .close {
+      display: none !important;
+    }
   }
-  &.brick-not {
+  &.not {
     background-image: url('../images/gates/NOT.svg');
+    box-shadow: none;
+    padding: 0;
+    background-color: transparent;
   }
-  &.brick-or {
-    background-image: url('../images/gates/OR.svg');
-  }
-  &.brick-input {
+  &.input {
     background-image: url('../images/gates/INPUT.svg');
+    box-shadow: none;
+    padding: 0;
+    background-color: transparent;
   }
-  &.brick-output {
+  &.output {
     background-image: url('../images/gates/OUTPUT.svg');
+    box-shadow: none;
+    padding: 0;
+    background-color: transparent;
   }
-  i.delete-brick {
+  i.delete-position {
     display: none;
     z-index: 1000;
     color: #999;
@@ -42,7 +58,7 @@
     right: -10px;
     cursor: pointer;
   }
-  i.brick-popover {
+  i.position-popover {
     display: none;
     z-index: 1000;
     color: black;
@@ -51,5 +67,11 @@
     top: -10px;
     right: 50px;
     cursor: pointer;
+  }
+  .close {
+    position: absolute;
+    right: 5px;
+    top: 0;
+    display: none;
   }
 }

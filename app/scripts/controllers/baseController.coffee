@@ -1,8 +1,10 @@
+
 class @BaseCtrl
 
-  @register: (app, name) ->
-    name ?= @name || @toString().match(/function\s*(.*?)\(/)?[1]
-    app.controller name, @
+  @register: ->
+    @name ||= @toString().match(/function\s*(.*?)\(/)?[1]
+    app = angular.module("geniusApp")
+    app.controller @name, @
 
   @inject: (annotations...) ->
     ANNOTATION_REG = /^(\S+)(\s+as\s+(\w+))?$/

@@ -1,6 +1,6 @@
-app = angular.module("geniusApp")
 
-class Brick extends Base
+class Brick extends ActiveRecord.Base
+  @boot()
 
-  @register app, 'Brick'
-  type: 'brick'
+  @hasMany 'Position'
+  @hasMany 'Connection'
