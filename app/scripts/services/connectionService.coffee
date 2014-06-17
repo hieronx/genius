@@ -13,7 +13,7 @@ app.factory "connectionService", ($compile, $rootScope, Brick) ->
   createConnection: (info, pos_from_id, pos_to_id, end_index, con_type) ->
     console.log "CREATE"
     Position.find pos_from_id, (position) ->
-      position.outgoing_connections.create({ position_to_id: pos_to_id, endpoint_index: end_index }, (data) ->
+      position.outgoing_connections.create({ position_to_id: pos_to_id, endpoint_index: end_index, brick_id: $rootScope.currentBrick.id() }, (data) ->
         console.log data)
 
   # Add information to label to ensure correct dragging behaviour

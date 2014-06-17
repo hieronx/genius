@@ -2,7 +2,6 @@ app = angular.module("geniusApp")
 
 app.factory "dropService", ($compile, $rootScope) ->
   drop: (position, elementScope, ui, newElement) ->
-    console.log position
 
     # Switch from detachable to not detachable mode or the other way around
     setDetachable = ($endpoint, type) ->

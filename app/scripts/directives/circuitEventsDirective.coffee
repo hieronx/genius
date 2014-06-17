@@ -4,12 +4,10 @@ app.directive "circuitEvents", ($compile, $rootScope, connectionService) ->
   restrict: "A"
   link: (scope, element, attributes) ->
     options = scope.$eval(attributes.circuitEvents)
-    console.log "INITIALIZED"
     $isPresent = false
 
     # Ensure connections are updated in the database
     jsPlumb.bind "connection", (info, originalEvent) ->
-      console.log  "CONNECTED"
       if originalEvent
         if jsPlumb.selectEndpoints(target: info.targetId).get(0).id is info.targetEndpoint.id then $endpointIndex = 0 else $endpointIndex = 1
 
@@ -31,6 +29,7 @@ app.directive "circuitEvents", ($compile, $rootScope, connectionService) ->
 
     # Update the database when a connection is detatached
     jsPlumb.bind "connectionDetached", (info, originalEvent) ->
+      # if originalEvent
       if jsPlumb.selectEndpoints(target: info.targetId).get(0).id is info.targetEndpoint.id then $endpointIndex = 0 else $endpointIndex = 1
 
       connectionService.removeConnection(info, info.sourceId, info.targetId, $endpointIndex)
