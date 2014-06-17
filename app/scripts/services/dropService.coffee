@@ -47,30 +47,30 @@ app.factory "dropService", ($compile, $rootScope) ->
         delBrick = angular.element '<i class="fa fa-times delete-position" delete-position></i>'
         $canvasElement.append delBrick
         $compile(delBrick)($rootScope)
-        
-        if $canvasElement.hasClass("brick-and")
+
+        if $canvasElement.hasClass("and")
           $endpoint = jsPlumb.addEndpoint pid, anchor: [0, 0.2, -1, 0, 8,  0], $rootScope.targetEndPoint
           setDetachable($endpoint, 'target')
           $endpoint = jsPlumb.addEndpoint pid, anchor: [0, 0.8, -1, 0, 8,  0], $rootScope.targetEndPoint
           setDetachable($endpoint, 'target')
           $endpoint = jsPlumb.addEndpoint pid, anchor: [1, 0.5, 1,  0, -8, 0], $rootScope.sourceEndPoint
           setDetachable($endpoint, 'source')
-        else if $canvasElement.hasClass("brick-not")
+        else if $canvasElement.hasClass("not")
           $endpoint = jsPlumb.addEndpoint pid, anchor: [0, 0.5, -1, 0, 8, 0], $rootScope.targetEndPoint
           setDetachable($endpoint, 'target')
           $endpoint = jsPlumb.addEndpoint pid, anchor: [1, 0.5, 1,  0], $rootScope.sourceEndPoint
           setDetachable($endpoint, 'source')
-        else if $canvasElement.hasClass("brick-or")
+        else if $canvasElement.hasClass("or")
           $endpoint = jsPlumb.addEndpoint pid, anchor: [-0.02, 0.25, -1, 0, 12, 0], $rootScope.targetEndPoint
           setDetachable($endpoint, 'target')
           $endpoint = jsPlumb.addEndpoint pid, anchor: [-0.02, 0.75, -1, 0, 12, 0], $rootScope.targetEndPoint
           setDetachable($endpoint, 'target')
           $endpoint = jsPlumb.addEndpoint pid, anchor: [1, 0.5,  1,  0, -8, 0], $rootScope.sourceEndPoint
           setDetachable($endpoint, 'source')
-        else if $canvasElement.hasClass("brick-input")
+        else if $canvasElement.hasClass("input")
           $endpoint = jsPlumb.addEndpoint pid, { anchor: [1, 0.5, 1, 0, -40, 0] }, $rootScope.sourceEndPoint
           setDetachable($endpoint, 'source')
-        else if $canvasElement.hasClass("brick-output")
+        else if $canvasElement.hasClass("output")
           $endpoint = jsPlumb.addEndpoint pid, anchor: [0, 0.5, -1, 0, 33, 0], $rootScope.targetEndPoint
           setDetachable($endpoint, 'target')
         else
