@@ -8,11 +8,14 @@ class Config extends ActiveRecord.Base
   @boot()
 
   @get: (key) ->
-    @findWhere({ key: key }).get('value')
+    _.first(@filter((c) -> c.get('key') == key))?.get('value')
+
+  @has: (key) ->
+    _.first(@filter((c) -> c.get('key') == key))?
 
   @set: (key, value) ->
-    config = @findWhere({ key: key })
+    config = _.first(@filter((c) -> c.get('key') == key))
     if config?
       config.update { value: value }
     else
-      config.create { key: key, value: value }
+      @create { key: key, value: value }
