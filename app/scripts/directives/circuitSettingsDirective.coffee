@@ -85,7 +85,7 @@ app.directive "circuitSettings", ($compile, $rootScope) ->
       connectorOverlays: [
         [
           "Custom"
-            cssClass: "component label"
+            cssClass: "component label is-select"
             location: 0.5
             create: (component)->
               # Input of connection overlays

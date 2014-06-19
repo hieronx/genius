@@ -16,6 +16,13 @@ app.directive "circuitEvents", ($compile, $rootScope, connectionService) ->
         connectionService.addLabelInformation(info)
       else
         connectionService.loadGenesConnection(info, info.sourceId, info.targetId)
+      
+      setTimeout (->
+        $('.is-select').on 'change', ->
+          console.log this.value
+          console.log "WHY"
+      ), 0
+     
 
     # Any brick or gate cannot create a connection to itself
     jsPlumb.bind "beforeDrop", (info) ->
@@ -44,3 +51,7 @@ app.directive "circuitEvents", ($compile, $rootScope, connectionService) ->
 
       connectionService.removeConnection(info, info.newSourceId, info.originalTargetId, $oldEndpointIndex)
       connectionService.createConnection(info, info.newSourceId, info.newTargetId, $endpointIndex)
+
+    # $('select').on 'change', ->
+    #   console.log this.value
+    #   # $(this).val()
