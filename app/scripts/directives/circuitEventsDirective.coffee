@@ -14,6 +14,8 @@ app.directive "circuitEvents", ($compile, $rootScope, connectionService) ->
         unless $isPresent
           connectionService.createConnection(info, info.sourceId, info.targetId, $endpointIndex)
         connectionService.addLabelInformation(info)
+      else
+        connectionService.loadGenesConnection(info, info.sourceId, info.targetId)
 
     # Any brick or gate cannot create a connection to itself
     jsPlumb.bind "beforeDrop", (info) ->

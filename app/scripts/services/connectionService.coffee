@@ -2,8 +2,8 @@ app = angular.module("geniusApp")
 
 app.factory "connectionService", ($compile, $rootScope, Brick) ->
 
-
-  initializeGenesConnection =  (new_conn, pos_from_id, pos_to_id) ->
+  # When a new connection is made by hand, ensure the list of genes is restricted
+  initializeGenesConnection = (new_conn, pos_from_id, pos_to_id) ->
     Position.find pos_to_id, (position) ->
       otherConn = _.first _.filter(position.incoming_connections.collection, (conn) ->
           conn.attributes.id isnt new_conn.id)
@@ -18,9 +18,24 @@ app.factory "connectionService", ($compile, $rootScope, Brick) ->
         else
           $genes = $rootScope.genes
 
-        
         conn.update { genes: $genes, selected: $genes[0] }, (conn) ->
           $overlay.val(conn.selected)
+
+  # When a new connection is loaded from the database, restrict the list of genes
+  loadGenesConnection: (info, pos_from_id, pos_to_id) ->
+    $overlay = $(info.connection.getOverlays()[0].getElement())
+    $overlay.find("option[value='blank']").remove()
+
+    Position.find pos_to_id, (position) ->
+      otherConn = _.first _.filter(position.incoming_connections.collection, (conn) ->
+        return pos_from_id isnt conn.attributes.position_from_id)
+      thisConn = _.first _.filter(position.incoming_connections.collection, (conn) ->
+        return pos_from_id is conn.attributes.position_from_id)
+
+      $overlay.val(thisConn.attributes.selected)
+
+      if otherConn?
+        $overlay.find("option[value='#{otherConn.attributes.selected}']").hide()
 
   # Ability to remove a connection from the database
   removeConnection: (info, pos_from_id, pos_to_id, end_index) ->
@@ -41,7 +56,7 @@ app.factory "connectionService", ($compile, $rootScope, Brick) ->
     Position.find pos_from_id, (position) ->
       position.outgoing_connections.create { position_to_id: pos_to_id, endpoint_index: end_index, brick_id: $rootScope.currentBrick.id() }, (conn) ->
         initializeGenesConnection(conn, pos_from_id, pos_to_id)
-
+        
   # Add information to label to ensure correct dragging behaviour
   addLabelInformation: (info) ->
     $label = $('#label-' + info.connection.id)
