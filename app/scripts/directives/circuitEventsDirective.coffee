@@ -24,7 +24,7 @@ app.directive "circuitEvents", ($compile, $rootScope, connectionService) ->
 
       # Ensure brick cannot connect to itself
       if info.sourceId is info.targetId
-        scope.flash 'danger', 'Het is niet mogelijk om een connectie te maken van en naar dezelfde gate'
+        scope.flash 'danger', 'Het is niet mogelijk om een connectie te maken van en naar dezelfde gate!'
         return false
       return true
 
