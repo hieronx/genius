@@ -71,8 +71,8 @@ class BricksCtrl extends BaseCtrl
       @$rootScope.currentBrick.save()
 
     @$scope.clearWorkspace = =>
-      jsPlumb.detachAllConnections()
-      jsPlumb.removeAllEndpoints()
+      jsPlumb.detachEveryConnection()
+      jsPlumb.deleteEveryEndpoint()
       $("#workspace").empty()
 
     @$scope.fillWorkspace = =>
@@ -89,7 +89,7 @@ class BricksCtrl extends BaseCtrl
         $sourceId = connection.get('position_from_id')
         $source = jsPlumb.selectEndpoints(source: $sourceId).get(0)
         $targetId = connection.get('position_to_id')
-        $target = jsPlumb.selectEndpoints(target: $targetId).get(connection.get('targetIndex'))
+        $target = jsPlumb.selectEndpoints(target: $targetId).get(connection.get('endpoint_index'))
 
         jsPlumb.connect( { source: $source, target: $target } )
 

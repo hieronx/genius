@@ -2,6 +2,15 @@ app = angular.module("geniusApp")
 
 app.factory "dropService", ($compile, $rootScope) ->
   drop: (position, elementScope, ui, newElement) ->
+
+    # Switch from detachable to not detachable mode or the other way around
+    setDetachable = ($endpoint, type) ->
+      $endpoint.bind "mousedown", (endpoint) ->
+        if type is 'target'
+          endpoint.connections[0].setDetachable(true)
+        else
+          endpoint.connections[0].setDetachable(false)
+
     unless ui.draggable.hasClass("canvas-element")
       $canvas = $('#workspace')
 
@@ -39,24 +48,37 @@ app.factory "dropService", ($compile, $rootScope) ->
         $compile(delBrick)($rootScope)
 
         if $canvasElement.hasClass("and")
-          jsPlumb.addEndpoint pid, anchor: [0, 0.2, -1, 0, 8,  0], $rootScope.targetEndPoint
-          jsPlumb.addEndpoint pid, anchor: [0, 0.8, -1, 0, 8,  0], $rootScope.targetEndPoint
-          jsPlumb.addEndpoint pid, anchor: [1, 0.5, 1,  0, -8, 0], $rootScope.sourceEndPoint
-
+          $endpoint = jsPlumb.addEndpoint pid, anchor: [0, 0.2, -1, 0, 8,  0], $rootScope.targetEndPoint
+          setDetachable($endpoint, 'target')
+          $endpoint = jsPlumb.addEndpoint pid, anchor: [0, 0.8, -1, 0, 8,  0], $rootScope.targetEndPoint
+          setDetachable($endpoint, 'target')
+          $endpoint = jsPlumb.addEndpoint pid, anchor: [1, 0.5, 1,  0, -8, 0], $rootScope.sourceEndPoint
+          setDetachable($endpoint, 'source')
         else if $canvasElement.hasClass("not")
-          jsPlumb.addEndpoint pid, anchor: [0, 0.5, -1, 0, 8, 0], $rootScope.targetEndPoint
-          jsPlumb.addEndpoint pid, anchor: [1, 0.5, 1,  0], $rootScope.sourceEndPoint
-
+          $endpoint = jsPlumb.addEndpoint pid, anchor: [0, 0.5, -1, 0, 8, 0], $rootScope.targetEndPoint
+          setDetachable($endpoint, 'target')
+          $endpoint = jsPlumb.addEndpoint pid, anchor: [1, 0.5, 1,  0], $rootScope.sourceEndPoint
+          setDetachable($endpoint, 'source')
+        else if $canvasElement.hasClass("or")
+          $endpoint = jsPlumb.addEndpoint pid, anchor: [-0.02, 0.25, -1, 0, 12, 0], $rootScope.targetEndPoint
+          setDetachable($endpoint, 'target')
+          $endpoint = jsPlumb.addEndpoint pid, anchor: [-0.02, 0.75, -1, 0, 12, 0], $rootScope.targetEndPoint
+          setDetachable($endpoint, 'target')
+          $endpoint = jsPlumb.addEndpoint pid, anchor: [1, 0.5,  1,  0, -8, 0], $rootScope.sourceEndPoint
+          setDetachable($endpoint, 'source')
         else if $canvasElement.hasClass("input")
-          jsPlumb.addEndpoint pid, anchor: [1, 0.5, 1, 0, -40, 0], $rootScope.sourceEndPoint
-
+          $endpoint = jsPlumb.addEndpoint pid, { anchor: [1, 0.5, 1, 0, -40, 0] }, $rootScope.sourceEndPoint
+          setDetachable($endpoint, 'source')
         else if $canvasElement.hasClass("output")
-          jsPlumb.addEndpoint pid, anchor: [0, 0.5, -1, 0, 33, 0], $rootScope.targetEndPoint
-
+          $endpoint = jsPlumb.addEndpoint pid, anchor: [0, 0.5, -1, 0, 33, 0], $rootScope.targetEndPoint
+          setDetachable($endpoint, 'target')
         else
-          jsPlumb.addEndpoint pid, anchor: [0, 0.2, -1, 0 ], $rootScope.targetEndPoint
-          jsPlumb.addEndpoint pid, anchor: [0, 0.8, -1, 0 ], $rootScope.targetEndPoint
-          jsPlumb.addEndpoint pid, anchor: [1, 0.5, 1, 0 ], $rootScope.sourceEndPoint
+          $endpoint = jsPlumb.addEndpoint pid, anchor: [0, 0.2, -1, 0 ], $rootScope.targetEndPoint
+          setDetachable($endpoint, 'target')
+          $endpoint = jsPlumb.addEndpoint pid, anchor: [0, 0.8, -1, 0 ], $rootScope.targetEndPoint
+          setDetachable($endpoint, 'target')
+          $endpoint = jsPlumb.addEndpoint pid, anchor: [1, 0.5, 1, 0 ], $rootScope.sourceEndPoint
+          setDetachable($endpoint, 'source')
 
         # Enable draggable behaviour and ensure a popover will not appear when dragged
         jsPlumb.draggable $canvasElement,

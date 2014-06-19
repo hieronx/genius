@@ -1,6 +1,6 @@
 app = angular.module("geniusApp")
 
-app.directive "deletePosition", ($compile, $rootScope) ->
+app.directive "deletePosition", ($compile, $rootScope, connectionService) ->
   restrict: "A"
   link: (scope, element, attributes) ->
     options = scope.$eval(attributes.deletePosition)
@@ -9,6 +9,8 @@ app.directive "deletePosition", ($compile, $rootScope) ->
     element.on "click", ->
       $elPar = element.parent()
       pid = $elPar.attr("id")
+
+      connectionService.removeAllConnections(pid)
       Position.find pid, (position) =>
         position.destroy()
 
@@ -21,7 +23,7 @@ app.directive "deletePosition", ($compile, $rootScope) ->
 
       $('#' + $sourceId).removeClass('labelDisabled').draggable('enable')
       $('#' + $targetId).removeClass('labelDisabled').draggable('enable')
-
+      
       jsPlumb.detachAllConnections($elPar)
       jsPlumb.removeAllEndpoints($elPar)
       $elPar.remove()
