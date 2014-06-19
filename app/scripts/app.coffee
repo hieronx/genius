@@ -13,6 +13,3 @@ angular.module("geniusApp", [
   ).otherwise redirectTo: "/"
 
 window.hoodie = new Hoodie("http://127.0.0.1:9000/")
-
-#if hoodie.hasAccount()
-#  window.
