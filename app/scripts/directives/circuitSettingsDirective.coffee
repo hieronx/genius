@@ -89,7 +89,7 @@ app.directive "circuitSettings", ($compile, $rootScope) ->
             location: 0.5
             create: (component)->
               # Input of connection overlays
-              $element = angular.element("<select><option selected disabled></option><option value='Gene A'>Gene A</option> <option value='Gene B'>Gene B</option><option value='Gene C'>Gene C</option><option value='Gene D'>Gene D</option><option value='Gene E'>Gene E</option><option value='Gene F'>Gene F</option><option value='Gene G'>Gene G</option><option value='Gene H'>Gene H</option><option value='Gene I'>Gene I</option><option value='Gene J'>Gene J</option></select>");
+              $element = angular.element("<select></option><option value='blank' disabled selected></option><option value='A'>Gene A</option> <option value='B'>Gene B</option><option value='C'>Gene C</option><option value='D'>Gene D</option><option value='E'>Gene E</option><option value='F'>Gene F</option><option value='G'>Gene G</option><option value='H'>Gene H</option><option value='I'>Gene I</option><option value='J'>Gene J</option></select>");
               $element.id = "label-" + component.id + " data-connection=" + component.id
               $compile($element)($rootScope);
               return $element;
