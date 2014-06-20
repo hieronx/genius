@@ -57,7 +57,7 @@ app.directive "circuitSettings", ($compile, $rootScope) ->
         fillStyle: "#7AB02C"
         radius: 11
 
-      maxConnections: 10
+      maxConnections: 1
       connector: [
         "Flowchart"
         {
@@ -94,14 +94,6 @@ app.directive "circuitSettings", ($compile, $rootScope) ->
               $compile($element)($rootScope);
               return $element;
         ]
-        # [
-        #   "Arrow"
-        #   {
-        #     location: 0.2
-        #     width: 20
-        #     length: 20
-        #   }
-        # ]
         [
           "Arrow"
           {

@@ -16,8 +16,15 @@ app.directive "circuitEvents", ($compile, $rootScope, connectionService) ->
         connectionService.addLabelInformation(info)
       else
         connectionService.loadGenesConnection(info, info.sourceId, info.targetId)
+
+      if jsPlumb.getConnections(source: info.sourceId).length > 1
+        connectionService.syncGenesConnection(info, info.sourceId, info.targetId)
       
       $(info.connection.getOverlays()[0].getElement()).on 'change', (event) ->
+       
+      # if jsPlumb.getConnections(source: info.sourceId).length > 1
+      #   connectionService.syncOtherGenesConnection(info, info.sourceId, info.targetId)
+      # else
         connectionService.updateGenesConnection(info, info.sourceId, info.targetId, this.value)
      
     # Any brick or gate cannot create a connection to itself
