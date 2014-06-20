@@ -14,7 +14,19 @@ app.directive "circuitEvents", ($compile, $rootScope, connectionService) ->
         unless $isPresent
           connectionService.createConnection(info, info.sourceId, info.targetId, $endpointIndex)
         connectionService.addLabelInformation(info)
+      else
+        connectionService.loadGenesConnection(info, info.sourceId, info.targetId)
 
+      if jsPlumb.getConnections(source: info.sourceId).length > 1
+        connectionService.syncGenesConnection(info, info.sourceId, info.targetId)
+      
+      $(info.connection.getOverlays()[0].getElement()).on 'change', (event) ->
+       
+      # if jsPlumb.getConnections(source: info.sourceId).length > 1
+      #   connectionService.syncOtherGenesConnection(info, info.sourceId, info.targetId)
+      # else
+        connectionService.updateGenesConnection(info, info.sourceId, info.targetId, this.value)
+     
     # Any brick or gate cannot create a connection to itself
     jsPlumb.bind "beforeDrop", (info) ->
 
@@ -24,6 +36,7 @@ app.directive "circuitEvents", ($compile, $rootScope, connectionService) ->
 
       # Ensure brick cannot connect to itself
       if info.sourceId is info.targetId
+        scope.flash 'danger', 'It is not possible to create a connection from and to the same gate!'
         return false
       return true
 
@@ -41,3 +54,6 @@ app.directive "circuitEvents", ($compile, $rootScope, connectionService) ->
 
       connectionService.removeConnection(info, info.newSourceId, info.originalTargetId, $oldEndpointIndex)
       connectionService.createConnection(info, info.newSourceId, info.newTargetId, $endpointIndex)
+
+      connectionService.resetGenesConnection(info, info.originalSourceId, info.originalTargetId)
+      connectionService.updateGenesConnection(info, info.newSourceId, info.newTargetId, $(info.connection.getOverlays()[0].getElement()).val())

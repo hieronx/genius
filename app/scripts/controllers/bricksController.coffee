@@ -38,6 +38,12 @@ class BricksCtrl extends BaseCtrl
       credits:
         enabled: false
 
+    @$rootScope.genes = []
+
+    Gene.all (genes) =>
+      @$rootScope.genes = _.sortBy(_.map(genes, (gene) ->
+        return gene.attributes.name), (name) -> return name)
+
     Position.all()
     Connection.all()
     Brick.all (bricks) =>
