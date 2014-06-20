@@ -107,11 +107,7 @@ class BricksCtrl extends BaseCtrl
     @$scope.run = =>
       try
         solution = @simulationService.run(@$rootScope.currentBrick)
-
         data = numeric.transpose(solution.y)
-
-        console.log data
-
         @$scope.chartConfig.series = [
           {
             name: "mRNA"
@@ -127,8 +123,9 @@ class BricksCtrl extends BaseCtrl
 
         @$scope.chartConfig.loading = false
       catch error
-        @$scope.flash 'danger', 'Simulation failed! Your brick is invalid.'
-
+        # @$scope.flash 'danger', 'Simulation failed! Your brick is invalid.'
+        @$scope.flash 'danger', error
+        console.log error
     @$scope.export = =>
       # export brick
 
