@@ -17,13 +17,10 @@ app.directive "circuitEvents", ($compile, $rootScope, connectionService) ->
       else
         connectionService.loadGenesConnection(info, info.sourceId, info.targetId)
       
-      setTimeout (->
-        $('.is-select').on 'change', ->
-          console.log this.value
-          console.log "WHY"
-      ), 0
+      $(info.connection.getOverlays()[0].getElement()).on 'change', ->
+        console.log this.value
+        console.log "WHY"
      
-
     # Any brick or gate cannot create a connection to itself
     jsPlumb.bind "beforeDrop", (info) ->
 
@@ -33,7 +30,7 @@ app.directive "circuitEvents", ($compile, $rootScope, connectionService) ->
 
       # Ensure brick cannot connect to itself
       if info.sourceId is info.targetId
-        scope.flash 'danger', 'Het is niet mogelijk om een connectie te maken van en naar dezelfde gate!'
+        scope.flash 'danger', 'It is not possible to create a connection from and to the same gate!'
         return false
       return true
 
@@ -51,7 +48,3 @@ app.directive "circuitEvents", ($compile, $rootScope, connectionService) ->
 
       connectionService.removeConnection(info, info.newSourceId, info.originalTargetId, $oldEndpointIndex)
       connectionService.createConnection(info, info.newSourceId, info.newTargetId, $endpointIndex)
-
-    # $('select').on 'change', ->
-    #   console.log this.value
-    #   # $(this).val()

@@ -28,8 +28,8 @@ app.directive "isDroppable", ($compile, $rootScope, dropService) ->
         else if ui.draggable.hasClass("output")
           position.set 'gate', 'output'
 
-        if position.attributes.gate is 'output' and $('.output.canvas-element').length > 0
-          scope.flash 'danger', 'Een circuit mag maximaal één output bevatten!'
-        else
-          position.save ->
-            dropService.drop(position, scope, ui, true)
+        # if position.attributes.gate is 'output' and $('.output.canvas-element').length > 0
+          # scope.flash 'danger', 'A circuit can only contain one output!'
+        # else
+        position.save ->
+          dropService.drop(position, scope, ui, true)
