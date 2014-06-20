@@ -18,6 +18,7 @@ app.factory "simulationService", ($compile, $rootScope) ->
   Protein = 0
 
   run: (brick) ->
+    # TODO for web worker
     # worker = new Worker('/scripts/workers/simulationWorker.js')
     # defer = $q.defer()
     
@@ -58,16 +59,7 @@ app.factory "simulationService", ($compile, $rootScope) ->
             i += 2
           equations = []
           startIndex = queue.peek().comp # array index
-          while queue.length > 0 
-
-            # connectedBrick = Brick.where(filter) ->
-            #   item.id is connection.source
-            # )[j]
-
-            # filter (brick) ->
-            #   brick.id 
-            # If current brick is of type and
-
+          while queue.length > 0 d
             equationPosition = queue.dequeue()
             currentPosition = equationPosition.position
             # Check whether array element is defined
@@ -88,15 +80,10 @@ app.factory "simulationService", ($compile, $rootScope) ->
               equations.push( gene1_k2 * x[index] - gene1_d2 * x[index+1] )
 
             else if currentPosition.attributes.gate is 'input'
-              equations.push( TF1 ) # placeholder, TF have to come from input
-              equations.push( TF2 ) # placeholder, TF have to come from input
+              equations.push( TF1 )
+              equations.push( TF2 )
 
           equations
-
-          # if brick.connections?
-            # TODO: brick.connections.length * 2 is wrong formula
-
         startValues = Array.apply(null, new Array(brick.connections.size() * 2)).map(Number.prototype.valueOf, 0)
-        #solution = 
         solutions.push(numeric.dopri(0, 20, startValues, f, 1e-6, 2000))
     solutions
