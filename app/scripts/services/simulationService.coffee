@@ -59,7 +59,7 @@ app.factory "simulationService", ($compile, $rootScope) ->
             i += 2
           equations = []
           startIndex = queue.peek().comp # array index
-          while queue.length > 0 d
+          while queue.length > 0
             equationPosition = queue.dequeue()
             currentPosition = equationPosition.position
             # Check whether array element is defined
