@@ -29,7 +29,7 @@ app.factory "simulationService", ($compile, $rootScope) ->
     # , false
     
     # return defer.promise
-    solution = null
+    solutions = []
     brick.positions.each (position) =>
       if position.attributes.gate is 'output'
         f = (t, x) =>
@@ -98,5 +98,5 @@ app.factory "simulationService", ($compile, $rootScope) ->
 
         startValues = Array.apply(null, new Array(brick.connections.size() * 2)).map(Number.prototype.valueOf, 0)
         #solution = 
-        solution = numeric.dopri(0, 20, startValues, f, 1e-6, 2000)
-    solution
+        solutions.push(numeric.dopri(0, 20, startValues, f, 1e-6, 2000))
+    solutions
