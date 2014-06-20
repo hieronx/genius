@@ -131,9 +131,7 @@ class BricksCtrl extends BaseCtrl
 
         @$scope.chartConfig.loading = false
       catch error
-        # @$scope.flash 'danger', 'Simulation failed! Your brick is invalid.'
-        @$scope.flash 'danger', error
-        console.log error
+        @$scope.flash 'danger', 'Simulation failed! Your brick is invalid.'
     @$scope.export = =>
       # export brick
 
