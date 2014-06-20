@@ -107,6 +107,8 @@ class BricksCtrl extends BaseCtrl
     @$scope.run = =>
       try
         solution = @simulationService.run(@$rootScope.currentBrick)
+
+        console.log solution
         data = numeric.transpose(solution.y)
         @$scope.chartConfig.series = [
           {
