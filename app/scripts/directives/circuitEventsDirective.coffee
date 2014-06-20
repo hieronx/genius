@@ -19,9 +19,6 @@ app.directive "circuitEvents", ($compile, $rootScope, connectionService) ->
       
       $(info.connection.getOverlays()[0].getElement()).on 'change', (event) ->
         connectionService.updateGenesConnection(info, info.sourceId, info.targetId, this.value)
-        # console.log this.value
-        # console.log "WHY"
-        # console.log this.parent()
      
     # Any brick or gate cannot create a connection to itself
     jsPlumb.bind "beforeDrop", (info) ->
@@ -50,3 +47,6 @@ app.directive "circuitEvents", ($compile, $rootScope, connectionService) ->
 
       connectionService.removeConnection(info, info.newSourceId, info.originalTargetId, $oldEndpointIndex)
       connectionService.createConnection(info, info.newSourceId, info.newTargetId, $endpointIndex)
+
+      connectionService.resetGenesConnection(info, info.originalSourceId, info.originalTargetId)
+      connectionService.updateGenesConnection(info, info.newSourceId, info.newTargetId, $(info.connection.getOverlays()[0].getElement()).val())

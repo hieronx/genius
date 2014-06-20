@@ -33,8 +33,10 @@ app.factory "connectionService", ($compile, $rootScope, Brick) ->
         return pos_from_id is conn.attributes.position_from_id)
 
       $overlay.val(thisConn.attributes.selected)
-
       if otherConn?
+        console.log otherConn.attributes.position_from_id
+        # $otherOverlay = $(jsPlumb.getConnections(source: otherConn.attributes.position_from_id, target: pos_to_id)[0].getOverlays()[0].getElement())
+        # $otherOverlay.find("option[value='#{thisConn.attributes.selected}']").hide()
         $overlay.find("option[value='#{otherConn.attributes.selected}']").hide()
 
   # When gene value of a connection is change, ensure its updated in the database
@@ -46,19 +48,25 @@ app.factory "connectionService", ($compile, $rootScope, Brick) ->
         return pos_from_id is conn.attributes.position_from_id)
 
       $oldValue = thisConn.attributes.selected
-      console.log $oldValue
 
       thisConn.set('selected', value)
       thisConn.save()
 
       if otherConn?
-        console.log otherConn.attributes.position_from_id
         $overlay = $(jsPlumb.getConnections(source: otherConn.attributes.position_from_id, target: pos_to_id)[0].getOverlays()[0].getElement())
-        console.log $overlay
         
         $overlay.find("option[value='#{$oldValue}']").show()
         $overlay.find("option[value='#{value}']").hide()
 
+  # Resets the gene options for this connection
+  resetGenesConnection: (info, pos_from_id, pos_to_id) ->
+    Position.find pos_to_id, (position) ->
+      otherConn = _.first _.filter(position.incoming_connections.collection, (conn) ->
+        return pos_from_id isnt conn.attributes.position_from_id)
+
+      if otherConn?
+        $overlay = $(jsPlumb.getConnections(source: otherConn.attributes.position_from_id, target: pos_to_id)[0].getOverlays()[0].getElement())
+        $overlay.find("option").show()
 
   # Ability to remove a connection from the database
   removeConnection: (info, pos_from_id, pos_to_id, end_index) ->
