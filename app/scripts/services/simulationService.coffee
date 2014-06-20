@@ -1,6 +1,5 @@
 app = angular.module("geniusApp")
 
-# app.factory "simulationService", ($compile, $rootScope, $q) ->
 app.factory "simulationService", ($compile, $rootScope) ->
   TF1 = 42
   TF2 = 7
