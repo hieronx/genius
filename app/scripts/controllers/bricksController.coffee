@@ -40,12 +40,10 @@ class BricksCtrl extends BaseCtrl
 
     @$rootScope.genes = []
 
-    @$rootScope.availableGenes = []
+    @$rootScope.usedGenes = []
 
     Gene.all (genes) =>
       @$rootScope.genes = _.sortBy(_.map(genes, (gene) ->
-        return gene.attributes.name), (name) -> return name)
-      @$rootScope.availableGenes = _.sortBy(_.map(genes, (gene) ->
         return gene.attributes.name), (name) -> return name)
 
     Position.all()
@@ -67,9 +65,6 @@ class BricksCtrl extends BaseCtrl
                 title: "New Biobrick ##{Brick.size() + 1}"
               brick.save =>
                 @$scope.setCurrentBrick brick
-
-        @$rootScope.currentBrick.connections.each (conn) =>
-          @$rootScope.availableGenes = _.without @$rootScope.availableGenes, conn.attributes.selected 
 
     @$scope.flash = (type, message) =>
       error = $("<div class=\"alert alert-#{type}\" style=\"display: none\">#{message}</div>")
@@ -99,6 +94,14 @@ class BricksCtrl extends BaseCtrl
 
         @dropService.drop(position, @$rootScope, ui, false)
 
+      @$rootScope.usedGenes = []
+
+      @$rootScope.currentBrick.connections.each (connection) =>
+        if _.indexOf(@$rootScope.usedGenes, connection.attributes.selected) < 0
+          @$rootScope.usedGenes.push connection.attributes.selected 
+
+      console.log @$rootScope.usedGenes
+
       @$rootScope.currentBrick.connections.each (connection) =>
         $sourceId = connection.get('position_from_id')
         $source = jsPlumb.selectEndpoints(source: $sourceId).get(0)
@@ -106,6 +109,8 @@ class BricksCtrl extends BaseCtrl
         $target = jsPlumb.selectEndpoints(target: $targetId).get(connection.get('endpoint_index'))
 
         jsPlumb.connect( { source: $source, target: $target } )
+      
+      
 
     @$scope.new = =>
       brick = new Brick

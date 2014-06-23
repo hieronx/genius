@@ -21,12 +21,13 @@ app.directive "circuitEvents", ($compile, $rootScope, connectionService) ->
       #   connectionService.syncGenesConnection(info, info.sourceId, info.targetId)
       
       $(info.connection.getOverlays()[0].getElement()).on 'change', (event) ->
-       
-      # if jsPlumb.getConnections(source: info.sourceId).length > 1
-      #   connectionService.syncOtherGenesConnection(info, info.sourceId, info.targetId)
-      # else
         connectionService.updateGenesConnection(info, info.sourceId, info.targetId, this.value)
-     
+        
+
+        # if jsPlumb.getConnections(source: info.sourceId).length > 1
+        #   connectionService.syncOtherGenesConnection(info, info.sourceId, info.targetId)
+        # else
+
     # Any brick or gate cannot create a connection to itself
     jsPlumb.bind "beforeDrop", (info) ->
 
@@ -53,7 +54,6 @@ app.directive "circuitEvents", ($compile, $rootScope, connectionService) ->
       if jsPlumb.selectEndpoints(target: info.originalTargetId).get(0).id is info.originalTargetEndpoint.id then $oldEndpointIndex = 0 else $oldEndpointIndex = 1
 
       connectionService.removeConnection(info, info.newSourceId, info.originalTargetId, $oldEndpointIndex)
-      connectionService.createConnection(info, info.newSourceId, info.newTargetId, $endpointIndex)
+      connectionService.createConnection(info, info.newSourceId, info.newTargetId, $endpointIndex, true, $(info.connection.getOverlays()[0].getElement()).val())
 
-      connectionService.resetGenesConnection(info, info.originalSourceId, info.originalTargetId)
-      connectionService.updateGenesConnection(info, info.newSourceId, info.newTargetId, $(info.connection.getOverlays()[0].getElement()).val())
+      # connectionService.updateGenesConnection(info, info.newSourceId, info.newTargetId, )
