@@ -100,8 +100,6 @@ class BricksCtrl extends BaseCtrl
         if _.indexOf(@$rootScope.usedGenes, connection.attributes.selected) < 0
           @$rootScope.usedGenes.push connection.attributes.selected 
 
-      console.log @$rootScope.usedGenes
-
       @$rootScope.currentBrick.connections.each (connection) =>
         $sourceId = connection.get('position_from_id')
         $source = jsPlumb.selectEndpoints(source: $sourceId).get(0)
