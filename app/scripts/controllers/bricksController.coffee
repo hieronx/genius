@@ -40,12 +40,17 @@ class BricksCtrl extends BaseCtrl
 
     @$rootScope.genes = []
 
+    @$rootScope.availableGenes = []
+
     Gene.all (genes) =>
       @$rootScope.genes = _.sortBy(_.map(genes, (gene) ->
+        return gene.attributes.name), (name) -> return name)
+      @$rootScope.availableGenes = _.sortBy(_.map(genes, (gene) ->
         return gene.attributes.name), (name) -> return name)
 
     Position.all()
     Connection.all()
+
     Brick.all (bricks) =>
       @$scope.private = bricks
       @importCSV.storeBiobricks()
@@ -62,6 +67,9 @@ class BricksCtrl extends BaseCtrl
                 title: "New Biobrick ##{Brick.size() + 1}"
               brick.save =>
                 @$scope.setCurrentBrick brick
+
+        @$rootScope.currentBrick.connections.each (conn) =>
+          @$rootScope.availableGenes = _.without @$rootScope.availableGenes, conn.attributes.selected 
 
     @$scope.flash = (type, message) =>
       error = $("<div class=\"alert alert-#{type}\" style=\"display: none\">#{message}</div>")

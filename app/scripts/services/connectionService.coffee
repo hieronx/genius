@@ -21,6 +21,7 @@ app.factory "connectionService", ($compile, $rootScope, Brick) ->
         conn.update { genes: $genes, selected: $genes[0] }, (conn) ->
           $overlay.val(conn.selected)
 
+  # Check for values that cannot be selected by certain connection
   checkBannedValue = (pos_from_id, pos_to) ->
     otherConn = _.first _.filter(pos_to.incoming_connections.collection, (conn) ->
       return pos_from_id isnt conn.attributes.position_from_id)
@@ -61,6 +62,7 @@ app.factory "connectionService", ($compile, $rootScope, Brick) ->
         $overlay.find("option[value='#{$oldValue}']").show()
         $overlay.find("option[value='#{value}']").hide()
 
+  # Synchronize multiple connections from same source
   syncGenesConnection: (info, pos_from_id, pos_to_id, value) ->
     Position.find pos_from_id, (position) ->
       # if position.outgoing_connections.size() > 1
