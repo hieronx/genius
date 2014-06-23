@@ -48,14 +48,6 @@ addEventListener 'message', (e) =>
         equations = []
         startIndex = queue.peek().comp # array index
         while queue.length > 0 
-          # connectedBrick = Brick.where(filter) ->
-          #   item.id is connection.source
-          # )[j]
-
-          # filter (brick) ->
-          #   brick.id 
-          # If current brick is of type and
-
           equationBrick = queue.dequeue()
           # Check whether array element is defined
           index = startIndex - equationBrick.comp

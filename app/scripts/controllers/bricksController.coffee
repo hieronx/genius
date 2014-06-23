@@ -112,29 +112,32 @@ class BricksCtrl extends BaseCtrl
 
     @$scope.run = =>
       try
-        solution = @simulationService.run(@$rootScope.currentBrick)
-
-        data = numeric.transpose(solution.y)
-
-        console.log data
-
-        @$scope.chartConfig.series = [
-          {
-            name: "mRNA"
-            data: data[0]
-            id: "series-0"
-          },
-          {
-            name: "Protein"
-            data: data[1]
-            id: "series-1"
+        solutions = @simulationService.run(@$rootScope.currentBrick)
+        console.log solutions
+        data = []
+        i = 1
+        j = 0
+        for solution in solutions then do (solution) =>
+          temp = numeric.transpose(solution.y)
+          console.log temp
+          data.push {
+            name: "Output" + i + "-mRNA"
+            data: temp[0]
+            id: "series-" + j
           }
-        ]
+          j++
+          data.push { 
+            name: "Output" + i + "-Protein"
+            data: temp[1]
+            id: "series-" + j
+          }
+          j++
+          i++
+        @$scope.chartConfig.series = data
 
         @$scope.chartConfig.loading = false
       catch error
         @$scope.flash 'danger', 'Simulation failed! Your brick is invalid.'
-
     @$scope.export = =>
       # export brick
 
