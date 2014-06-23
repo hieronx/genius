@@ -3,35 +3,32 @@ app = angular.module("geniusApp")
 app.factory "connectionService", ($compile, $rootScope, Brick) ->
 
   # When a new connection is made by hand, ensure the list of genes is restricted
-  initializeGenesConnection = (new_conn, pos_from_id, pos_to_id, moved, value) ->
+  initializeGenesConnection = (new_conn, pos_from_id, pos_to_id, duplicate, moved, value) ->
     Position.find pos_to_id, (position) ->
-      otherConn = _.first _.filter(position.incoming_connections.collection, (conn) ->
-          conn.attributes.id isnt new_conn.id)
       $overlay = $(jsPlumb.getConnections({ source: pos_from_id, target: pos_to_id })[0].getOverlays()[0].getElement())
       $overlay.find("option[value='blank']").remove()
       
       Connection.find new_conn.id, (conn) ->
-        if otherConn?
-          $genes = _.filter $rootScope.genes, (gen) ->
-            return gen isnt otherConn.attributes.selected
-          $overlay.find("option[value='#{otherConn.attributes.selected}']").hide()
-        else
-          $genes = $rootScope.genes
+        _.each $rootScope.usedGenes, (gene) =>
+          if gene isnt conn.attributes.selected
+            $overlay.find("option[value='#{gene}']").hide()
 
-        if moved
-          conn.update { genes: $genes, selected: value }, (conn) ->
+        $genes = _.difference $rootScope.genes, $rootScope.usedGenes
+
+        if moved || duplicate
+          conn.update { selected: value }, (conn) ->
             $overlay.val(conn.selected)
         else
-          conn.update { genes: $genes, selected: $genes[0] }, (conn) ->
+          conn.update { selected: $genes[0] }, (conn) ->
             $overlay.val(conn.selected)
 
   # Check for values that cannot be selected by certain connection
-  checkBannedValue = (pos_from_id, pos_to) ->
-    otherConn = _.first _.filter(pos_to.incoming_connections.collection, (conn) ->
-      return pos_from_id isnt conn.attributes.position_from_id)
+  # checkBannedValue = (pos_from_id, pos_to) ->
+  #   otherConn = _.first _.filter(pos_to.incoming_connections.collection, (conn) ->
+  #     return pos_from_id isnt conn.attributes.position_from_id)
 
-    if otherConn?
-      return otherConn.attributes.selected
+  #   if otherConn?
+  #     return otherConn.attributes.selected
 
   # When a new connection is loaded from the database, restrict the list of genes
   loadGenesConnection: (info, pos_from_id, pos_to_id) =>
@@ -65,7 +62,7 @@ app.factory "connectionService", ($compile, $rootScope, Brick) ->
           $overlay.find("option[value='#{value}']").hide()
 
 
-  # # Synchronize multiple connections from same source
+  # Synchronize multiple connections from same source
   # syncGenesConnection: (info, pos_from_id, pos_to_id, value) ->
   #   Position.find pos_from_id, (position) ->
   #     # if position.outgoing_connections.size() > 1
@@ -119,10 +116,10 @@ app.factory "connectionService", ($compile, $rootScope, Brick) ->
         conn.destroy()
 
   # Ability to create a new connection and store it in the database
-  createConnection: (info, pos_from_id, pos_to_id, end_index, moved, value) ->
+  createConnection: (info, pos_from_id, pos_to_id, end_index, duplicate, moved, value) ->
     Position.find pos_from_id, (position) ->
       position.outgoing_connections.create { position_to_id: pos_to_id, endpoint_index: end_index, brick_id: $rootScope.currentBrick.id() }, (conn) ->
-          initializeGenesConnection(conn, pos_from_id, pos_to_id, moved, value)
+          initializeGenesConnection(conn, pos_from_id, pos_to_id, duplicate, moved, value)
         
   # Add information to label to ensure correct dragging behaviour
   addLabelInformation: (info) ->

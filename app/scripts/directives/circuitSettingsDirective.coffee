@@ -57,7 +57,7 @@ app.directive "circuitSettings", ($compile, $rootScope) ->
         fillStyle: "#7AB02C"
         radius: 11
 
-      maxConnections: 1
+      maxConnections: 1000
       connector: [
         "Flowchart"
         {
