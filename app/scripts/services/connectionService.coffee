@@ -58,8 +58,6 @@ app.factory "connectionService", ($compile, $rootScope, Brick) ->
 
       $rootScope.usedGenes.push value
 
-      console.log $rootScope.usedGenes
-
       $overlay = $(jsPlumb.getConnections(source: thisConn.attributes.position_from_id, target: thisConn.attributes.position_to_id)[0].getOverlays()[0].getElement())
       $overlay.val(value)
 
