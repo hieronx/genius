@@ -40,12 +40,15 @@ class BricksCtrl extends BaseCtrl
 
     @$rootScope.genes = []
 
+    @$rootScope.usedGenes = []
+
     Gene.all (genes) =>
       @$rootScope.genes = _.sortBy(_.map(genes, (gene) ->
         return gene.attributes.name), (name) -> return name)
 
     Position.all()
     Connection.all()
+
     Brick.all (bricks) =>
       @$scope.private = bricks
       @importCSV.storeBiobricks()
@@ -91,6 +94,12 @@ class BricksCtrl extends BaseCtrl
 
         @dropService.drop(position, @$rootScope, ui, false)
 
+      @$rootScope.usedGenes = []
+
+      @$rootScope.currentBrick.connections.each (connection) =>
+        if _.indexOf(@$rootScope.usedGenes, connection.attributes.selected) < 0
+          @$rootScope.usedGenes.push connection.attributes.selected 
+
       @$rootScope.currentBrick.connections.each (connection) =>
         $sourceId = connection.get('position_from_id')
         $source = jsPlumb.selectEndpoints(source: $sourceId).get(0)
@@ -98,6 +107,8 @@ class BricksCtrl extends BaseCtrl
         $target = jsPlumb.selectEndpoints(target: $targetId).get(connection.get('endpoint_index'))
 
         jsPlumb.connect( { source: $source, target: $target } )
+      
+      
 
     @$scope.new = =>
       brick = new Brick

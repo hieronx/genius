@@ -12,21 +12,19 @@ app.directive "circuitEvents", ($compile, $rootScope, connectionService) ->
         if jsPlumb.selectEndpoints(target: info.targetId).get(0).id is info.targetEndpoint.id then $endpointIndex = 0 else $endpointIndex = 1
 
         unless $isPresent
-          connectionService.createConnection(info, info.sourceId, info.targetId, $endpointIndex)
+          if jsPlumb.getConnections(source: info.sourceId).length > 1
+            connectionService.createConnection(info, info.sourceId, info.targetId, $endpointIndex, true, false, $(jsPlumb.getConnections(source: info.sourceId)[0].getOverlays()[0].getElement()).val())
+          else
+            connectionService.createConnection(info, info.sourceId, info.targetId, $endpointIndex, false, false)
         connectionService.addLabelInformation(info)
       else
         connectionService.loadGenesConnection(info, info.sourceId, info.targetId)
-
-      if jsPlumb.getConnections(source: info.sourceId).length > 1
-        connectionService.syncGenesConnection(info, info.sourceId, info.targetId)
       
       $(info.connection.getOverlays()[0].getElement()).on 'change', (event) ->
-       
-      # if jsPlumb.getConnections(source: info.sourceId).length > 1
-      #   connectionService.syncOtherGenesConnection(info, info.sourceId, info.targetId)
-      # else
-        connectionService.updateGenesConnection(info, info.sourceId, info.targetId, this.value)
-     
+        val = this.value
+        _. each jsPlumb.getConnections(source: info.sourceId), (conn) ->
+          connectionService.updateGenesConnection(info, conn.sourceId, conn.targetId, val)
+    
     # Any brick or gate cannot create a connection to itself
     jsPlumb.bind "beforeDrop", (info) ->
 
@@ -37,6 +35,9 @@ app.directive "circuitEvents", ($compile, $rootScope, connectionService) ->
       # Ensure brick cannot connect to itself
       if info.sourceId is info.targetId
         scope.flash 'danger', 'It is not possible to create a connection from and to the same gate!'
+        return false
+      else if jsPlumb.getConnections(source: info.sourceId, target: info.targetId).length > 0
+        scope.flash 'danger', 'It is not possible to make multiple connections from the same source to the same gate!'
         return false
       return true
 
@@ -53,7 +54,4 @@ app.directive "circuitEvents", ($compile, $rootScope, connectionService) ->
       if jsPlumb.selectEndpoints(target: info.originalTargetId).get(0).id is info.originalTargetEndpoint.id then $oldEndpointIndex = 0 else $oldEndpointIndex = 1
 
       connectionService.removeConnection(info, info.newSourceId, info.originalTargetId, $oldEndpointIndex)
-      connectionService.createConnection(info, info.newSourceId, info.newTargetId, $endpointIndex)
-
-      connectionService.resetGenesConnection(info, info.originalSourceId, info.originalTargetId)
-      connectionService.updateGenesConnection(info, info.newSourceId, info.newTargetId, $(info.connection.getOverlays()[0].getElement()).val())
+      connectionService.createConnection(info, info.newSourceId, info.newTargetId, $endpointIndex, false, true, $(info.connection.getOverlays()[0].getElement()).val())
