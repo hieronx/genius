@@ -1,18 +1,7 @@
 app = angular.module("geniusApp")
 
 app.factory "simulationService", ($compile, $rootScope) ->
-  TF1 = 42
-  TF2 = 7
-  k1 = 4.7313
-  gene1_k2 = 4.6337
-  gene1_d1 = 0.0240
-  gene1_d2 = 0.8466
-  gene2_k2 = 4.6337
-  gene2_d1 = 0.0205
-  gene2_d2 = 0.8627
-  Km = 224.0227
-  n = 1
-
+  
   mRNA = 0
   Protein = 0
 
@@ -73,45 +62,48 @@ app.factory "simulationService", ($compile, $rootScope) ->
               input2 = startIndex - list.lastIndexOf(equationPosition.comp)
 
               currentGene1 = _.filter(Gene.all().collection, (gene) ->
-                return currentPosition.outgoing_connections.first().attributes.selected is gene.attributes.name)[0]
+                return currentPosition.incoming_connections.first().attributes.selected is gene.attributes.name)[0]
               currentGene2 = _.filter(Gene.all().collection, (gene) ->
-                return currentPosition.outgoing_connections.first().attributes.selected is gene.attributes.name)[0]
-              currentGate = _.filter(NotPromoter.all().collection, (gate) ->
-                return currentPosition.outgoing_connections.first().attributes.selected is gate.attributes.tf)[0]
-              k1 = currentGate.k_1
-              km = currentGate.k_m
-              n = currentGate.n
-              gene1_d1 = currentGene1.d_1
-              gene1_d2 = currentGene1.d_2
-              gene1_k2 = currentGene1.k_2
-              gene2_d1 = currentGene2.d_1
-              gene2_d2 = currentGene2.d_2
-              gene2_k2 = currentGene2.k_2
+                return currentPosition.incoming_connections.last().attributes.selected is gene.attributes.name)[0]
+              currentGate = _.filter(AndPromoter.all().collection, (gate) ->
+                return ( (currentPosition.incoming_connections.first().attributes.selected is gate.attributes.tf_1 and currentPosition.incoming_connections.last().attributes.selected is gate.attributes.tf_2) or (currentPosition.incoming_connections.first().attributes.selected is gate.attributes.tf_2 and currentPosition.incoming_connections.last().attributes.selected is gate.attributes.tf_1))  )[0]
+              k1 = currentGate.attributes.k_1
+              km = currentGate.attributes.k_m
+              n = currentGate.attributes.n
+              gene1_d1 = currentGene1.attributes.d_1
+              gene1_d2 = currentGene1.attributes.d_2
+              gene1_k2 = currentGene1.attributes.k_2
+              gene2_d1 = currentGene2.attributes.d_1
+              gene2_d2 = currentGene2.attributes.d_2
+              gene2_k2 = currentGene2.attributes.k_2
 
-              equations.push( ( k1 * (x[input1 + 1] * x[input2 + 1])^n ) / ( Km^n + (x[input1 + 1] * x[input2 + 1])^n ) - gene1_d1 * x[index] )
+              equations.push( ( k1 * (x[input1 + 1] * x[input2 + 1])^n ) / ( km^n + (x[input1 + 1] * x[input2 + 1])^n ) - gene1_d1 * x[index] )
               equations.push( gene2_k2 * x[index] - gene2_d2 * x[index+1] )
 
             else if currentPosition.attributes.gate is 'not'
               currentGene = _.filter(Gene.all().collection, (gene) ->
-                return currentPosition.outgoing_connections.first().attributes.selected is gene.attributes.name)[0]
+                return currentPosition.incoming_connections.first().attributes.selected is gene.attributes.name)[0]
               currentGate = _.filter(NotPromoter.all().collection, (gate) ->
-                return currentPosition.outgoing_connections.first().attributes.selected is gate.attributes.tf)[0]
-              k1 = currentGate.k_1
-              km = currentGate.k_m
-              n = currentGate.n
-              gene1_d1 = currentGene.d_1
-              gene1_d2 = currentGene.d_2
-              gene1_k2 = currentGene.k_2
+                return currentPosition.incoming_connections.first().attributes.selected is gate.attributes.tf)[0]
+              k1 = currentGate.attributes.k_1
+              km = currentGate.attributes.k_m
+              n = currentGate.attributes.n
+              gene1_d1 = currentGene.attributes.d_1
+              gene1_d2 = currentGene.attributes.d_2
+              gene1_k2 = currentGene.attributes.k_2
 
               input1 = startIndex - list.indexOf(equationPosition.comp) 
-              equations.push( ( k1 * Km^n ) / ( Km^n + x[input1 + 1]^n ) - gene1_d1 * x[index] )
+              equations.push( ( k1 * km^n ) / ( km^n + x[input1 + 1]^n ) - gene1_d1 * x[index] )
               equations.push( gene1_k2 * x[index] - gene1_d2 * x[index+1] )
 
             else if currentPosition.attributes.gate is 'input'
-              null
-              #equations.push( k1 − d1 * [mRNA] )
-              #equations.push( k2 [mRNA] − d2 [Protein] )
-
+              currentGene = _.filter(Gene.all().collection, (gene) ->
+                return currentPosition.incoming_connections.first().attributes.selected is gene.attributes.name)[0]
+              gene1_d1 = currentGene.attributes.d_1
+              gene1_d2 = currentGene.attributes.d_2
+              gene1_k2 = currentGene.attributes.k_2
+              equations.push( 2 - gene1_d1 * x[index] )
+              equations.push( gene1_k2 * x[index] - gene1_d2 * x[index+1] )
           equations
 
         startValues = Array.apply(null, new Array(brick.connections.size() * 2)).map(Number.prototype.valueOf, 0)
