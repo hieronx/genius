@@ -18,9 +18,19 @@ app.factory "simulationService", ($compile, $rootScope) ->
     # , false
     
     # return defer.promise
-    start = new Date().getTime()
+    genes = {}
+    Gene.each (gene) ->
+      genes[gene.attributes.name] = gene
+
+    notGates = {}
+    NotPromoter.each (gate) ->
+      notGates[gate.attributes.tf] = gate
+
+    andGates = {}
+    AndPromoter.each (gate) ->
+      andGates[gate.attributes.tf_1 + gate.attributes.tf_2] = gate
+
     solutions = []
-    positionlog = null
     brick.positions.each (position) =>
       if position.attributes.gate is 'output'
         i = 0
@@ -64,12 +74,9 @@ app.factory "simulationService", ($compile, $rootScope) ->
               input1 = startIndex - list.indexOf(equationPosition.comp)
               input2 = startIndex - list.lastIndexOf(equationPosition.comp)
 
-              currentGene1 = _.filter(Gene.all().collection, (gene) ->
-                return currentPosition.incoming_connections.first().attributes.selected is gene.attributes.name)[0]
-              currentGene2 = _.filter(Gene.all().collection, (gene) ->
-                return currentPosition.incoming_connections.last().attributes.selected is gene.attributes.name)[0]
-              currentGate = _.filter(AndPromoter.all().collection, (gate) ->
-                return ( (currentPosition.incoming_connections.first().attributes.selected is gate.attributes.tf_1 and currentPosition.incoming_connections.last().attributes.selected is gate.attributes.tf_2) or (currentPosition.incoming_connections.first().attributes.selected is gate.attributes.tf_2 and currentPosition.incoming_connections.last().attributes.selected is gate.attributes.tf_1))  )[0]
+              currentGene1 = genes[currentPosition.incoming_connections.first().attributes.selected]
+              currentGene2 = genes[currentPosition.incoming_connections.last().attributes.selected]
+              currentGate = andGates[currentPosition.incoming_connections.first().attributes.selected + currentPosition.incoming_connections.last().attributes.selected]
 
               k1 = currentGate.attributes.k_1
               km = currentGate.attributes.k_m
@@ -87,10 +94,8 @@ app.factory "simulationService", ($compile, $rootScope) ->
 
             else if currentPosition.attributes.gate is 'not'
 
-              currentGene = _.filter(Gene.all().collection, (gene) ->
-                return currentPosition.incoming_connections.first().attributes.selected is gene.attributes.name)[0]
-              currentGate = _.filter(NotPromoter.all().collection, (gate) ->
-                return currentPosition.incoming_connections.first().attributes.selected is gate.attributes.tf)[0]
+              currentGene = genes[currentPosition.incoming_connections.first().attributes.selected]
+              currentGate = notGates[currentPosition.incoming_connections.first().attributes.selected]
 
               k1 = currentGate.attributes.k_1
               km = currentGate.attributes.k_m
@@ -106,8 +111,7 @@ app.factory "simulationService", ($compile, $rootScope) ->
 
             else if currentPosition.attributes.gate is 'input'
 
-              currentGene = _.filter(Gene.all().collection, (gene) ->
-                return currentPosition.outgoing_connections.first().attributes.selected is gene.attributes.name)[0]
+              currentGene = genes[currentPosition.outgoing_connections.first().attributes.selected]
 
               gene1_d1 = currentGene.attributes.d_1
               gene1_d2 = currentGene.attributes.d_2
@@ -116,6 +120,6 @@ app.factory "simulationService", ($compile, $rootScope) ->
               equations.push( gene1_k2 * x[index] - gene1_d2 * x[index+1] )
           queue = tempQueue
           equations
-        startValues = Array.apply(null, new Array(brick.connections.size() * 2)).map(Number.prototype.valueOf, 0)
-        solutions.push(numeric.dopri(0, 20, startValues, f, 1e-6, 100))
+        startValues = Array.apply(null, new Array(brick.connections.size() * 5)).map(Number.prototype.valueOf, 0)
+        solutions.push(numeric.dopri(0, 20, startValues, f, 1e-6, 2000))
     solutions
