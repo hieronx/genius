@@ -19,12 +19,12 @@ app.directive "circuitEvents", ($compile, $rootScope, connectionService) ->
         connectionService.addLabelInformation(info)
       else
         connectionService.loadGenesConnection(info, info.sourceId, info.targetId)
-      
+
       $(info.connection.getOverlays()[0].getElement()).on 'change', (event) ->
         val = this.value
         _. each jsPlumb.getConnections(source: info.sourceId), (conn) ->
           connectionService.updateGenesConnection(info, conn.sourceId, conn.targetId, val)
-    
+
     # Any brick or gate cannot create a connection to itself
     jsPlumb.bind "beforeDrop", (info) ->
 
@@ -32,7 +32,6 @@ app.directive "circuitEvents", ($compile, $rootScope, connectionService) ->
       $elemConnections = jsPlumb.getConnections(target: info.targetId)
       $isPresent = _.contains($elemConnections, info.connection)
 
-      console.log info
       # Ensure brick cannot connect to itself
       if info.sourceId is info.targetId
         scope.flash 'danger', 'It is not possible to create a connection from and to the same gate!'

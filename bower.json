@@ -18,7 +18,6 @@
     "fontawesome": "4.1.0",
     "underscore": "1.6.0",
     "highcharts-ng": "latest",
-    "js-priority-queue": "~0.0.4"
   },
   "devDependencies": {
     "angular-mocks": "1.2.15",

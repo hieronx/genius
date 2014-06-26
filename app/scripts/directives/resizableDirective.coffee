@@ -7,21 +7,39 @@ app.directive "resizable", ->
     callback: "&onResize"
 
   link: (scope, elem, attrs) ->
-    scope.windowWidth = $(window).width()
+    mainWidth = $("#main").width()
+    mainRight = elem
+    mainLeft = elem.prev()
 
     $(window).resize =>
-      elem.prev().width elem.prev().width() + ($(window).width() - scope.windowWidth)
-      scope.windowWidth = $(window).width()
+      dist = $("#main").width() - mainWidth
+      mainWidth = $("#main").width()
 
-      elem.resizable "option",
-        maxWidth: scope.windowWidth - 79
+      mainLeftWidth = mainLeft.width() + dist
+      mainRightWidth = mainRight.width()
+      if mainLeftWidth < 79
+        mainLeftWidth = 79
+        mainRightWidth = mainWidth - 79
+      else
+        if mainWidth > 331
+          mainRightWidth = Math.max(mainRightWidth, 252)
+          mainLeftWidth = mainWidth - mainRightWidth
+        else
+          mainRightWidth = mainWidth - 79
+          mainLeftWidth = 79
 
-    elem.resizable
+      mainLeft.width mainLeftWidth
+      mainRight.width mainRightWidth
+
+      mainRight.resizable "option",
+        maxWidth: mainWidth - 79
+
+    mainRight.resizable
       handles: "w"
       minWidth: 252
-      maxWidth: scope.windowWidth - 79
-      resize: =>
-        elem.prev().width scope.windowWidth - elem.width()
+      maxWidth: mainWidth - 79
+      resize: (e, ui) =>
+        mainLeft.width mainWidth - ui.size.width
 
-    elem.on "resizestop", (evt, ui) ->
+    mainRight.on "resizestop", (evt, ui) ->
       scope.callback?()
