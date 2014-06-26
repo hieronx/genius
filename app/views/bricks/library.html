@@ -4,10 +4,9 @@
       <accordion-group id="gates" heading="Gates" is-open="collapse.gates">
         <div ng-include="'views/bricks/gate.html'" ng-repeat="brick in gates | filter:search" class="brick-container"></div>
       </accordion-group>
-      <accordion-group id="private" heading="Bricks" is-open="collapse.private">
-        <div ng-include="'views/bricks/list_item.html'" ng-repeat="brick in private | filter:search" class="brick-container"></div>
+      <accordion-group id="bricks" heading="Bricks" is-open="collapse.bricks">
+        <div ng-include="'views/bricks/list_item.html'" ng-repeat="brick in bricks | attributes | filter:search" class="brick-container"></div>
       </accordion-group>
-      <hr>
     </accordion>
   </div>
 </div>
@@ -19,7 +18,7 @@
         <a class="btn btn-default" tooltip="Gates" tooltip-append-to-body="true" ng-model="collapse.gates" btn-checkbox>
           <i class="fa fa-wrench"></i>
         </a>
-        <a class="btn btn-default" tooltip="Projects" tooltip-append-to-body="true" ng-model="collapse.private" btn-checkbox>
+        <a class="btn btn-default" tooltip="Bricks" tooltip-append-to-body="true" ng-model="collapse.bricks" btn-checkbox>
           <i class="fa fa-eye-slash"></i>
         </a>
       </div>

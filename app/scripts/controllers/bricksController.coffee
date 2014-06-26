@@ -12,18 +12,21 @@ class BricksCtrl extends BaseCtrl
         { type: 'OUTPUT' }
       ]
 
-    @$scope.private = []
-
-    @$scope.public = []
+    @$scope.bricks = []
 
     @$scope.collapse =
       gates: true
-      private: true
-      public: false
+      bricks: true
 
     @$scope.tabs =
       library: true
       visualisation: false
+
+    @$scope.attributes = (collection) -> _.map collection, (model) -> model.attributes
+
+    @$scope.library = (item) ->
+      console.log item
+      true
 
     @$scope.isRunning = false
 
@@ -32,23 +35,18 @@ class BricksCtrl extends BaseCtrl
         chart:
           type: "spline"
           margin: 30
-
       title: "Simulation"
-
       xAxis:
         labels:
           enabled: false
       yAxis:
         title:
           text: ''
-
       loading: true
-
       credits:
         enabled: false
 
     @$rootScope.genes = []
-
     @$rootScope.usedGenes = []
 
     Gene.all (genes) =>
@@ -59,7 +57,7 @@ class BricksCtrl extends BaseCtrl
     Connection.all()
 
     Brick.all (bricks) =>
-      @$scope.private = bricks
+      @$scope.bricks = bricks
       @importCSV.storeBiobricks()
       @$rootScope.$on 'ngRepeatFinished', (ngRepeatFinishedEvent) =>
         unless @$rootScope.currentBrick?
@@ -167,11 +165,12 @@ class BricksCtrl extends BaseCtrl
       catch error
         @$scope.flash 'danger', 'Simulation failed! Your brick is invalid.'
 
-    @$scope.export = =>   
+    @$scope.export = =>
       @$rootScope.currentBrick.positions.each (position) =>
         @exportService.run(position)
 
     @$scope.setCurrentBrick = (brick) =>
+      brick = Brick.find(brick) unless _.isObject(brick)
       @$scope.clearWorkspace()
       @$rootScope.currentBrick = brick
       Config.set 'current_brick_id', brick.id()
@@ -181,4 +180,4 @@ class BricksCtrl extends BaseCtrl
         $('#' + brick.id()).addClass("active")
         return
       ), 0
-     
+
