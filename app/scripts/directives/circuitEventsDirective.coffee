@@ -49,12 +49,12 @@ app.directive "circuitEvents", ($compile, $rootScope, connectionService) ->
       if originalEvent
         if jsPlumb.selectEndpoints(target: info.targetId).get(0).id is info.targetEndpoint.id then $endpointIndex = 0 else $endpointIndex = 1
 
-        connectionService.removeConnection(info, info.sourceId, info.targetId, $endpointIndex)
+        connectionService.removeConnection(info, info.sourceId, info.targetId, $endpointIndex, false)
 
     # Update the database when a connection is moved
     jsPlumb.bind "connectionMoved", (info, originalEvent) ->
       if jsPlumb.selectEndpoints(target: info.newTargetId).get(0).id is info.newTargetEndpoint.id then $endpointIndex = 0 else $endpointIndex = 1
       if jsPlumb.selectEndpoints(target: info.originalTargetId).get(0).id is info.originalTargetEndpoint.id then $oldEndpointIndex = 0 else $oldEndpointIndex = 1
 
-      connectionService.removeConnection(info, info.newSourceId, info.originalTargetId, $oldEndpointIndex)
+      connectionService.removeConnection(info, info.newSourceId, info.originalTargetId, $oldEndpointIndex, true)
       connectionService.createConnection(info, info.newSourceId, info.newTargetId, $endpointIndex, false, true, $(info.connection.getOverlays()[0].getElement()).val())

@@ -31,17 +31,18 @@ app.factory "connectionService", ($compile, $rootScope) ->
             $overlay.find("option[value='#{gene}']").prop('disabled', true).hide()
 
   # Possible to remove gene from used genes list
-  removeFromUsedGenes = (value) ->
+  removeFromUsedGenes = (value, moved) ->
     $index = _.indexOf $rootScope.usedGenes, value
 
     if $index > -1
       $rootScope.usedGenes.splice $index, 1
 
-    Brick.find $rootScope.currentBrick.attributes.id, (brick) ->
-      brick.connections.each (conn) ->
-        if $(jsPlumb.getConnections({ source: conn.attributes.position_from_id, target: conn.attributes.position_to_id }))[0]?
-          overlay = $(jsPlumb.getConnections({ source: conn.attributes.position_from_id, target: conn.attributes.position_to_id }))[0].getOverlays()[0].getElement()
-          $(overlay).find("option[value='#{value}']").prop('disabled', false).show()
+    unless moved
+      Brick.find $rootScope.currentBrick.attributes.id, (brick) ->
+        brick.connections.each (conn) ->
+          if $(jsPlumb.getConnections({ source: conn.attributes.position_from_id, target: conn.attributes.position_to_id }))[0]?
+            overlay = $(jsPlumb.getConnections({ source: conn.attributes.position_from_id, target: conn.attributes.position_to_id }))[0].getOverlays()[0].getElement()
+            $(overlay).find("option[value='#{value}']").prop('disabled', false).show()
 
   # When a new connection is loaded from the database, restrict the list of genes
   loadGenesConnection: (info, pos_from_id, pos_to_id) =>
@@ -81,13 +82,13 @@ app.factory "connectionService", ($compile, $rootScope) ->
           $overlay.find("option[value='#{value}']").prop('disabled', true).hide()
 
   # Ability to remove a connection from the database
-  removeConnection: (info, pos_from_id, pos_to_id, end_index) ->
+  removeConnection: (info, pos_from_id, pos_to_id, end_index, moved) ->
     Position.find pos_from_id, (position) ->
       $conn = _.first _.filter(position.outgoing_connections.collection, (conn) ->
         conn.attributes.position_to_id is pos_to_id and conn.attributes.endpoint_index is end_index)
 
       $value = $conn.attributes.selected
-      removeFromUsedGenes($value)
+      removeFromUsedGenes($value, moved)
       $conn.destroy()
 
   # Ability to remove all connections for a position from the database
