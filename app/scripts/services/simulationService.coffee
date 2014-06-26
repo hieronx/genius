@@ -2,80 +2,111 @@ app = angular.module("geniusApp")
 
 app.factory "simulationService", ($compile, $rootScope) ->
 
-  TF1 = 42
-  TF2 = 7
-  k1 = 4.7313
-  gene1_k2 = 4.6337
-  gene1_d1 = 0.0240
-  gene1_d2 = 0.8466
-  gene2_k2 = 4.6337
-  gene2_d1 = 0.0205
-  gene2_d2 = 0.8627
-  Km = 224.0227
-  n = 1
-
   mRNA = 0
   Protein = 0
 
   run: (brick) ->
-    brick.positions.each (position) ->
-      if position.get('gate') is 'brick-input'
+    # TODO for web worker
+    # worker = new Worker('/scripts/workers/simulationWorker.js')
+    # defer = $q.defer()
+    
+    # worker.postMessage bricks
 
-        f = (t, x) ->
+    # worker.addEventListener 'message', (e) ->
+    #   console.log('Worker said: ', e.data)
+    #   defer.resolve(e.data)
+    # , false
+    
+    # return defer.promise
+    solutions = []
+    positionlog = null
+    brick.positions.each (position) =>
+      if position.attributes.gate is 'output'
+        f = (t, x) =>
           i = 0
+          structureQueue = []
+          queue = new PriorityQueue(comparator: (a, b) -> b.comp - a.comp)
+          list = Array.apply(null, new Array(101)).map(Number.prototype.valueOf,0);
+          # Define structure of simulations 
 
+          structureQueue.push({ position: position.incoming_connections.first().position_from, output: -1  }) # placeholder
+          while structureQueue.length > 0
+            tempPosition = structureQueue.pop()
+            list[i] = tempPosition.output
+            if tempPosition.position.attributes.gate is 'and'
+              # For every input of brick-and
+              queue.queue { position: tempPosition.position, comp: i, output: tempPosition.output }
+              tempPosition.position.incoming_connections.each (connection) =>
+                structureQueue.push( { position: connection.position_from, comp: i, output: tempPosition.output } )
+            # Current brick is of type not
+            else if tempPosition.position.attributes.gate is 'not'
+              queue.queue( { position: tempPosition.position, comp: i, output: tempPosition.output } )
+              structureQueue.push( { position: tempPosition.position.incoming_connections.first().position_from, comp: i, output: tempPosition.output } )
+            else 
+              queue.queue( { position: tempPosition.position, comp: i, output: tempPosition.output } )
+            # If brick is not of type not or and, it is an input and this is where the loop should end
+            i += 2
           equations = []
+          startIndex = queue.peek().comp # array index
+          while queue.length > 0
+            equationPosition = queue.dequeue()
+            currentPosition = equationPosition.position
+            # Check whether array element is defined
+            index = startIndex - equationPosition.comp
+            x[index] ||= 0
+            x[index+1] ||= 0
 
-          addEquations = (connections) ->
-            if connections?
-              for connection in connections
-                connectedBrick = bricks.filter((item) ->
-                  item.id is connection.target
-                )[0]
+            # All k variables have to come from predefined gene k variables
+            if currentPosition.attributes.gate is 'and'
+              input1 = startIndex - list.indexOf(equationPosition.comp)
+              input2 = startIndex - list.lastIndexOf(equationPosition.comp)
 
-                if i is 0
-                  input = TF1
-                else if !x[i-1]?
-                  input = 0
-                else
-                  input = x[i-1]
+              currentGene1 = _.filter(Gene.all().collection, (gene) ->
+                return currentPosition.incoming_connections.first().attributes.selected is gene.attributes.name)[0]
+              currentGene2 = _.filter(Gene.all().collection, (gene) ->
+                return currentPosition.incoming_connections.last().attributes.selected is gene.attributes.name)[0]
+              currentGate = _.filter(AndPromoter.all().collection, (gate) ->
+                return ( (currentPosition.incoming_connections.first().attributes.selected is gate.attributes.tf_1 and currentPosition.incoming_connections.last().attributes.selected is gate.attributes.tf_2) or (currentPosition.incoming_connections.first().attributes.selected is gate.attributes.tf_2 and currentPosition.incoming_connections.last().attributes.selected is gate.attributes.tf_1))  )[0]
+              k1 = currentGate.attributes.k_1
+              km = currentGate.attributes.k_m
+              n = currentGate.attributes.n
+              gene1_d1 = currentGene1.attributes.d_1
+              gene1_d2 = currentGene1.attributes.d_2
+              gene1_k2 = currentGene1.attributes.k_2
+              gene2_d1 = currentGene2.attributes.d_1
+              gene2_d2 = currentGene2.attributes.d_2
+              gene2_k2 = currentGene2.attributes.k_2
 
-                x[i] ||= 0
-                x[i+1] ||= 0
+              equations.push( ( k1 * (x[input1 + 1] * x[input2 + 1])^n ) / ( km^n + (x[input1 + 1] * x[input2 + 1])^n ) - gene1_d1 * x[index] )
+              equations.push( gene2_k2 * x[index] - gene2_d2 * x[index+1] )
 
-                if connectedBrick.brick_type is 'not'
-                    equations.push( ( k1 * Km^n ) / ( Km^n + input^n ) - gene1_d1 * x[i] )
-                    equations.push( gene1_k2 * x[i] - gene1_d2 * x[i+1] )
+            else if currentPosition.attributes.gate is 'not'
+              currentGene = _.filter(Gene.all().collection, (gene) ->
+                return currentPosition.incoming_connections.first().attributes.selected is gene.attributes.name)[0]
+              currentGate = _.filter(NotPromoter.all().collection, (gate) ->
+                return currentPosition.incoming_connections.first().attributes.selected is gate.attributes.tf)[0]
+              k1 = currentGate.attributes.k_1
+              km = currentGate.attributes.k_m
+              n = currentGate.attributes.n
+              gene1_d1 = currentGene.attributes.d_1
+              gene1_d2 = currentGene.attributes.d_2
+              gene1_k2 = currentGene.attributes.k_2
 
-                else if connectedBrick.brick_type is 'and'
-                  if i is 0
-                    equations.push( ( k1 * (TF1 * TF2)^n ) / ( Km^n + (TF1 * TF2)^n ) - gene1_d1 * x[i] )
-                    equations.push( gene2_k2 * x[i] - gene2_d2 * x[i+1] )
+              input1 = startIndex - list.indexOf(equationPosition.comp) 
+              equations.push( ( k1 * km^n ) / ( km^n + x[input1 + 1]^n ) - gene1_d1 * x[index] )
+              equations.push( gene1_k2 * x[index] - gene1_d2 * x[index+1] )
 
-                  else if x[i-1] is 0
-                    x[i] = 0
-                    x[i+1] = 0
-
-                    equations.push( ( k1 * (TF1 * TF2)^n ) / ( Km^n + (TF1 * TF2)^n ) - gene1_d1 * x[i] )
-                    equations.push( gene2_k2 * x[i-1] - gene2_d2 * x[i+1] )
-
-                  else
-                    # Todo
-                    equations.push( ( k1 * Km^n ) / ( Km^n + x[i-1]^n ) - gene2_d1 * x[i] )
-                    equations.push( gene2_k2 * x[i] - gene2_d2 * x[i+1] )
-
-                i += 2
-
-                addEquations(connectedBrick.connections)
-
-          addEquations(brick.connections)
-
+            else if currentPosition.attributes.gate is 'input'
+              currentGene = _.filter(Gene.all().collection, (gene) ->
+                return currentPosition.outgoing_connections.first().attributes.selected is gene.attributes.name)[0]
+              gene1_d1 = currentGene.attributes.d_1
+              gene1_d2 = currentGene.attributes.d_2
+              gene1_k2 = currentGene.attributes.k_2
+              equations.push( 1 - gene1_d1 * x[index] )
+              equations.push( gene1_k2 * x[index] - gene1_d2 * x[index+1] )
           equations
 
-        if brick.connections?
-          # TODO: brick.connections.length * 2 is wrong formula
-          startValues = Array.apply(null, new Array(brick.connections.length * 2)).map(Number.prototype.valueOf,0)
-
-          sol = numeric.dopri(0, 20, startValues, f, 1e-6, 2000)
-
-          return sol
+        startValues = Array.apply(null, new Array(brick.connections.size() * 2)).map(Number.prototype.valueOf, 0)
+        solutions.push(numeric.dopri(0, 20, startValues, f, 1e-6, 2000))
+    solutions
+        

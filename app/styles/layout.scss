@@ -19,6 +19,13 @@ body {
           font-size: 1.4em;
         }
       }
+      #alerts {
+        position: absolute;
+        top: 70px;
+        left: 10px;
+        right: 10px;
+        z-index: 1000;
+      }
       .row {
         position: absolute;
         left: 15px;

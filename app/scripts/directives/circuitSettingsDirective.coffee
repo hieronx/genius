@@ -57,7 +57,7 @@ app.directive "circuitSettings", ($compile, $rootScope) ->
         fillStyle: "#7AB02C"
         radius: 11
 
-      maxConnections: 1
+      maxConnections: 1000
       connector: [
         "Flowchart"
         {
@@ -85,11 +85,11 @@ app.directive "circuitSettings", ($compile, $rootScope) ->
       connectorOverlays: [
         [
           "Custom"
-            cssClass: "component label"
+            cssClass: "component label is-select"
             location: 0.5
             create: (component)->
               # Input of connection overlays
-              $element = angular.element("<select><option selected disabled></option><option value='Gene A'>Gene A</option> <option value='Gene B'>Gene B</option><option value='Gene C'>Gene C</option><option value='Gene D'>Gene D</option><option value='Gene E'>Gene E</option><option value='Gene F'>Gene F</option><option value='Gene G'>Gene G</option><option value='Gene H'>Gene H</option><option value='Gene I'>Gene I</option><option value='Gene J'>Gene J</option></select>");
+              $element = angular.element("<select></option><option value='blank' disabled selected></option><option value='A'>Gene A</option> <option value='B'>Gene B</option><option value='C'>Gene C</option><option value='D'>Gene D</option><option value='E'>Gene E</option><option value='F'>Gene F</option><option value='G'>Gene G</option><option value='H'>Gene H</option><option value='I'>Gene I</option><option value='J'>Gene J</option></select>");
               $element.id = "label-" + component.id + " data-connection=" + component.id
               $compile($element)($rootScope);
               return $element;
@@ -97,15 +97,7 @@ app.directive "circuitSettings", ($compile, $rootScope) ->
         [
           "Arrow"
           {
-            location: 0.2
-            width: 20
-            length: 20
-          }
-        ]
-        [
-          "Arrow"
-          {
-            location: 0.8
+            location: 0.75
             width: 20
             length: 20
           }
