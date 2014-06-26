@@ -35,8 +35,19 @@ app.directive "isDroppable", ($compile, $rootScope, dropService) ->
             brick.positions.each (pos) ->
               $newPos = pos.clone()
               $newPos.set 'brick_id', $rootScope.currentBrick.attributes.id
-              $newPos.set 'top', $pos_top + $posWithOffsets[pos.attributes.id].offsetTop
-              $newPos.set 'left', $pos_left + $posWithOffsets[pos.attributes.id].offsetLeft
+
+              $new_top = $pos_top + $posWithOffsets[pos.attributes.id].offsetTop
+              if $new_top >= 10
+                $newPos.set 'top', $new_top
+              else
+                $newPos.set 'top', 10
+
+              $new_left = $pos_left + $posWithOffsets[pos.attributes.id].offsetLeft
+
+              if $new_left >= 10
+                $newPos.set 'left', $new_left
+              else
+                $newPos.set 'left', 10
               
               $newPos.save ->
                 $oldToNew[$newPos.attributes.id] = pos.attributes.id
