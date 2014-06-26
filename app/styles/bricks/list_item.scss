@@ -56,6 +56,12 @@
     color: black;
     }
   }
+  &.standard-or {
+    line-height: 55px;
+  }
+  &.standard-1-to-2 {
+    padding-top: 15px;
+  }
   i.delete-position {
     display: none;
     z-index: 1000;

@@ -20,7 +20,7 @@ class BricksCtrl extends BaseCtrl
     @$scope.collapse =
       gates: true
       private: true
-      public: false
+      public: true
 
     @$scope.tabs =
       library: true

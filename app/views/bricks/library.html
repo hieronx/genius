@@ -4,8 +4,16 @@
       <accordion-group id="gates" heading="Gates" is-open="collapse.gates">
         <div ng-include="'views/bricks/gate.html'" ng-repeat="brick in gates | filter:search" class="brick-container"></div>
       </accordion-group>
-      <accordion-group id="private" heading="Bricks" is-open="collapse.private">
+      <accordion-group id="private" heading="Custom bricks" is-open="collapse.private">
         <div ng-include="'views/bricks/list_item.html'" ng-repeat="brick in private | filter:search" class="brick-container"></div>
+      </accordion-group>
+      <accordion-group id="public" heading="Standard bricks" is-open="collapse.public">
+        <div class="brick-container">
+          <div class="brick standard-or" is-draggable="{helper: 'clone'}">OR</div>
+        </div>
+        <div class="brick-container">
+          <div class="brick standard-1-to-2" is-draggable="{helper: 'clone'}">1-to-2 multiplexer</div>
+        </div>
       </accordion-group>
       <hr>
     </accordion>
@@ -19,8 +27,11 @@
         <a class="btn btn-default" tooltip="Gates" tooltip-append-to-body="true" ng-model="collapse.gates" btn-checkbox>
           <i class="fa fa-wrench"></i>
         </a>
-        <a class="btn btn-default" tooltip="Projects" tooltip-append-to-body="true" ng-model="collapse.private" btn-checkbox>
+        <a class="btn btn-default" tooltip="Custom bricks" tooltip-append-to-body="true" ng-model="collapse.private" btn-checkbox>
           <i class="fa fa-eye-slash"></i>
+        </a>
+        <a class="btn btn-default" tooltip="Standard bricks" tooltip-append-to-body="true" ng-model="collapse.public" btn-checkbox>
+          <i class="fa fa-eye"></i>
         </a>
       </div>
     </div>
