@@ -49,6 +49,9 @@ ActiveRecord.Attributes =
           callback?.apply(@, arguments)
       @
 
+    clone: ->
+      new @constructor(_.omit(@attributes, 'id', 'createdBy', 'createdAt', 'updatedAt'))
+
     type: -> @constructor.name.toLowerCase()
 
 _.each ['keys', 'values', 'pairs', 'invert', 'pick', 'omit'], (method) ->

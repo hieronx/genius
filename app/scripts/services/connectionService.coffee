@@ -1,6 +1,6 @@
 app = angular.module("geniusApp")
 
-app.factory "connectionService", ($compile, $rootScope, Brick) ->
+app.factory "connectionService", ($compile, $rootScope) ->
 
   # When a new connection is made by hand, ensure the list of genes is restricted
   initializeGenesConnection = (new_conn, pos_from_id, pos_to_id, duplicate, moved, value) ->
@@ -22,6 +22,13 @@ app.factory "connectionService", ($compile, $rootScope, Brick) ->
           conn.update { selected: $genes[0] }, (conn) ->
             $rootScope.usedGenes.push $genes[0]
             $overlay.val(conn.selected)
+
+    Brick.find $rootScope.currentBrick.attributes.id, (brick) ->
+      brick.connections.each (conn) ->
+        _.each $rootScope.usedGenes, (gene) =>
+          $overlay = $(jsPlumb.getConnections({ source: conn.attributes.position_from_id, target: conn.attributes.position_to_id })[0].getOverlays()[0].getElement())
+          if gene isnt conn.attributes.selected
+            $overlay.find("option[value='#{gene}']").hide()
 
   # Possible to remove gene from used genes list
   removeFromUsedGenes = (value) ->
@@ -75,6 +82,7 @@ app.factory "connectionService", ($compile, $rootScope, Brick) ->
 
       $value = $conn.attributes.selected
       removeFromUsedGenes($value)
+      $conn.destroy()
 
   # Ability to remove all connections for a position from the database
   removeAllConnections: (pos_from_id) ->
