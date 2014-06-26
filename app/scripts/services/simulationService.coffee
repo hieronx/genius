@@ -18,38 +18,41 @@ app.factory "simulationService", ($compile, $rootScope) ->
     # , false
     
     # return defer.promise
+    start = new Date().getTime()
     solutions = []
     positionlog = null
     brick.positions.each (position) =>
       if position.attributes.gate is 'output'
-        f = (t, x) =>
-          i = 0
-          structureQueue = []
-          queue = new PriorityQueue(comparator: (a, b) -> b.comp - a.comp)
-          list = Array.apply(null, new Array(101)).map(Number.prototype.valueOf,0);
-          # Define structure of simulations 
+        i = 0
+        structureQueue = []
+        queue = new PriorityQueue(comparator: (a, b) -> b.comp - a.comp)
+        list = Array.apply(null, new Array(101)).map(Number.prototype.valueOf,0);
+        # Define structure of simulations 
 
-          structureQueue.push({ position: position.incoming_connections.first().position_from, output: -1  }) # placeholder
-          while structureQueue.length > 0
-            tempPosition = structureQueue.pop()
-            list[i] = tempPosition.output
-            if tempPosition.position.attributes.gate is 'and'
-              # For every input of brick-and
-              queue.queue { position: tempPosition.position, comp: i, output: tempPosition.output }
-              tempPosition.position.incoming_connections.each (connection) =>
-                structureQueue.push( { position: connection.position_from, comp: i, output: tempPosition.output } )
-            # Current brick is of type not
-            else if tempPosition.position.attributes.gate is 'not'
-              queue.queue( { position: tempPosition.position, comp: i, output: tempPosition.output } )
-              structureQueue.push( { position: tempPosition.position.incoming_connections.first().position_from, comp: i, output: tempPosition.output } )
-            else 
-              queue.queue( { position: tempPosition.position, comp: i, output: tempPosition.output } )
-            # If brick is not of type not or and, it is an input and this is where the loop should end
-            i += 2
+        structureQueue.push({ position: position.incoming_connections.first().position_from, output: -1  }) # placeholder
+        while structureQueue.length > 0
+          tempPosition = structureQueue.pop()
+          list[i] = tempPosition.output
+          if tempPosition.position.attributes.gate is 'and'
+            # For every input of brick-and
+            queue.queue { position: tempPosition.position, comp: i, output: tempPosition.output }
+            tempPosition.position.incoming_connections.each (connection) =>
+              structureQueue.push( { position: connection.position_from, comp: i, output: tempPosition.output } )
+          # Current brick is of type not
+          else if tempPosition.position.attributes.gate is 'not'
+            queue.queue( { position: tempPosition.position, comp: i, output: tempPosition.output } )
+            structureQueue.push( { position: tempPosition.position.incoming_connections.first().position_from, comp: i, output: tempPosition.output } )
+          else 
+            queue.queue( { position: tempPosition.position, comp: i, output: tempPosition.output } )
+          # If brick is not of type not or and, it is an input and this is where the loop should end
+          i += 2
+        f = (t, x) =>
           equations = []
+          tempQueue = new PriorityQueue(comparator: (a, b) -> b.comp - a.comp)
           startIndex = queue.peek().comp # array index
           while queue.length > 0
             equationPosition = queue.dequeue()
+            tempQueue.queue(equationPosition)
             currentPosition = equationPosition.position
             # Check whether array element is defined
             index = startIndex - equationPosition.comp
@@ -67,9 +70,11 @@ app.factory "simulationService", ($compile, $rootScope) ->
                 return currentPosition.incoming_connections.last().attributes.selected is gene.attributes.name)[0]
               currentGate = _.filter(AndPromoter.all().collection, (gate) ->
                 return ( (currentPosition.incoming_connections.first().attributes.selected is gate.attributes.tf_1 and currentPosition.incoming_connections.last().attributes.selected is gate.attributes.tf_2) or (currentPosition.incoming_connections.first().attributes.selected is gate.attributes.tf_2 and currentPosition.incoming_connections.last().attributes.selected is gate.attributes.tf_1))  )[0]
+
               k1 = currentGate.attributes.k_1
               km = currentGate.attributes.k_m
               n = currentGate.attributes.n
+
               gene1_d1 = currentGene1.attributes.d_1
               gene1_d2 = currentGene1.attributes.d_2
               gene1_k2 = currentGene1.attributes.k_2
@@ -81,13 +86,16 @@ app.factory "simulationService", ($compile, $rootScope) ->
               equations.push( gene2_k2 * x[index] - gene2_d2 * x[index+1] )
 
             else if currentPosition.attributes.gate is 'not'
+
               currentGene = _.filter(Gene.all().collection, (gene) ->
                 return currentPosition.incoming_connections.first().attributes.selected is gene.attributes.name)[0]
               currentGate = _.filter(NotPromoter.all().collection, (gate) ->
                 return currentPosition.incoming_connections.first().attributes.selected is gate.attributes.tf)[0]
+
               k1 = currentGate.attributes.k_1
               km = currentGate.attributes.k_m
               n = currentGate.attributes.n
+
               gene1_d1 = currentGene.attributes.d_1
               gene1_d2 = currentGene.attributes.d_2
               gene1_k2 = currentGene.attributes.k_2
@@ -97,16 +105,17 @@ app.factory "simulationService", ($compile, $rootScope) ->
               equations.push( gene1_k2 * x[index] - gene1_d2 * x[index+1] )
 
             else if currentPosition.attributes.gate is 'input'
+              
               currentGene = _.filter(Gene.all().collection, (gene) ->
                 return currentPosition.outgoing_connections.first().attributes.selected is gene.attributes.name)[0]
+
               gene1_d1 = currentGene.attributes.d_1
               gene1_d2 = currentGene.attributes.d_2
               gene1_k2 = currentGene.attributes.k_2
               equations.push( 1 - gene1_d1 * x[index] )
               equations.push( gene1_k2 * x[index] - gene1_d2 * x[index+1] )
+          queue = tempQueue
           equations
-
         startValues = Array.apply(null, new Array(brick.connections.size() * 2)).map(Number.prototype.valueOf, 0)
         solutions.push(numeric.dopri(0, 20, startValues, f, 1e-6, 2000))
     solutions
-        
