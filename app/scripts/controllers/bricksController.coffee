@@ -22,12 +22,6 @@ class BricksCtrl extends BaseCtrl
       library: true
       visualisation: false
 
-    @$scope.attributes = (collection) -> _.map collection, (model) -> model.attributes
-
-    @$scope.library = (item) ->
-      console.log item
-      true
-
     @$scope.isRunning = false
 
     @$scope.chartConfig =
@@ -127,43 +121,50 @@ class BricksCtrl extends BaseCtrl
         @$scope.setCurrentBrick Brick.first()
 
     @$scope.run = =>
-      try
         @$scope.isRunning = true
 
         setTimeout (=>
-          solutions = @simulationService.run(@$rootScope.currentBrick)
-          data = []
-          i = 1
-          j = 0
-          for solution in solutions then do (solution) =>
-            temp = numeric.transpose(solution.y)
-            data.push {
-              name: "Output" + i + "-mRNA"
-              data: temp[0]
-              id: "series-" + j
-            }
-            j++
-            data.push {
-              name: "Output" + i + "-Protein"
-              data: temp[1]
-              id: "series-" + j
-            }
-            j++
-            i++
+          try
+            solutions = @simulationService.run(@$rootScope.currentBrick)
+            data = []
+            i = 1
+            j = 0
+            for solution in solutions then do (solution) =>
+              temp = numeric.transpose(solution.y)
+              data.push {
+                name: "Output" + i + "-mRNA"
+                data: temp[0]
+                id: "series-" + j
+              }
+              j++
+              data.push {
+                name: "Output" + i + "-Protein"
+                data: temp[1]
+                id: "series-" + j
+              }
+              j++
+              i++
 
-          @$scope.isRunning = false
+            @$scope.isRunning = false
 
-          @$scope.tabs.visualisation = true
-          $("#mainLeft").animate
-            width: 565
-          $("#mainRight").animate
-            width: $(window).width() - 565
+            if data.length > 0
 
-          @$scope.chartConfig.series = data
-          @$scope.chartConfig.loading = false
+              @$scope.tabs.visualisation = true
+              $("#mainLeft").animate
+                width: 565
+              $("#mainRight").animate
+                width: $(window).width() - 565
+
+              @$scope.chartConfig.series = data
+              @$scope.chartConfig.loading = false
+
+            else
+              @$scope.flash 'warning', 'This circuit doesn\'t have any outputs!'
+
+          catch error
+            @$scope.flash 'danger', 'Simulation failed! Your brick is invalid.'
         ), 0
-      catch error
-        @$scope.flash 'danger', 'Simulation failed! Your brick is invalid.'
+
 
     @$scope.export = =>
       @$rootScope.currentBrick.positions.each (position) =>

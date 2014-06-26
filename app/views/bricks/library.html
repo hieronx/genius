@@ -2,10 +2,10 @@
   <div class="panel-body">
     <accordion close-others="multipleAtATime">
       <accordion-group id="gates" heading="Gates" is-open="collapse.gates">
-        <div ng-include="'views/bricks/gate.html'" ng-repeat="brick in gates | filter:search" class="brick-container"></div>
+        <div ng-include="'views/bricks/gate.html'" ng-repeat="brick in gates | filter:search track by brick.type" class="brick-container"></div>
       </accordion-group>
       <accordion-group id="bricks" heading="Bricks" is-open="collapse.bricks">
-        <div ng-include="'views/bricks/list_item.html'" ng-repeat="brick in bricks | attributes | filter:search" class="brick-container"></div>
+        <div ng-include="'views/bricks/list_item.html'" ng-repeat="brick in bricks | attributes | filter:search track by brick.id" class="brick-container"></div>
       </accordion-group>
     </accordion>
   </div>
