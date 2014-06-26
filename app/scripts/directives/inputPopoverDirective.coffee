@@ -49,7 +49,6 @@ app.directive "inputPopover", ($compile, $rootScope) ->
         }]
         credits:
           enabled: false
-        func: (chart) -> console.log chart
 
       element.popover
         trigger: 'click'

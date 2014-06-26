@@ -150,8 +150,6 @@ class BricksCtrl extends BaseCtrl
               j++
               i++
 
-            @$scope.isRunning = false
-
             if data.length > 0
 
               @$scope.tabs.visualisation = true
@@ -168,6 +166,8 @@ class BricksCtrl extends BaseCtrl
 
           catch error
             @$scope.flash 'danger', 'Simulation failed! Your brick is invalid.'
+
+          @$scope.isRunning = false
         ), 0
 
 
