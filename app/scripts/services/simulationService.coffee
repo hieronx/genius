@@ -112,11 +112,24 @@ app.factory "simulationService", ($compile, $rootScope) ->
             else if currentPosition.get('gate') is 'input'
 
               currentGene = genes[currentPosition.outgoing_connections.first().get('selected')]
+              input = 1
+              if currentPosition.get('input_signal'?
+                input = currentPosition.get('input_signal')
+                if t >= 0 and t < 400
+                  input = input[0]
+                else if t >= 400 and t < 800 
+                  input = input[1]
+                else if t >= 800 and t < 1200
+                  input = input[2]
+                else if t >= 1200 and t < 1600
+                  input = input[3]
+                else
+                  input = input[4]
 
               gene1_d1 = currentGene.get('d_1')
               gene1_d2 = currentGene.get('d_2')
               gene1_k2 = currentGene.get('k_2')
-              equations.push( 1 - gene1_d1 * x[index] )
+              equations.push( input - gene1_d1 * x[index] )
               equations.push( gene1_k2 * x[index] - gene1_d2 * x[index+1] )
           queue = tempQueue
           equations
