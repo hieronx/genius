@@ -21,16 +21,26 @@ class BricksCtrl extends BaseCtrl
       private: true
       public: false
 
+    @$scope.tabs =
+      library: true
+      visualisation: false
+
+    @$scope.isRunning = false
+
     @$scope.chartConfig =
       options:
         chart:
           type: "spline"
+          margin: 30
 
       title: "Simulation"
 
       xAxis:
         labels:
           enabled: false
+      yAxis:
+        title:
+          text: ''
 
       loading: true
 
@@ -97,7 +107,7 @@ class BricksCtrl extends BaseCtrl
 
       @$rootScope.currentBrick.connections.each (connection) =>
         if _.indexOf(@$rootScope.usedGenes, connection.attributes.selected) < 0
-          @$rootScope.usedGenes.push connection.attributes.selected 
+          @$rootScope.usedGenes.push connection.attributes.selected
 
       @$rootScope.currentBrick.connections.each (connection) =>
         $sourceId = connection.get('position_from_id')
@@ -106,8 +116,6 @@ class BricksCtrl extends BaseCtrl
         $target = jsPlumb.selectEndpoints(target: $targetId).get(connection.get('endpoint_index'))
 
         jsPlumb.connect( { source: $source, target: $target } )
-      
-      
 
     @$scope.new = =>
       brick = new Brick
@@ -152,28 +160,40 @@ class BricksCtrl extends BaseCtrl
 
     @$scope.run = =>
       try
-        solutions = @simulationService.run(@$rootScope.currentBrick)
-        data = []
-        i = 1
-        j = 0
-        for solution in solutions then do (solution) =>
-          temp = numeric.transpose(solution.y)
-          data.push {
-            name: "Output" + i + "-mRNA"
-            data: temp[0]
-            id: "series-" + j
-          }
-          j++
-          data.push { 
-            name: "Output" + i + "-Protein"
-            data: temp[1]
-            id: "series-" + j
-          }
-          j++
-          i++
-        @$scope.chartConfig.series = data
+        @$scope.isRunning = true
 
-        @$scope.chartConfig.loading = false
+        setTimeout (=>
+          solutions = @simulationService.run(@$rootScope.currentBrick)
+          data = []
+          i = 1
+          j = 0
+          for solution in solutions then do (solution) =>
+            temp = numeric.transpose(solution.y)
+            data.push {
+              name: "Output" + i + "-mRNA"
+              data: temp[0]
+              id: "series-" + j
+            }
+            j++
+            data.push {
+              name: "Output" + i + "-Protein"
+              data: temp[1]
+              id: "series-" + j
+            }
+            j++
+            i++
+
+          @$scope.isRunning = false
+
+          @$scope.tabs.visualisation = true
+          $("#mainLeft").animate
+            width: 565
+          $("#mainRight").animate
+            width: $(window).width() - 565
+
+          @$scope.chartConfig.series = data
+          @$scope.chartConfig.loading = false
+        ), 0
       catch error
         @$scope.flash 'danger', 'Simulation failed! Your brick is invalid.'
 
@@ -423,3 +443,9 @@ class BricksCtrl extends BaseCtrl
       @$rootScope.currentBrick = brick
       Config.set 'current_brick_id', brick.id()
       @$scope.fillWorkspace()
+      setTimeout (->
+        $('.new-project').removeClass('active')
+        $('#' + brick.id()).addClass("active")
+        return
+      ), 0
+     

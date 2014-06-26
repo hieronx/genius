@@ -1,6 +1,6 @@
 app = angular.module("geniusApp")
 
-app.factory "connectionService", ($compile, $rootScope, Brick) ->
+app.factory "connectionService", ($compile, $rootScope) ->
 
   # When a new connection is made by hand, ensure the list of genes is restricted
   initializeGenesConnection = (new_conn, pos_from_id, pos_to_id, duplicate, moved, value) ->
@@ -11,7 +11,7 @@ app.factory "connectionService", ($compile, $rootScope, Brick) ->
       Connection.find new_conn.id, (conn) ->
         _.each $rootScope.usedGenes, (gene) =>
           if gene isnt conn.attributes.selected
-            $overlay.find("option[value='#{gene}']").hide()
+            $overlay.find("option[value='#{gene}']").prop('disabled', true).hide()
 
         $genes = _.difference $rootScope.genes, $rootScope.usedGenes
 
@@ -22,6 +22,13 @@ app.factory "connectionService", ($compile, $rootScope, Brick) ->
           conn.update { selected: $genes[0] }, (conn) ->
             $rootScope.usedGenes.push $genes[0]
             $overlay.val(conn.selected)
+
+    Brick.find $rootScope.currentBrick.attributes.id, (brick) ->
+      brick.connections.each (conn) ->
+        _.each $rootScope.usedGenes, (gene) =>
+          $overlay = $(jsPlumb.getConnections({ source: conn.attributes.position_from_id, target: conn.attributes.position_to_id })[0].getOverlays()[0].getElement())
+          if gene isnt conn.attributes.selected
+            $overlay.find("option[value='#{gene}']").prop('disabled', true).hide()
 
   # Possible to remove gene from used genes list
   removeFromUsedGenes = (value) ->
@@ -42,7 +49,7 @@ app.factory "connectionService", ($compile, $rootScope, Brick) ->
       $overlay.val(thisConn.attributes.selected)
       _.each $rootScope.usedGenes, (gene) =>
         if gene isnt thisConn.attributes.selected
-          $overlay.find("option[value='#{gene}']").hide()
+          $overlay.find("option[value='#{gene}']").prop('disabled', true).hide()
 
   # When gene value of a connection is change, ensure its updated in the database
   updateGenesConnection: (info, pos_from_id, pos_to_id, value) ->
@@ -64,8 +71,8 @@ app.factory "connectionService", ($compile, $rootScope, Brick) ->
       $rootScope.currentBrick.connections.each (conn) ->
         if conn.attributes.id isnt thisConn.id
           $overlay = $(jsPlumb.getConnections(source: conn.attributes.position_from_id, target: conn.attributes.position_to_id)[0].getOverlays()[0].getElement())
-          $overlay.find("option[value='#{$oldValue}']").show()
-          $overlay.find("option[value='#{value}']").hide()
+          $overlay.find("option[value='#{$oldValue}']").prop('disabled', false).show()
+          $overlay.find("option[value='#{value}']").prop('disabled', true).hide()
 
   # Ability to remove a connection from the database
   removeConnection: (info, pos_from_id, pos_to_id, end_index) ->
@@ -75,6 +82,7 @@ app.factory "connectionService", ($compile, $rootScope, Brick) ->
 
       $value = $conn.attributes.selected
       removeFromUsedGenes($value)
+      $conn.destroy()
 
   # Ability to remove all connections for a position from the database
   removeAllConnections: (pos_from_id) ->
