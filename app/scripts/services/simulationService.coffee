@@ -76,7 +76,7 @@ app.factory "simulationService", ($compile, $rootScope) ->
 
               currentGene1 = genes[currentPosition.incoming_connections.first().get('selected')]
               currentGene2 = genes[currentPosition.incoming_connections.last().get('selected')]
-              currentGate = andGates[currentPosition.incoming_connections.first().get('selected') + currentPosition.incoming_connections.last().get('selected')]
+              currentGate = andGates[currentPosition.incoming_connections.first().get('selected') + currentPosition.incoming_connections.last().get('selected')] || andGates[currentPosition.incoming_connections.last().get('selected') + currentPosition.incoming_connections.first().get('selected')]
 
               k1 = currentGate.get('k_1')
               km = currentGate.get('k_m')
