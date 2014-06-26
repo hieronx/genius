@@ -6,27 +6,32 @@ app.directive "isDroppable", ($compile, $rootScope, dropService) ->
     options = scope.$eval(attributes.isDroppable) #allow options to be passed in
     element.droppable drop: (event, ui) ->
       if ui.draggable.hasClass("new-project")
+        
+
         $brick_id = ui.draggable.data('id')
         $oldToNew = {}
 
         Brick.find $brick_id, (brick) ->
-          brick.positions.each (pos) ->
-            $newPos = pos.clone()
-            $newPos.set 'brick_id', $rootScope.currentBrick.attributes.id
-            
-            $newPos.save ->
-              $oldToNew[$newPos.attributes.id] = pos.attributes.id
+          if brick.connections.size() + $rootScope.usedGenes.length <= $rootScope.genes.length
+            brick.positions.each (pos) ->
+              $newPos = pos.clone()
+              $newPos.set 'brick_id', $rootScope.currentBrick.attributes.id
+              
+              $newPos.save ->
+                $oldToNew[$newPos.attributes.id] = pos.attributes.id
 
-          brick.connections.each (conn) ->
-            $newConn = conn.clone()
-            $newConn.set 'brick_id', $rootScope.currentBrick.attributes.id
-            $newConn.set 'position_from_id', (_.invert($oldToNew))[conn.attributes.position_from_id]
-            $newConn.set 'position_to_id', (_.invert($oldToNew))[conn.attributes.position_to_id]
-            
-            $newConn.save()
-            
-          scope.clearWorkspace()
-          scope.fillWorkspace()
+            brick.connections.each (conn) ->
+              $newConn = conn.clone()
+              $newConn.set 'brick_id', $rootScope.currentBrick.attributes.id
+              $newConn.set 'position_from_id', (_.invert($oldToNew))[conn.attributes.position_from_id]
+              $newConn.set 'position_to_id', (_.invert($oldToNew))[conn.attributes.position_to_id]
+              
+              $newConn.save()
+              
+            scope.clearWorkspace()
+            scope.fillWorkspace()
+          else
+            scope.flash 'danger', 'The brick that has been added contains too many new genes!'
 
       else
         position = $rootScope.currentBrick.positions.new()
