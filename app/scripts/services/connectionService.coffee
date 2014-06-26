@@ -11,7 +11,7 @@ app.factory "connectionService", ($compile, $rootScope) ->
       Connection.find new_conn.id, (conn) ->
         _.each $rootScope.usedGenes, (gene) =>
           if gene isnt conn.attributes.selected
-            $overlay.find("option[value='#{gene}']").hide()
+            $overlay.find("option[value='#{gene}']").prop('disabled', true).hide()
 
         $genes = _.difference $rootScope.genes, $rootScope.usedGenes
 
@@ -28,7 +28,7 @@ app.factory "connectionService", ($compile, $rootScope) ->
         _.each $rootScope.usedGenes, (gene) =>
           $overlay = $(jsPlumb.getConnections({ source: conn.attributes.position_from_id, target: conn.attributes.position_to_id })[0].getOverlays()[0].getElement())
           if gene isnt conn.attributes.selected
-            $overlay.find("option[value='#{gene}']").hide()
+            $overlay.find("option[value='#{gene}']").prop('disabled', true).hide()
 
   # Possible to remove gene from used genes list
   removeFromUsedGenes = (value) ->
@@ -49,7 +49,7 @@ app.factory "connectionService", ($compile, $rootScope) ->
       $overlay.val(thisConn.attributes.selected)
       _.each $rootScope.usedGenes, (gene) =>
         if gene isnt thisConn.attributes.selected
-          $overlay.find("option[value='#{gene}']").hide()
+          $overlay.find("option[value='#{gene}']").prop('disabled', true).hide()
 
   # When gene value of a connection is change, ensure its updated in the database
   updateGenesConnection: (info, pos_from_id, pos_to_id, value) ->
@@ -71,8 +71,8 @@ app.factory "connectionService", ($compile, $rootScope) ->
       $rootScope.currentBrick.connections.each (conn) ->
         if conn.attributes.id isnt thisConn.id
           $overlay = $(jsPlumb.getConnections(source: conn.attributes.position_from_id, target: conn.attributes.position_to_id)[0].getOverlays()[0].getElement())
-          $overlay.find("option[value='#{$oldValue}']").show()
-          $overlay.find("option[value='#{value}']").hide()
+          $overlay.find("option[value='#{$oldValue}']").prop('disabled', false).show()
+          $overlay.find("option[value='#{value}']").prop('disabled', true).hide()
 
   # Ability to remove a connection from the database
   removeConnection: (info, pos_from_id, pos_to_id, end_index) ->
