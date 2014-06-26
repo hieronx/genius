@@ -105,7 +105,7 @@ app.factory "simulationService", ($compile, $rootScope) ->
               equations.push( gene1_k2 * x[index] - gene1_d2 * x[index+1] )
 
             else if currentPosition.attributes.gate is 'input'
-              
+
               currentGene = _.filter(Gene.all().collection, (gene) ->
                 return currentPosition.outgoing_connections.first().attributes.selected is gene.attributes.name)[0]
 
@@ -117,5 +117,5 @@ app.factory "simulationService", ($compile, $rootScope) ->
           queue = tempQueue
           equations
         startValues = Array.apply(null, new Array(brick.connections.size() * 2)).map(Number.prototype.valueOf, 0)
-        solutions.push(numeric.dopri(0, 20, startValues, f, 1e-6, 2000))
+        solutions.push(numeric.dopri(0, 20, startValues, f, 1e-6, 100))
     solutions
