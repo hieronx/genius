@@ -176,3 +176,9 @@ class BricksCtrl extends BaseCtrl
       @$rootScope.currentBrick = brick
       Config.set 'current_brick_id', brick.id()
       @$scope.fillWorkspace()
+      setTimeout (->
+        $('.new-project').removeClass('active')
+        $('#' + brick.id()).addClass("active")
+        return
+      ), 0
+     

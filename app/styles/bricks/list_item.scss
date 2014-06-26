@@ -48,6 +48,14 @@
     padding: 0;
     background-color: transparent;
   }
+  &.new-project {
+    color: #777;
+    &.active {
+    background-color: #fafafa;
+    box-shadow: 0 0 2px #111;
+    color: black;
+    }
+  }
   i.delete-position {
     display: none;
     z-index: 1000;
