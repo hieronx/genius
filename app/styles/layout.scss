@@ -2,6 +2,7 @@
 
 body {
   background-color: $bgColor;
+  overflow: hidden;
   .popover {
     max-width: none;
   }

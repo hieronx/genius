@@ -11,12 +11,17 @@ class BricksCtrl extends BaseCtrl
         { type: 'INPUT' },
         { type: 'OUTPUT' }
       ]
-
-    @$scope.bricks = []
+    @$scope.public =
+      [
+        { type: 'standard-or', name: 'OR' },
+        { type: 'standard-1-to-2', name: '1-to-2 multiplexer' }
+      ]
+    @$scope.private = []
 
     @$scope.collapse =
       gates: true
-      bricks: true
+      private: true
+      public: true
 
     @$scope.tabs =
       library: true
@@ -51,7 +56,7 @@ class BricksCtrl extends BaseCtrl
     Connection.all()
 
     Brick.all (bricks) =>
-      @$scope.bricks = bricks
+      @$scope.private = bricks
       @importCSV.storeBiobricks()
       @$rootScope.$on 'ngRepeatFinished', (ngRepeatFinishedEvent) =>
         unless @$rootScope.currentBrick?
@@ -159,7 +164,7 @@ class BricksCtrl extends BaseCtrl
               @$scope.chartConfig.loading = false
 
             else
-              @$scope.flash 'warning', 'This circuit doesn\'t have any outputs!'
+              @$scope.flash 'warning', 'No results! Your brick doesn\'t have any outputs.'
 
           catch error
             @$scope.flash 'danger', 'Simulation failed! Your brick is invalid.'
@@ -171,7 +176,7 @@ class BricksCtrl extends BaseCtrl
         @exportService.run(position)
 
     @$scope.setCurrentBrick = (brick) =>
-      brick = Brick.find(brick) unless _.isObject(brick)
+      brick = Brick.find(brick) if _.isString(brick)
       @$scope.clearWorkspace()
       @$rootScope.currentBrick = brick
       Config.set 'current_brick_id', brick.id()
