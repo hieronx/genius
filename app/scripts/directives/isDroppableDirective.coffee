@@ -51,7 +51,6 @@ app.directive "isDroppable", ($compile, $rootScope, dropService) ->
               
               $newPos.save ->
                 $oldToNew[$newPos.attributes.id] = pos.attributes.id
-                console.log $newPos
 
             brick.connections.each (conn) ->
               $newConn = conn.clone()
@@ -68,9 +67,36 @@ app.directive "isDroppable", ($compile, $rootScope, dropService) ->
           else
             scope.flash 'danger', 'The brick that has been added contains too many new genes!'
 
-      # else if ui.draggable.hasClass('standard-1-to-2')
-      
+      else if ui.draggable.hasClass('standard-1-to-2')
+        $brick_id = $rootScope.currentBrick.attributes.id
+        $par = $('#workspace').parent()
+        $pos_top = ui.position.top
+        $pos_left = ui.position.left + $par.outerWidth() + $par.position().left
+        $freeGenes = _.difference $rootScope.genes, $rootScope.usedGenes
+        $pos1 = {}
+        $pos2 = {}
+        $pos3 = {}
 
+        Position.create { brick_id: $brick_id, gate: 'input', top: $pos_top - 80, left: $pos_left - 300 }, (pos) ->
+          $pos1 = pos
+
+        Position.create { brick_id: $brick_id, gate: 'input', top: $pos_top + 80, left: $pos_left - 300 }, (pos) ->
+          $pos2 = pos
+
+        Position.create { brick_id: $brick_id, gate: 'not', top: $pos_top - 20, left: $pos_left - 150 }, (pos) ->
+          $pos3 = pos
+          Connection.create { brick_id: $brick_id, endpoint_index: 0, position_from_id: $pos1.id, position_to_id: pos.id, selected: $freeGenes[0] }
+
+        Position.create { brick_id: $brick_id, gate: 'and', top: $pos_top - 60, left: $pos_left + 200 }, (pos) ->
+          Connection.create { brick_id: $brick_id, endpoint_index: 0, position_from_id: $pos1.id, position_to_id: pos.id, selected: $freeGenes[0] }
+          Connection.create { brick_id: $brick_id, endpoint_index: 1, position_from_id: $pos2.id, position_to_id: pos.id, selected: $freeGenes[1] }
+
+        Position.create { brick_id: $brick_id, gate: 'and', top: $pos_top + 60, left: $pos_left + 200 }, (pos) ->
+          Connection.create { brick_id: $brick_id, endpoint_index: 0, position_from_id: $pos3.id, position_to_id: pos.id, selected: $freeGenes[2] }
+          Connection.create { brick_id: $brick_id, endpoint_index: 1, position_from_id: $pos2.id, position_to_id: pos.id, selected: $freeGenes[1] }
+
+        scope.clearWorkspace()
+        scope.fillWorkspace()
 
       else if ui.draggable.hasClass('standard-or')
         $brick_id = $rootScope.currentBrick.attributes.id
