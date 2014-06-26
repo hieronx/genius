@@ -11,10 +11,12 @@ class BricksCtrl extends BaseCtrl
         { type: 'INPUT' },
         { type: 'OUTPUT' }
       ]
-
+    @$scope.public =
+      [
+        { type: 'standard-or', name: 'OR' },
+        { type: 'standard-1-to-2', name: '1-to-2 multiplexer' }
+      ]
     @$scope.private = []
-
-    @$scope.public = []
 
     @$scope.collapse =
       gates: true
@@ -32,23 +34,18 @@ class BricksCtrl extends BaseCtrl
         chart:
           type: "spline"
           margin: 30
-
       title: "Simulation"
-
       xAxis:
         labels:
           enabled: false
       yAxis:
         title:
           text: ''
-
       loading: true
-
       credits:
         enabled: false
 
     @$rootScope.genes = []
-
     @$rootScope.usedGenes = []
 
     Gene.all (genes) =>
@@ -129,49 +126,57 @@ class BricksCtrl extends BaseCtrl
         @$scope.setCurrentBrick Brick.first()
 
     @$scope.run = =>
-      try
         @$scope.isRunning = true
 
         setTimeout (=>
-          solutions = @simulationService.run(@$rootScope.currentBrick)
-          data = []
-          i = 1
-          j = 0
-          for solution in solutions then do (solution) =>
-            temp = numeric.transpose(solution.y)
-            data.push {
-              name: "Output" + i + "-mRNA"
-              data: temp[0]
-              id: "series-" + j
-            }
-            j++
-            data.push {
-              name: "Output" + i + "-Protein"
-              data: temp[1]
-              id: "series-" + j
-            }
-            j++
-            i++
+          try
+            solutions = @simulationService.run(@$rootScope.currentBrick)
+            data = []
+            i = 1
+            j = 0
+            for solution in solutions then do (solution) =>
+              temp = numeric.transpose(solution.y)
+              data.push {
+                name: "Output" + i + "-mRNA"
+                data: temp[0]
+                id: "series-" + j
+              }
+              j++
+              data.push {
+                name: "Output" + i + "-Protein"
+                data: temp[1]
+                id: "series-" + j
+              }
+              j++
+              i++
+
+            if data.length > 0
+
+              @$scope.tabs.visualisation = true
+              $("#mainLeft").animate
+                width: 565
+              $("#mainRight").animate
+                width: $(window).width() - 565
+
+              @$scope.chartConfig.series = data
+              @$scope.chartConfig.loading = false
+
+            else
+              @$scope.flash 'warning', 'No results! Your brick doesn\'t have any outputs.'
+
+          catch error
+            @$scope.flash 'danger', 'Simulation failed! Your brick is invalid.'
 
           @$scope.isRunning = false
-
-          @$scope.tabs.visualisation = true
-          $("#mainLeft").animate
-            width: 565
-          $("#mainRight").animate
-            width: $(window).width() - 565
-
-          @$scope.chartConfig.series = data
-          @$scope.chartConfig.loading = false
         ), 0
-      catch error
-        @$scope.flash 'danger', 'Simulation failed! Your brick is invalid.'
 
-    @$scope.export = =>   
+
+    @$scope.export = =>
       @$rootScope.currentBrick.positions.each (position) =>
         @exportService.run(position)
 
     @$scope.setCurrentBrick = (brick) =>
+      brick = Brick.find(brick) if _.isString(brick)
       @$scope.clearWorkspace()
       @$rootScope.currentBrick = brick
       Config.set 'current_brick_id', brick.id()
@@ -181,4 +186,4 @@ class BricksCtrl extends BaseCtrl
         $('#' + brick.id()).addClass("active")
         return
       ), 0
-     
+
