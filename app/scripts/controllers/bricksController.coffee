@@ -32,12 +32,16 @@ class BricksCtrl extends BaseCtrl
       options:
         chart:
           type: "spline"
+          margin: 30
 
       title: "Simulation"
 
       xAxis:
         labels:
           enabled: false
+      yAxis:
+        title:
+          text: ''
 
       loading: true
 
@@ -159,7 +163,6 @@ class BricksCtrl extends BaseCtrl
             width: $(window).width() - 565
 
           @$scope.chartConfig.series = data
-
           @$scope.chartConfig.loading = false
         ), 0
       catch error

@@ -6,16 +6,34 @@ app.directive "inputPopover", ($compile, $rootScope) ->
     options = scope.$eval(attributes.inputPopover)
 
     scope.inputChart =
-      width: 300
-      height: 150
+      options:
+        chart:
+          animation: false
+          margin: 25
+        legend:
+          enabled: false
+        tooltip:
+          enabled: false
+      size:
+        width: 350
+        height: 200
       title:
-        text: 'Input signal over time'
-      xAxiw:
-        title:
-          text: 'Time (seconds)'
+        text: ''
+      xAxis:
+        text: ''
+        allowDecimals: false
       yAxis:
         title:
-          text: 'Input signal (0 or 1)'
+          text: ''
+        currentMin: 0
+        currentMax: 1
+        allowDecimals: false
+      series: [{
+        data: [0, 1, 1, 0, 1]
+        draggableY: true
+        dragMinY: 0
+        dragMaxY: 1
+      }]
 
     pid = $(element).attr('id')
     Position.find pid, (position) =>

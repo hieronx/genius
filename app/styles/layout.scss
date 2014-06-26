@@ -2,6 +2,9 @@
 
 body {
   background-color: $bgColor;
+  .popover {
+    max-width: none;
+  }
   #main {
     position: absolute;
     left: 15px;
