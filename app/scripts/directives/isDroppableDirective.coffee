@@ -6,8 +6,18 @@ app.directive "isDroppable", ($compile, $rootScope, dropService) ->
     options = scope.$eval(attributes.isDroppable) #allow options to be passed in
     element.droppable drop: (event, ui) ->
       if ui.draggable.hasClass("new-project")
-        Brick.find ui.draggable.data('id'), (brick) ->
-          console.log brick
+        $brick_id = ui.draggable.data('id')
+
+        Brick.find $brick_id, (brick) ->
+          brick.positions.each (pos) ->
+            $newPos = pos.clone()
+            $newPos.set 'brick_id', $rootScope.currentBrick.attributes.id
+            
+            $newPos.save ->
+
+          scope.clearWorkspace()
+          scope.fillWorkspace()
+
       else
         position = $rootScope.currentBrick.positions.new()
 
