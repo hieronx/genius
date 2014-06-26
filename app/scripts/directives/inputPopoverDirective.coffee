@@ -23,7 +23,7 @@ app.directive "inputPopover", ($compile, $rootScope) ->
             series:
               point:
                 events:
-                  drop: (e) ->
+                  drop: ->
                     signal = _.map @series.data, (p) -> Math.round(p.y)
                     position.set 'input_signal', signal
                     position.save()
@@ -54,11 +54,13 @@ app.directive "inputPopover", ($compile, $rootScope) ->
         trigger: 'click'
         html : true
         placement: 'bottom'
-        content: input
-
-      $compile(input)(scope)
-
-      setTimeout (=>
+        content: $('<div style="width: 350px; height: 200px;"></div>')
+      element.on 'show.bs.popover', =>
+        element.next().find('.popover-content').empty()
+      element.on 'shown.bs.popover', =>
+        element.next().find('.popover-content').empty()
+        input = $('<highchart config="inputChart"></highchart>')
+        $compile(input)(scope)
+        element.next().find('.popover-content').append input
         $("#and").mouseover()
                  .mouseout()
-      ), 0
