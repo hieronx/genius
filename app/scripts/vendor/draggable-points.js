@@ -28,7 +28,7 @@
 
         Highcharts.dragdrop = {
             mouseDown: function (e, chart) {
-                
+
                 var hoverPoint = chart.hoverPoint,
                     options;
 
@@ -94,7 +94,7 @@
             });
 
             addEvent(container, 'mousemove touchmove', function (e) {
-                
+
                 e.preventDefault();
 
                 if (dragPoint) {
@@ -112,7 +112,7 @@
                         newY = dragY === undefined ? dragPoint.y : dragPoint.series.yAxis.translate(newPlotY, true),
                         proceed;
 
-                    
+
                     newX = filterRange(newX, series, 'X');
                     newY = filterRange(newY, series, 'Y');
 
