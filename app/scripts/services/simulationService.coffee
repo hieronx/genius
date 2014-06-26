@@ -9,14 +9,14 @@ app.factory "simulationService", ($compile, $rootScope) ->
     # TODO for web worker
     # worker = new Worker('/scripts/workers/simulationWorker.js')
     # defer = $q.defer()
-    
+
     # worker.postMessage bricks
 
     # worker.addEventListener 'message', (e) ->
     #   console.log('Worker said: ', e.data)
     #   defer.resolve(e.data)
     # , false
-    
+
     # return defer.promise
     start = new Date().getTime()
     solutions = []
@@ -27,7 +27,7 @@ app.factory "simulationService", ($compile, $rootScope) ->
         structureQueue = []
         queue = new PriorityQueue(comparator: (a, b) -> b.comp - a.comp)
         list = Array.apply(null, new Array(101)).map(Number.prototype.valueOf,0);
-        # Define structure of simulations 
+        # Define structure of simulations
 
         structureQueue.push({ position: position.incoming_connections.first().position_from, output: -1  }) # placeholder
         while structureQueue.length > 0
@@ -42,7 +42,7 @@ app.factory "simulationService", ($compile, $rootScope) ->
           else if tempPosition.position.attributes.gate is 'not'
             queue.queue( { position: tempPosition.position, comp: i, output: tempPosition.output } )
             structureQueue.push( { position: tempPosition.position.incoming_connections.first().position_from, comp: i, output: tempPosition.output } )
-          else 
+          else
             queue.queue( { position: tempPosition.position, comp: i, output: tempPosition.output } )
           # If brick is not of type not or and, it is an input and this is where the loop should end
           i += 2
@@ -100,12 +100,12 @@ app.factory "simulationService", ($compile, $rootScope) ->
               gene1_d2 = currentGene.attributes.d_2
               gene1_k2 = currentGene.attributes.k_2
 
-              input1 = startIndex - list.indexOf(equationPosition.comp) 
+              input1 = startIndex - list.indexOf(equationPosition.comp)
               equations.push( ( k1 * km^n ) / ( km^n + x[input1 + 1]^n ) - gene1_d1 * x[index] )
               equations.push( gene1_k2 * x[index] - gene1_d2 * x[index+1] )
 
             else if currentPosition.attributes.gate is 'input'
-              
+
               currentGene = _.filter(Gene.all().collection, (gene) ->
                 return currentPosition.outgoing_connections.first().attributes.selected is gene.attributes.name)[0]
 
@@ -117,5 +117,5 @@ app.factory "simulationService", ($compile, $rootScope) ->
           queue = tempQueue
           equations
         startValues = Array.apply(null, new Array(brick.connections.size() * 2)).map(Number.prototype.valueOf, 0)
-        solutions.push(numeric.dopri(0, 20, startValues, f, 1e-6, 2000))
+        solutions.push(numeric.dopri(0, 20, startValues, f, 1e-6, 10))
     solutions

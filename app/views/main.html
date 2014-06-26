@@ -1,12 +1,12 @@
 <div class="row" id="main" ng-controller="BricksCtrl">
-  <div class="col-xs-12 col-sm-8 col-md-9" id="mainLeft">
+  <div id="mainLeft">
     <div class="navbar navbar-default navbar-fixed-top">
       <div class="container-fluid">
         <div class="navbar-header">
-          <a href="#" class="navbar-brand">
+          <div class="navbar-brand">
             <img src="images/favicon.ico" />
             GENius
-          </a>
+          </div>
         </div>
         <div class="navbar-text" ng-include="'views/bricks/title.html'"></div>
         <div class="navbar-right hidden-xs" ng-include="'views/users/nav.html'"></div>
@@ -16,12 +16,12 @@
     <div id="alerts"></div>
     <div class="row" ng-include="'views/bricks/show.html'"></div>
   </div>
-  <div class="hidden-xs col-sm-4 col-md-3" id="mainRight" resizable>
+  <div id="mainRight" resizable>
     <tabset>
-      <tab heading="Library">
+      <tab heading="Library" active="tabs.libary">
         <div id="library" ng-include="'views/bricks/library.html'"></div>
       </tab>
-      <tab heading="Visualisation">
+      <tab heading="Visualisation" active="tabs.visualisation">
         <div id="visualisation" ng-include="'views/bricks/visualisation.html'"></div>
       </tab>
     </tabset>

@@ -1,7 +1,7 @@
 @import "colors.scss";
 
 body {
-  overflow: hidden;
+  background-color: $bgColor;
   #main {
     position: absolute;
     left: 15px;
@@ -11,6 +11,9 @@ body {
     #mainLeft {
       overflow: hidden;
       height: 100%;
+      width: 70%;
+      position: relative;
+      float: left;
       .navbar {
         position: absolute;
         border-bottom: none;
@@ -40,12 +43,14 @@ body {
       }
     }
     #mainRight {
-      background-color: $bgColor;
       box-shadow: 0px 0px 3px $shadowColor;
       height: 100%;
+      width: 30%;
+      float: left;
+      left: 0 !important;
       .nav-tabs {
         border-bottom: none;
-        margin-top: 9px;
+        margin: 9px 15px 0 15px;
         position: relative;
         z-index: 1;
         a {
