@@ -124,13 +124,11 @@ class BricksCtrl extends BaseCtrl
     @$scope.run = =>
       try
         solutions = @simulationService.run(@$rootScope.currentBrick)
-        console.log solutions
         data = []
         i = 1
         j = 0
         for solution in solutions then do (solution) =>
           temp = numeric.transpose(solution.y)
-          console.log temp
           data.push {
             name: "Output" + i + "-mRNA"
             data: temp[0]
