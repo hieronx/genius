@@ -37,6 +37,12 @@ app.factory "connectionService", ($compile, $rootScope) ->
     if $index > -1
       $rootScope.usedGenes.splice $index, 1
 
+    Brick.find $rootScope.currentBrick.attributes.id, (brick) ->
+      brick.connections.each (conn) ->
+        if $(jsPlumb.getConnections({ source: conn.attributes.position_from_id, target: conn.attributes.position_to_id }))[0]?
+          overlay = $(jsPlumb.getConnections({ source: conn.attributes.position_from_id, target: conn.attributes.position_to_id }))[0].getOverlays()[0].getElement()
+          $(overlay).find("option[value='#{value}']").prop('disabled', false).show()
+
   # When a new connection is loaded from the database, restrict the list of genes
   loadGenesConnection: (info, pos_from_id, pos_to_id) =>
     $overlay = $(info.connection.getOverlays()[0].getElement())
