@@ -6,10 +6,9 @@ app.directive "isDroppable", ($compile, $rootScope, dropService) ->
     options = scope.$eval(attributes.isDroppable) #allow options to be passed in
     element.droppable drop: (event, ui) ->
       if ui.draggable.hasClass("new-project")
-        $brick_id = ui.draggable.data('id')
+        $brick_id = ui.draggable.data('brick_id')
         $oldToNew = {}
         $freeGenes = _.difference $rootScope.genes, $rootScope.usedGenes
-        console.log $freeGenes
 
         Brick.find $brick_id, (brick) ->
           if brick.connections.size() + $rootScope.usedGenes.length <= $rootScope.genes.length
@@ -27,7 +26,7 @@ app.directive "isDroppable", ($compile, $rootScope, dropService) ->
               $newConn.set 'position_to_id', (_.invert($oldToNew))[conn.attributes.position_to_id]
               $newConn.set 'selected', $freeGenes[0]
               $freeGenes.shift()
-          
+
               $newConn.save()
               
             scope.clearWorkspace()
