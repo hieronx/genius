@@ -113,7 +113,7 @@ app.factory "simulationService", ($compile, $rootScope) ->
 
               currentGene = genes[currentPosition.outgoing_connections.first().get('selected')]
               input = 1
-              if currentPosition.get('input_signal'?
+              if currentPosition.get('input_signal')?
                 input = currentPosition.get('input_signal')
                 if t >= 0 and t < 400
                   input = input[0]
