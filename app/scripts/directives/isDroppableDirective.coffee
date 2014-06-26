@@ -7,14 +7,36 @@ app.directive "isDroppable", ($compile, $rootScope, dropService) ->
     element.droppable drop: (event, ui) ->
       if ui.draggable.hasClass("new-project")
         $brick_id = ui.draggable.data('brick_id')
+        $par = $('#workspace').parent()
+        $pos_top = ui.position.top
+        $pos_left = ui.position.left + $par.outerWidth() + $par.position().left
+
         $oldToNew = {}
         $freeGenes = _.difference $rootScope.genes, $rootScope.usedGenes
 
+        $totalTop = 0
+        $totalLeft = 0
+
+        $posWithOffsets = {} 
+
         Brick.find $brick_id, (brick) ->
           if brick.connections.size() + $rootScope.usedGenes.length <= $rootScope.genes.length
+
+            brick.positions.each (pos) ->
+              $totalTop += pos.attributes.top
+              $totalLeft += pos.attributes.left
+
+            $totalTop = $totalTop / brick.positions.size()
+            $totalLeft = $totalLeft / brick.positions.size()
+
+            brick.positions.each (pos) ->
+              $posWithOffsets[pos.attributes.id] = { offsetTop: pos.attributes.top - $totalTop, offsetLeft: pos.attributes.left - $totalLeft }
+
             brick.positions.each (pos) ->
               $newPos = pos.clone()
               $newPos.set 'brick_id', $rootScope.currentBrick.attributes.id
+              $newPos.set 'top', $pos_top + $posWithOffsets[pos.attributes.id].offsetTop
+              $newPos.set 'left', $pos_left + $posWithOffsets[pos.attributes.id].offsetLeft
               
               $newPos.save ->
                 $oldToNew[$newPos.attributes.id] = pos.attributes.id
