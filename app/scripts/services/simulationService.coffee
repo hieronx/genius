@@ -1,7 +1,7 @@
 app = angular.module("geniusApp")
 
 app.factory "simulationService", ($compile, $rootScope) ->
-  
+
   mRNA = 0
   Protein = 0
 
@@ -98,11 +98,11 @@ app.factory "simulationService", ($compile, $rootScope) ->
 
             else if currentPosition.attributes.gate is 'input'
               currentGene = _.filter(Gene.all().collection, (gene) ->
-                return currentPosition.incoming_connections.first().attributes.selected is gene.attributes.name)[0]
+                return currentPosition.outgoing_connections.first().attributes.selected is gene.attributes.name)[0]
               gene1_d1 = currentGene.attributes.d_1
               gene1_d2 = currentGene.attributes.d_2
               gene1_k2 = currentGene.attributes.k_2
-              equations.push( 2 - gene1_d1 * x[index] )
+              equations.push( 1 - gene1_d1 * x[index] )
               equations.push( gene1_k2 * x[index] - gene1_d2 * x[index+1] )
           equations
 
