@@ -5,12 +5,10 @@
         <div ng-include="'views/bricks/gate.html'" ng-repeat="brick in gates | filter:search track by brick.type" class="brick-container"></div>
       </accordion-group>
       <accordion-group id="private" heading="Custom bricks" is-open="collapse.private">
-        <div ng-include="'views/bricks/list_item.html'" ng-repeat="brick in private | attributes | filter:search track by brick.id" class="brick-container"></div>
+        <div ng-include="'views/bricks/custom_brick.html'" ng-repeat="brick in private | attributes | filter:search track by brick.id" class="brick-container"></div>
       </accordion-group>
       <accordion-group id="public" heading="Standard bricks" is-open="collapse.public">
-        <div class="brick-container" ng-repeat="brick in public | filter:search track by brick.type">
-          <div class="brick {{brick.type}}" is-draggable="{helper: 'clone'}">{{brick.name}}</div>
-        </div>
+        <div ng-include="'views/bricks/standard_brick.html'" ng-repeat="brick in public | filter:search" class="brick-container"></div>
       </accordion-group>
     </accordion>
   </div>

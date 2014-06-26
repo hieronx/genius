@@ -1,3 +1,1 @@
-<div class="brick" is-draggable="{helper: 'clone'}" ng-click="setCurrentBrick(brick)">
-  {{ brick.attributes.title }}
-</div>
+<div class="brick {{brick.type}}" is-draggable="{helper: 'clone'}">{{brick.name}}</div>
