@@ -8,7 +8,7 @@
     <title>GENius</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
-    <link href="images/genius.png" rel="icon" type="image/x-icon" />
+    <link href="images/favicon.ico" rel="icon" type="image/x-icon" />
     <!-- build:css styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css" />
@@ -79,6 +79,7 @@
     <script src="scripts/vendor/numeric-1.2.6.min.js"></script>
     <script src="scripts/vendor/highstock.src.js"></script>
     <script src="scripts/vendor/priority-queue.js"></script>
+    <script src="scripts/vendor/draggable-points.js"></script>
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <script src="scripts/app.js"></script>
@@ -99,9 +100,9 @@
     <script src="scripts/directives/circuitEventsDirective.js"></script>
     <script src="scripts/directives/isDroppableDirective.js"></script>
     <script src="scripts/directives/deletePositionDirective.js"></script>
-    <script src="scripts/directives/positionPopoverDirective.js"></script>
+    <script src="scripts/directives/inputPopoverDirective.js"></script>
     <script src="scripts/directives/updatePositionDirective.js"></script>
-    <script src="scripts/directives/connectionPopoverDirective.js"></script>
+    <script src="scripts/directives/resizableDirective.js"></script>
 
     <script src="scripts/models/config.js"></script>
     <script src="scripts/models/brick.js"></script>
@@ -113,7 +114,6 @@
 
     <script src="scripts/services/dropService.js"></script>
     <script src="scripts/services/simulationService.js"></script>
-    <script src="scripts/services/popoverTypesService.js"></script>
     <script src="scripts/services/CSVToArrayService.js"></script>
     <script src="scripts/services/importCSVService.js"></script>
     <script src="scripts/services/connectionService.js"></script>

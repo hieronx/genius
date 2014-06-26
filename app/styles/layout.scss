@@ -15,6 +15,10 @@ body {
         position: absolute;
         border-bottom: none;
         box-shadow: 0px 0px 3px $shadowColor;
+        .navbar-brand img {
+          height: 20px;
+          margin: -2px 10px 0 0;
+        }
         .navbar-right > ul > li > a > i {
           font-size: 1.4em;
         }

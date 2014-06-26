@@ -98,7 +98,7 @@ class BricksCtrl extends BaseCtrl
 
       @$rootScope.currentBrick.connections.each (connection) =>
         if _.indexOf(@$rootScope.usedGenes, connection.attributes.selected) < 0
-          @$rootScope.usedGenes.push connection.attributes.selected 
+          @$rootScope.usedGenes.push connection.attributes.selected
 
       @$rootScope.currentBrick.connections.each (connection) =>
         $sourceId = connection.get('position_from_id')
@@ -107,8 +107,6 @@ class BricksCtrl extends BaseCtrl
         $target = jsPlumb.selectEndpoints(target: $targetId).get(connection.get('endpoint_index'))
 
         jsPlumb.connect( { source: $source, target: $target } )
-      
-      
 
     @$scope.new = =>
       brick = new Brick
@@ -137,7 +135,7 @@ class BricksCtrl extends BaseCtrl
             id: "series-" + j
           }
           j++
-          data.push { 
+          data.push {
             name: "Output" + i + "-Protein"
             data: temp[1]
             id: "series-" + j
@@ -149,6 +147,7 @@ class BricksCtrl extends BaseCtrl
         @$scope.chartConfig.loading = false
       catch error
         @$scope.flash 'danger', 'Simulation failed! Your brick is invalid.'
+
     @$scope.export = =>
       # export brick
 

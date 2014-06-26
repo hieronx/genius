@@ -3,7 +3,10 @@
     <div class="navbar navbar-default navbar-fixed-top">
       <div class="container-fluid">
         <div class="navbar-header">
-          <a href="#" class="navbar-brand">GENius</a>
+          <a href="#" class="navbar-brand">
+            <img src="images/favicon.ico" />
+            GENius
+          </a>
         </div>
         <div class="navbar-text" ng-include="'views/bricks/title.html'"></div>
         <div class="navbar-right hidden-xs" ng-include="'views/users/nav.html'"></div>
@@ -13,12 +16,14 @@
     <div id="alerts"></div>
     <div class="row" ng-include="'views/bricks/show.html'"></div>
   </div>
-  <tabset class="hidden-xs col-sm-4 col-md-3" id="mainRight">
-    <tab heading="Library">
-      <div id="library" ng-include="'views/bricks/library.html'"></div>
-    </tab>
-    <tab heading="Visualisation">
-      <div id="visualisation" ng-include="'views/bricks/visualisation.html'"></div>
-    </tab>
+  <div class="hidden-xs col-sm-4 col-md-3" id="mainRight" resizable>
+    <tabset>
+      <tab heading="Library">
+        <div id="library" ng-include="'views/bricks/library.html'"></div>
+      </tab>
+      <tab heading="Visualisation">
+        <div id="visualisation" ng-include="'views/bricks/visualisation.html'"></div>
+      </tab>
+    </tabset>
   </div>
 </div>

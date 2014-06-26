@@ -20,7 +20,7 @@ app.factory "dropService", ($compile, $rootScope) ->
       $canvasElement.addClass "canvas-element"
       $canvasElement.draggable containment: "#workspace"
       $canvasElement.addClass("brick-jsplumb").attr "id", position.id()
-      $canvasElement.attr('brick-popover', "")
+      $canvasElement.attr('input-popover', "") if position.get('gate') == 'input'
       $compile($canvasElement)($rootScope)
       $canvas.append $canvasElement
 
@@ -91,7 +91,6 @@ app.factory "dropService", ($compile, $rootScope) ->
 
               pid = $(this).attr('id')
               Position.find pid, (position) =>
-                #position ||= Position.collection[pid] # why the hell is this necessary?
                 position.set 'left', $(this).position().left
                 position.set 'top', $(this).position().top
                 position.save()
