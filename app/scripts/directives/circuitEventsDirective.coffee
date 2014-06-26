@@ -32,11 +32,12 @@ app.directive "circuitEvents", ($compile, $rootScope, connectionService) ->
       $elemConnections = jsPlumb.getConnections(target: info.targetId)
       $isPresent = _.contains($elemConnections, info.connection)
 
+      console.log info
       # Ensure brick cannot connect to itself
       if info.sourceId is info.targetId
         scope.flash 'danger', 'It is not possible to create a connection from and to the same gate!'
         return false
-      else if jsPlumb.getConnections(source: info.sourceId, target: info.targetId).length > 0
+      else if jsPlumb.getConnections(source: info.sourceId, target: info.targetId).length > 0 && jsPlumb.getConnections(source: info.sourceId, target: info.targetId)[0].endpoints[1].id isnt info.connection.endpoints[1].id
         scope.flash 'danger', 'It is not possible to make multiple connections from the same source to the same gate!'
         return false
       return true
