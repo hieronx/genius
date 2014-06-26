@@ -8,16 +8,13 @@
         <div ng-include="'views/bricks/list_item.html'" ng-repeat="brick in private | filter:search" class="brick-container"></div>
       </accordion-group>
       <hr>
-     <!--  <accordion-group id="public" heading="Standard bricks" is-open="collapse.public">
-        <div ng-include="'views/bricks/standard_brick.html'" ng-repeat="brick in public | filter:search" class="brick-container"></div>
-      </accordion-group> -->
     </accordion>
   </div>
 </div>
 <form class="form-inline filters">
   <div class="form-group">
     <div class="input-group">
-      <input type="text" class="form-control" placeholder="Search..." ng-model="search.$">
+      <input type="text" class="form-control" placeholder="Search..." ng-model="search">
       <div class="input-group-btn">
         <a class="btn btn-default" tooltip="Gates" tooltip-append-to-body="true" ng-model="collapse.gates" btn-checkbox>
           <i class="fa fa-wrench"></i>
@@ -25,9 +22,6 @@
         <a class="btn btn-default" tooltip="Projects" tooltip-append-to-body="true" ng-model="collapse.private" btn-checkbox>
           <i class="fa fa-eye-slash"></i>
         </a>
-       <!--  <a class="btn btn-default" tooltip="Standard bricks" tooltip-append-to-body="true" ng-model="collapse.public" btn-checkbox>
-          <i class="fa fa-eye"></i>
-        </a> -->
       </div>
     </div>
   </div>
