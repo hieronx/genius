@@ -4,12 +4,13 @@
       <accordion-group id="gates" heading="Gates" is-open="collapse.gates">
         <div ng-include="'views/bricks/gate.html'" ng-repeat="brick in gates | filter:search" class="brick-container"></div>
       </accordion-group>
-      <accordion-group id="private" heading="Projects" is-open="collapse.private">
+      <accordion-group id="private" heading="Bricks" is-open="collapse.private">
         <div ng-include="'views/bricks/list_item.html'" ng-repeat="brick in private | filter:search" class="brick-container"></div>
       </accordion-group>
-      <accordion-group id="public" heading="Standard bricks" is-open="collapse.public">
+      <hr>
+     <!--  <accordion-group id="public" heading="Standard bricks" is-open="collapse.public">
         <div ng-include="'views/bricks/standard_brick.html'" ng-repeat="brick in public | filter:search" class="brick-container"></div>
-      </accordion-group>
+      </accordion-group> -->
     </accordion>
   </div>
 </div>
@@ -24,9 +25,9 @@
         <a class="btn btn-default" tooltip="Projects" tooltip-append-to-body="true" ng-model="collapse.private" btn-checkbox>
           <i class="fa fa-eye-slash"></i>
         </a>
-        <a class="btn btn-default" tooltip="Standard bricks" tooltip-append-to-body="true" ng-model="collapse.public" btn-checkbox>
+       <!--  <a class="btn btn-default" tooltip="Standard bricks" tooltip-append-to-body="true" ng-model="collapse.public" btn-checkbox>
           <i class="fa fa-eye"></i>
-        </a>
+        </a> -->
       </div>
     </div>
   </div>
