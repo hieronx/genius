@@ -1,8 +1,7 @@
-
 class BricksCtrl extends BaseCtrl
 
   @register()
-  @inject "$scope", "$rootScope", "$timeout", "dropService", "importCSV", "simulationService", "_"
+  @inject "$scope", "$rootScope", "$timeout", "dropService", "importCSV", "simulationService", "exportService", "_"
 
   initialize: ->
     @$scope.gates =
@@ -168,8 +167,9 @@ class BricksCtrl extends BaseCtrl
       catch error
         @$scope.flash 'danger', 'Simulation failed! Your brick is invalid.'
 
-    @$scope.export = =>
-      # export brick
+    @$scope.export = =>   
+      @$rootScope.currentBrick.positions.each (position) =>
+        @exportService.run(position)
 
     @$scope.setCurrentBrick = (brick) =>
       @$scope.clearWorkspace()
