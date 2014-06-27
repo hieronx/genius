@@ -35,27 +35,24 @@ app.factory "simulationService", ($compile, $rootScope) ->
         i = 0
         structureQueue = []
         queue = new PriorityQueue(comparator: (a, b) -> b.comp - a.comp)
-        list = Array.apply(null, new Array(101)).map(Number.prototype.valueOf,0);
+        list = Array.apply(null, new Array(101)).map(Number.prototype.valueOf,-2);
         # Define structure of simulations
 
         structureQueue.push({ position: position.incoming_connections.first().position_from, output: -1  }) # placeholder
         while structureQueue.length > 0
           tempPosition = structureQueue.pop()
           list[i] = tempPosition.output
-
           if tempPosition.position.get('gate') is 'and'
             # For every input of brick-and
             queue.queue { position: tempPosition.position, comp: i, output: tempPosition.output }
             tempPosition.position.incoming_connections.each (connection) =>
               structureQueue.push( { position: connection.position_from, comp: i, output: tempPosition.output } )
-
           # Current brick is of type not
           else if tempPosition.position.get('gate') is 'not'
             queue.queue( { position: tempPosition.position, comp: i, output: tempPosition.output } )
             structureQueue.push( { position: tempPosition.position.incoming_connections.first().position_from, comp: i, output: tempPosition.output } )
           else
             queue.queue( { position: tempPosition.position, comp: i, output: tempPosition.output, g: 0 } )
-
           # If brick is not of type not or and, it is an input and this is where the loop should end
           i += 2
         f = (t, x) =>
@@ -64,7 +61,6 @@ app.factory "simulationService", ($compile, $rootScope) ->
           startIndex = queue.peek().comp # array index
           while queue.length > 0
             equationPosition = queue.dequeue()
-            tempQueue.queue(equationPosition)
             currentPosition = equationPosition.position
             # Check whether array element is defined
             index = startIndex - equationPosition.comp

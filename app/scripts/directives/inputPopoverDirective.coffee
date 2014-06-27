@@ -59,6 +59,7 @@ app.directive "inputPopover", ($compile, $rootScope) ->
         element.next().find('.popover-content').empty()
       element.on 'shown.bs.popover', =>
         element.next().find('.popover-content').empty()
+        scope.inputChart.series[0].data = position.get('input_signal') || [1, 1, 1, 1, 1]
         input = $('<highchart config="inputChart"></highchart>')
         $compile(input)(scope)
         element.next().find('.popover-content').append input

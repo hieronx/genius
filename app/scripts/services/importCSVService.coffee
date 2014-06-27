@@ -25,7 +25,7 @@ app.factory "importCSV", ($compile, $rootScope, $http, CSVToArray) ->
           $andProm['tf_1'] = prom[0]
           $andProm['tf_2'] = prom[1]
           $andProm['k_1'] = prom[2]
-          $andProm['t_m'] = prom[3]
+          $andProm['k_m'] = prom[3]
           $andProm['n'] = prom[4]
           AndPromoter.create($andProm)
     )
